@@ -4,720 +4,808 @@ import { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 import * as THREE from 'three';
 
-// MUI
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Chip from '@mui/material/Chip';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import Divider from '@mui/material/Divider';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
-import Tooltip from '@mui/material/Tooltip';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
-
-// MUI Icons
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import EmailIcon from '@mui/icons-material/Email';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import SecurityIcon from '@mui/icons-material/Security';
-import NetworkCheckIcon from '@mui/icons-material/NetworkCheck';
-import CodeIcon from '@mui/icons-material/Code';
-import SearchIcon from '@mui/icons-material/Search';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import CloudIcon from '@mui/icons-material/Cloud';
-import SendIcon from '@mui/icons-material/Send';
-import CoffeeIcon from '@mui/icons-material/Coffee';
-import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import VerifiedIcon from '@mui/icons-material/Verified';
-import TerminalIcon from '@mui/icons-material/Terminal';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-
-// ─── THEME ───────────────────────────────────────────────────
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary:   { main: '#00f5d4' },
-    secondary: { main: '#7b2fff' },
-    error:     { main: '#f500a0' },
-    background:{ default: '#080810', paper: '#0d0d1a' },
-    text:      { primary: '#e8e8ff', secondary: '#6a6a8a' },
-  },
-  typography: {
-    fontFamily: "Syne, sans-serif",
-    h1: { fontWeight: 800, letterSpacing: '-2px' },
-    h2: { fontWeight: 800, letterSpacing: '-1px' },
-    h3: { fontWeight: 700 },
-    h4: { fontWeight: 700 },
-    h6: { fontWeight: 600 },
-  },
-  shape: { borderRadius: 10 },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: { textTransform: 'none', fontFamily: "Syne, sans-serif", fontWeight: 700, borderRadius: 6 },
-        containedPrimary: {
-          background: '#00f5d4', color: '#080810',
-          '&:hover': { background: '#e8e8ff', boxShadow: '0 8px 24px rgba(0,245,212,.35)' },
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          background: '#0d0d1a',
-          border: '1px solid rgba(255,255,255,.07)',
-          transition: 'all .35s ease',
-          '&:hover': { borderColor: 'rgba(0,245,212,.35)', transform: 'translateY(-6px)', boxShadow: '0 20px 50px rgba(0,0,0,.5)' },
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontFamily: "JetBrains Mono, monospace", fontSize: '.75rem',
-          background: 'rgba(0,245,212,.08)', border: '1px solid rgba(0,245,212,.25)', color: '#00f5d4',
-          '&:hover': { background: '#00f5d4', color: '#080810' },
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            '& fieldset': { borderColor: 'rgba(255,255,255,.12)' },
-            '&:hover fieldset': { borderColor: 'rgba(0,245,212,.4)' },
-            '&.Mui-focused fieldset': { borderColor: '#00f5d4' },
-          },
-          '& .MuiInputLabel-root.Mui-focused': { color: '#00f5d4' },
-        },
-      },
-    },
-    MuiDialog: {
-      styleOverrides: {
-        paper: { background: '#0d0d1a', border: '1px solid rgba(0,245,212,.25)', borderRadius: 16 },
-      },
-    },
-    MuiAppBar: {
-      styleOverrides: { root: { background: 'transparent', boxShadow: 'none' } },
-    },
-  },
-});
-
-// ─── DATA ────────────────────────────────────────────────────
 const CONFIG = {
   paystack: { publicKey: 'pk_live_YOUR_PAYSTACK_PUBLIC_KEY', emailFallback: 'netg3ek@gmail.com' },
   binance:  { payLink: 'https://pay.binance.com/en' },
 };
-const NAV = ['About','Services','Projects','Certifications','Coffee','Contact'];
-const ROLES = ['Network Engineer.','Cybersecurity Specialist.','Penetration Tester.','DevOps Engineer.'];
-const SKILLS = ['Penetration Testing','Network Security','Cisco / CCNA','AWS / Azure','Docker','Kubernetes','Python','JavaScript','TypeScript','Bash','Metasploit','Wireshark','Burp Suite','Nmap','SIEM','OSINT','PCI DSS','Digital Forensics'];
+const NAV      = ['About','Services','Projects','Certifications','Coffee','Contact'];
+const ROLES    = ['Network Engineer','Cybersecurity Specialist','Penetration Tester','DevOps Engineer'];
+const SKILLS   = ['Penetration Testing','Network Security','Cisco / CCNA','AWS','Azure','Docker','Kubernetes','Python','JavaScript','TypeScript','Bash','Metasploit','Wireshark','Burp Suite','Nmap','SIEM','OSINT','PCI DSS','Digital Forensics'];
 const SERVICES = [
-  { Icon: SecurityIcon,     title: 'Penetration Testing',    desc: 'Comprehensive security assessments, vulnerability scanning, ethical hacking and remediation guidance to fortify your defenses.' },
-  { Icon: NetworkCheckIcon, title: 'Network Design & Security',desc: 'Security-first network architectures: SDN, VLANs, routing protocols, and secure remote access solutions.' },
-  { Icon: CodeIcon,         title: 'Web Development',         desc: 'Secure full-stack applications from polished frontends to hardened APIs, built with security best practices from day one.' },
-  { Icon: SearchIcon,       title: 'Digital Forensics',       desc: 'Incident response, evidence collection and court-ready analysis following security breaches or internal investigations.' },
-  { Icon: ShowChartIcon,    title: 'Telemetry & Monitoring',  desc: 'Grafana, Prometheus and custom dashboards for full network and security visibility, alerting and observability.' },
-  { Icon: CloudIcon,        title: 'Cloud Security',          desc: 'AWS and Azure security hardening: IAM policies, secure VPC design, and cloud-native security tools.' },
+  { n:'01', icon:'◈', title:'Penetration Testing',      desc:'Full security assessments, vulnerability scanning, ethical hacking and remediation to fortify your defenses.' },
+  { n:'02', icon:'◎', title:'Network Design & Security', desc:'Security-first architectures: SDN, VLANs, routing protocols and hardened remote access solutions.' },
+  { n:'03', icon:'⟨/⟩',title:'Web Development',          desc:'Secure full-stack apps from polished frontends to hardened APIs, built with security from day one.' },
+  { n:'04', icon:'⊕', title:'Digital Forensics',         desc:'Incident response, evidence collection and court-ready analysis after breaches or investigations.' },
+  { n:'05', icon:'◉', title:'Telemetry & Monitoring',    desc:'Grafana, Prometheus and custom dashboards for full network and security visibility.' },
+  { n:'06', icon:'⬡', title:'Cloud Security',            desc:'AWS and Azure hardening: IAM policies, secure VPC design and cloud-native security tooling.' },
 ];
 const PROJECTS = [
-  {
-    img: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?auto=format&fit=crop&w=800&q=80',
-    title: 'Autoshift v3',
-    desc: 'Intelligent automation platform that streamlines shift management, scheduling and workforce coordination. Built with a modern React frontend and robust backend API.',
-    tags: ['React','Node.js','Automation','Dashboard'],
-    github: 'https://github.com/netgee-k/Autoshift-v3',
-    link: '#',
-    linkLabel: 'Live Demo',
-    featured: true,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
-    title: 'Metasploitable2 Walkthrough',
-    desc: 'Comprehensive penetration testing guide on deliberately vulnerable VMs — full exploitation chain documented for training purposes.',
-    tags: ['Security','PenTest','Virtualization'],
-    github: 'https://github.com/netgee-k',
-    link: '#',
-    linkLabel: 'Docs',
-    featured: false,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80',
-    title: 'SDN DDoS Detection',
-    desc: 'Research comparing DDoS susceptibility of Software Defined Networks vs traditional architectures, with mitigation recommendations.',
-    tags: ['Network Security','SDN','Research'],
-    github: 'https://github.com/netgee-k',
-    link: '#',
-    linkLabel: 'Paper',
-    featured: false,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-    title: 'TillBase POS',
-    desc: 'Secure cloud-based point of sale and inventory management system with PCI DSS compliance and real-time analytics.',
-    tags: ['Web App','Python','PCI DSS'],
-    github: 'https://github.com/netgee-k',
-    link: '#',
-    linkLabel: 'Live Demo',
-    featured: false,
-  },
+  { img:'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1200&q=80', title:'Autoshift v3', year:'2024', desc:'Intelligent automation platform streamlining shift management, scheduling and workforce coordination with a modern React frontend and robust Node.js API.', tags:['React','Node.js','Automation','Dashboard'], github:'https://github.com/netgee-k/Autoshift-v3', link:'#', size:'large' },
+  { img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',    title:'Metasploitable2 Guide',   year:'2023', desc:'Full exploitation chain on deliberately vulnerable VMs. Documented for security training and research.', tags:['PenTest','Security','VMs'],    github:'https://github.com/netgee-k', link:'#', size:'small' },
+  { img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',    title:'SDN DDoS Detection',     year:'2023', desc:'Research comparing DDoS resilience between Software Defined Networks and traditional architectures.', tags:['SDN','Research','Network'], github:'https://github.com/netgee-k', link:'#', size:'small' },
+  { img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80',    title:'TillBase POS',           year:'2022', desc:'Secure cloud-based POS and inventory system with PCI DSS compliance and real-time analytics.', tags:['Python','PCI DSS','Cloud'],    github:'https://github.com/netgee-k', link:'#', size:'small' },
 ];
 const CERTS = [
-  { Icon: SecurityIcon,     title: 'CompTIA PenTest+',          desc: 'Planning, scoping, vulnerability scanning and executing penetration testing engagements.', date: 'May 2023',  color: '#ff6b35' },
-  { Icon: VerifiedIcon,     title: 'OPSWAT Data Transfer Security', desc: 'Critical infrastructure protection, secure data transfer and malware prevention.', date: 'Dec 2022',  color: '#00f5d4' },
-  { Icon: NetworkCheckIcon, title: 'CCNA',                       desc: 'Installing, configuring, operating and troubleshooting routed and switched networks.', date: '2021',       color: '#7b2fff' },
+  { short:'PT+',  full:'CompTIA PenTest+',              org:'CompTIA', date:'May 2023', color:'#ff6b35', desc:'Planning, scoping, scanning and executing penetration testing engagements at enterprise scale.' },
+  { short:'OPSWAT',full:'OPSWAT Data Transfer Security',org:'OPSWAT',  date:'Dec 2022', color:'#00f5d4', desc:'Critical infrastructure protection, secure data transfer protocols and advanced malware prevention.' },
+  { short:'CCNA', full:'Cisco CCNA',                    org:'Cisco',   date:'2021',     color:'#7b2fff', desc:'Installing, configuring, operating and troubleshooting routed and switched enterprise networks.' },
 ];
-const BINANCE_AMOUNTS  = [1,3,5,10,20,50];
-const PAYSTACK_AMOUNTS = [150,400,700,1500,3000,7000];
+const B_AMT = [1,3,5,10,20,50];
+const P_AMT = [150,400,700,1500,3000,7000];
 
-// ─── COMPONENT ───────────────────────────────────────────────
 export default function Home() {
-  const bgCanvasRef   = useRef<HTMLCanvasElement>(null);
-  const heroCanvasRef = useRef<HTMLCanvasElement>(null);
+  const bgRef   = useRef<HTMLCanvasElement>(null);
+  const heroRef = useRef<HTMLCanvasElement>(null);
 
-  const [drawerOpen,      setDrawerOpen]      = useState(false);
-  const [typedText,       setTypedText]       = useState('');
-  const [modal,           setModal]           = useState<'binance'|'paystack'|null>(null);
-  const [selBinance,      setSelBinance]      = useState(5);
-  const [selPaystack,     setSelPaystack]     = useState(400);
-  const [custBinance,     setCustBinance]     = useState('');
-  const [custPaystack,    setCustPaystack]    = useState('');
-  const [psEmail,         setPsEmail]         = useState('');
-  const [snack,           setSnack]           = useState('');
-  const [form,            setForm]            = useState({ name:'', email:'', subject:'', message:'' });
+  const [menu,    setMenu]   = useState(false);
+  const [scrolled,setScroll] = useState(false);
+  const [typed,   setTyped]  = useState('');
+  const [modal,   setModal]  = useState<'binance'|'paystack'|null>(null);
+  const [selB,    setSelB]   = useState(5);
+  const [selP,    setSelP]   = useState(700);
+  const [custB,   setCustB]  = useState('');
+  const [custP,   setCustP]  = useState('');
+  const [psEmail, setPsEmail]= useState('');
+  const [toast,   setToast]  = useState('');
+  const [form,    setForm]   = useState({name:'',email:'',subject:'',message:''});
+  const [mounted, setMounted]= useState(false);
 
-  // scroll elevation for AppBar
-  const scrolled = useScrollTrigger({ disableHysteresis: true, threshold: 60 });
+  useEffect(()=>{
+    setMounted(true);
+    const fn=()=>setScroll(window.scrollY>50);
+    window.addEventListener('scroll',fn);
+    return ()=>window.removeEventListener('scroll',fn);
+  },[]);
 
-  // Typewriter
-  useEffect(() => {
-    let ri=0,ci=0,del=false;
-    let t: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      const cur = ROLES[ri];
-      setTypedText(del ? cur.slice(0,ci--) : cur.slice(0,ci++));
-      if (!del && ci>cur.length)  { del=true;  t=setTimeout(tick,1800); return; }
-      if  (del && ci<0)           { del=false; ri=(ri+1)%ROLES.length; ci=0; t=setTimeout(tick,400); return; }
-      t=setTimeout(tick, del?60:110);
+  useEffect(()=>{
+    let ri=0,ci=0,del=false,t:ReturnType<typeof setTimeout>;
+    const tick=()=>{
+      const w=ROLES[ri];
+      setTyped(del?w.slice(0,ci--):w.slice(0,ci++));
+      if(!del&&ci>w.length){del=true;t=setTimeout(tick,2000);return;}
+      if(del&&ci<0){del=false;ri=(ri+1)%ROLES.length;ci=0;t=setTimeout(tick,400);return;}
+      t=setTimeout(tick,del?55:105);
     };
-    t=setTimeout(tick,900);
+    t=setTimeout(tick,800);
     return ()=>clearTimeout(t);
   },[]);
 
-  // Scroll reveal
   useEffect(()=>{
-    const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver(entries=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-    },{ threshold:0.1 });
-    els.forEach(el=>obs.observe(el));
-    return ()=>obs.disconnect();
+    const o=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('vis');}}),{threshold:0.07});
+    document.querySelectorAll('.rv').forEach(el=>o.observe(el));
+    return ()=>o.disconnect();
   },[]);
 
-  // THREE.JS BG
+  // THREE BG
   useEffect(()=>{
-    if(!bgCanvasRef.current) return;
-    const test = document.createElement('canvas').getContext('webgl');
-    if(!test) return;
-    let renderer: THREE.WebGLRenderer;
-    try { renderer = new THREE.WebGLRenderer({ canvas: bgCanvasRef.current, alpha:true, antialias:true }); }
-    catch { return; }
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
-    const pos = new Float32Array(800*3);
-    for(let i=0;i<pos.length;i++) pos[i]=(Math.random()-.5)*80;
-    const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
-    const pts = new THREE.Points(geo, new THREE.PointsMaterial({ color:0x00f5d4, size:0.1, transparent:true, opacity:0.4 }));
-    scene.add(pts);
-    const addS = (r:number,c:number,x:number,y:number,z:number)=>{ const m=new THREE.Mesh(new THREE.IcosahedronGeometry(r,1),new THREE.MeshBasicMaterial({color:c,wireframe:true,transparent:true,opacity:0.05})); m.position.set(x,y,z); scene.add(m); return m; };
-    const s1=addS(8,0x00f5d4,-15,5,-10), s2=addS(5,0x7b2fff,18,-8,-5), s3=addS(3,0xf500a0,5,12,-15);
-    let mx=0,my=0;
-    const onM=(e:MouseEvent)=>{ mx=(e.clientX/window.innerWidth-.5)*2; my=-(e.clientY/window.innerHeight-.5)*2; };
+    if(!bgRef.current||!document.createElement('canvas').getContext('webgl'))return;
+    let r:THREE.WebGLRenderer;
+    try{r=new THREE.WebGLRenderer({canvas:bgRef.current,alpha:true,antialias:true});}catch{return;}
+    r.setPixelRatio(Math.min(devicePixelRatio,2));
+    r.setSize(innerWidth,innerHeight);
+    const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,1000);
+    cam.position.z=30;
+    const pa=new Float32Array(500*3);
+    for(let i=0;i<pa.length;i++)pa[i]=(Math.random()-.5)*80;
+    const pg=new THREE.BufferGeometry();
+    pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
+    const pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0x00f5d4,size:0.08,transparent:true,opacity:0.25}));
+    sc.add(pts);
+    const addS=(rad:number,col:number,x:number,y:number,z:number)=>{
+      const m=new THREE.Mesh(new THREE.IcosahedronGeometry(rad,1),new THREE.MeshBasicMaterial({color:col,wireframe:true,transparent:true,opacity:0.035}));
+      m.position.set(x,y,z);sc.add(m);return m;
+    };
+    const s1=addS(9,0x00f5d4,-18,6,-12),s2=addS(6,0x7b2fff,20,-10,-6),s3=addS(4,0xf500a0,6,14,-18);
+    let mx=0,my=0,raf:number;
+    const onM=(e:MouseEvent)=>{mx=(e.clientX/innerWidth-.5)*2;my=-(e.clientY/innerHeight-.5)*2;};
     window.addEventListener('mousemove',onM);
-    let raf:number;
-    const animate=()=>{ raf=requestAnimationFrame(animate); const t=Date.now()*.0003; pts.rotation.y=t*.1+mx*.04; pts.rotation.x=my*.02; s1.rotation.y=t*.4; s1.rotation.x=t*.2; s2.rotation.y=-t*.3; s2.rotation.z=t*.15; s3.rotation.x=t*.5; s3.rotation.z=t*.3; renderer.render(scene,camera); };
-    animate();
-    const onR=()=>{ renderer.setSize(window.innerWidth,window.innerHeight); camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); };
+    const an=()=>{raf=requestAnimationFrame(an);const t=Date.now()*.0003;pts.rotation.y=t*.08+mx*.03;pts.rotation.x=my*.015;s1.rotation.y=t*.35;s2.rotation.y=-t*.28;s3.rotation.x=t*.45;r.render(sc,cam);};
+    an();
+    const onR=()=>{r.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();};
     window.addEventListener('resize',onR);
-    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener('mousemove',onM); window.removeEventListener('resize',onR); renderer.dispose(); };
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener('mousemove',onM);window.removeEventListener('resize',onR);r.dispose();};
   },[]);
 
-  // THREE.JS HERO
+  // THREE HERO
   useEffect(()=>{
-    if(!heroCanvasRef.current) return;
-    const test = document.createElement('canvas').getContext('webgl');
-    if(!test) return;
-    let renderer: THREE.WebGLRenderer;
-    try { renderer = new THREE.WebGLRenderer({ canvas: heroCanvasRef.current, alpha:true, antialias:true }); }
-    catch { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-    renderer.setSize(420,420);
-    const scene  = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50,1,0.1,100);
-    camera.position.set(0,0,5);
-    const core  = new THREE.Mesh(new THREE.IcosahedronGeometry(.7,3), new THREE.MeshBasicMaterial({color:0x00f5d4,wireframe:true}));
-    const inner = new THREE.Mesh(new THREE.IcosahedronGeometry(.55,2),new THREE.MeshBasicMaterial({color:0x001a16,transparent:true,opacity:.9}));
-    scene.add(core,inner);
-    const mkR=(r:number,c:number,rx:number,rz:number)=>{ const m=new THREE.Mesh(new THREE.TorusGeometry(r,.018,8,80),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.45})); m.rotation.x=rx; m.rotation.z=rz; scene.add(m); return m; };
-    const r1=mkR(1.4,0x00f5d4,Math.PI/2,0), r2=mkR(1.6,0x7b2fff,Math.PI/4,Math.PI/6), r3=mkR(1.8,0xf500a0,Math.PI/6,Math.PI/3);
-    const nGeo=new THREE.SphereGeometry(.08,8,8);
-    const nColors=[0x00f5d4,0x7b2fff,0xf500a0];
-    const nData:[[number,number,number]][] = [[[1.4,0,0]],[[-1.4,0,0]],[[0,1.4,0]],[[0,-1.4,0]],[[0,0,1.6]],[[0,0,-1.6]]];
-    const nodes = nData.map(([[x,y,z]],i)=>{ const m=new THREE.Mesh(nGeo,new THREE.MeshBasicMaterial({color:nColors[i%3]})); m.position.set(x,y,z); scene.add(m); return m; });
-    const cube=new THREE.Mesh(new THREE.BoxGeometry(2.8,2.8,2.8),new THREE.MeshBasicMaterial({color:0x7b2fff,wireframe:true,transparent:true,opacity:.12}));
-    scene.add(cube);
-    let hmx=0,hmy=0;
-    const onM=(e:MouseEvent)=>{ hmx=e.clientX/window.innerWidth-.5; hmy=-(e.clientY/window.innerHeight-.5); };
+    if(!heroRef.current||!document.createElement('canvas').getContext('webgl'))return;
+    let r:THREE.WebGLRenderer;
+    try{r=new THREE.WebGLRenderer({canvas:heroRef.current,alpha:true,antialias:true});}catch{return;}
+    r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(480,480);
+    const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(48,1,0.1,100);
+    cam.position.set(0,0,5.5);
+    const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.75,4),new THREE.MeshBasicMaterial({color:0x00f5d4,wireframe:true}));
+    const fill=new THREE.Mesh(new THREE.IcosahedronGeometry(.6,2),new THREE.MeshBasicMaterial({color:0x001510,transparent:true,opacity:.95}));
+    sc.add(core,fill);
+    const mkR=(rad:number,col:number,rx:number,ry:number,rz:number)=>{const m=new THREE.Mesh(new THREE.TorusGeometry(rad,.014,8,100),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.38}));m.rotation.set(rx,ry,rz);sc.add(m);return m;};
+    const r1=mkR(1.55,0x00f5d4,Math.PI/2,0,0);
+    const r2=mkR(1.8,0x7b2fff,Math.PI/3,Math.PI/5,0);
+    const r3=mkR(2.05,0xf500a0,Math.PI/5,0,Math.PI/4);
+    const ng=new THREE.SphereGeometry(.065,8,8);
+    const nc=[0x00f5d4,0x7b2fff,0xf500a0];
+    const nd:[number,number,number][]= [[1.55,0,0],[-1.55,0,0],[0,1.55,0],[0,-1.55,0],[0,0,1.7],[0,0,-1.7]];
+    const nodes=nd.map(([x,y,z],i)=>{const m=new THREE.Mesh(ng,new THREE.MeshBasicMaterial({color:nc[i%3]}));m.position.set(x,y,z);sc.add(m);return m;});
+    const cube=new THREE.Mesh(new THREE.BoxGeometry(3.2,3.2,3.2),new THREE.MeshBasicMaterial({color:0x7b2fff,wireframe:true,transparent:true,opacity:.07}));
+    sc.add(cube);
+    let hmx=0,hmy=0,raf:number;
+    const onM=(e:MouseEvent)=>{hmx=e.clientX/innerWidth-.5;hmy=-(e.clientY/innerHeight-.5);};
     window.addEventListener('mousemove',onM);
-    let raf:number;
-    const animate=()=>{ raf=requestAnimationFrame(animate); const t=Date.now()*.001; core.rotation.y=t*.5; core.rotation.x=t*.3; inner.rotation.y=-t*.4; r1.rotation.z=t*.4; r2.rotation.y=t*.35; r3.rotation.x=t*.3; cube.rotation.y=t*.15+hmx*.5; cube.rotation.x=hmy*.5; nodes.forEach((n,i)=>{ n.position.x=Math.cos(t*.6+i*1.05)*1.4; n.position.y=Math.sin(t*.5+i*1.05)*1.4; n.position.z=Math.sin(t*.4+i*1.05)*.8; }); renderer.render(scene,camera); };
-    animate();
-    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener('mousemove',onM); renderer.dispose(); };
+    const an=()=>{raf=requestAnimationFrame(an);const t=Date.now()*.001;core.rotation.y=t*.45;core.rotation.x=t*.28;fill.rotation.y=-t*.35;r1.rotation.z=t*.38;r2.rotation.y=t*.32;r3.rotation.x=t*.28;cube.rotation.y=t*.12+hmx*.5;cube.rotation.x=hmy*.5;nodes.forEach((n,i)=>{n.position.x=Math.cos(t*.55+i*1.05)*1.55;n.position.y=Math.sin(t*.45+i*1.05)*1.55;n.position.z=Math.sin(t*.38+i*1.05)*.85;});r.render(sc,cam);};
+    an();
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener('mousemove',onM);r.dispose();};
   },[]);
 
-  const toast  = (msg:string)=>{ setSnack(msg); };
-  const payBinance  = ()=>{ const a=parseFloat(custBinance)||selBinance; window.open(`${CONFIG.binance.payLink}?amount=${a}&currency=USDT&memo=CoffeeForJesse`,'_blank'); setModal(null); };
-  const payPaystack = ()=>{
-    const a=(parseFloat(custPaystack)||selPaystack)*100;
-    const e=psEmail||CONFIG.paystack.emailFallback;
-    if(!e.includes('@')){ alert('Enter a valid email.'); return; }
+  const showT=(m:string)=>{setToast(m);setTimeout(()=>setToast(''),5000);};
+  const payB=()=>{window.open(`${CONFIG.binance.payLink}?amount=${parseFloat(custB)||selB}&currency=USDT&memo=CoffeeJesse`,'_blank');setModal(null);};
+  const payP=()=>{
+    const a=(parseFloat(custP)||selP)*100,e=psEmail||CONFIG.paystack.emailFallback;
+    if(!e.includes('@')){alert('Enter a valid email.');return;}
     const P=(window as any).PaystackPop;
-    if(!P){ alert('Paystack loading, try again.'); return; }
-    P.setup({ key:CONFIG.paystack.publicKey, email:e, amount:a, currency:'KES', ref:'coffee_'+Date.now(),
-      callback:(r:any)=>{ setModal(null); toast('Thank you! ☕ Ref: '+r.reference); },
-      onClose:()=>{} }).openIframe();
+    if(!P){alert('Paystack still loading, retry.');return;}
+    P.setup({key:CONFIG.paystack.publicKey,email:e,amount:a,currency:'KES',ref:'coffee_'+Date.now(),
+      callback:(res:any)=>{setModal(null);showT('Thank you! ☕ Ref: '+res.reference);},onClose:()=>{}}).openIframe();
   };
-  const handleSubmit=(e:React.FormEvent)=>{ e.preventDefault(); toast("Message sent! I'll get back to you soon 🚀"); setForm({name:'',email:'',subject:'',message:''}); };
+  const onSub=(e:React.FormEvent)=>{e.preventDefault();showT("Message sent! I'll reply soon 🚀");setForm({name:'',email:'',subject:'',message:''});};
 
-  // ── STYLES ──────────────────────────────────────────────────
-  const sectionLabel = { fontFamily:"JetBrains Mono, monospace", fontSize:'.72rem', color:'primary.main', letterSpacing:'4px', textTransform:'uppercase' as const, display:'flex', alignItems:'center', gap:1.5, mb:1.5, '&::after':{content:'""'} };
-  const glowBtn = { background:'linear-gradient(135deg,#00f5d4,#7b2fff)', color:'#080810', fontWeight:800, px:4, py:1.4, borderRadius:2, fontSize:'.9rem', '&:hover':{opacity:.9, transform:'translateY(-2px)', boxShadow:'0 12px 30px rgba(0,245,212,.35)'} };
+  if(!mounted)return null;
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
-
-      {/* Google Fonts */}
+    <>
+      <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload"/>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Syne', sans-serif !important; }
-        #bg-canvas { position:fixed; inset:0; z-index:0; pointer-events:none; width:100%; height:100%; }
-        .reveal { opacity:0; transform:translateY(24px); transition:all .6s ease; }
-        .reveal.visible { opacity:1; transform:none; }
-        .glow-border { border:1px solid rgba(0,245,212,.15); transition:border-color .3s,box-shadow .3s; }
-        .glow-border:hover { border-color:rgba(0,245,212,.5); box-shadow:0 0 24px rgba(0,245,212,.08); }
-        .featured-badge { position:absolute; top:14px; right:14px; background:linear-gradient(135deg,#00f5d4,#7b2fff); color:#080810; font-size:.7rem; font-weight:800; padding:4px 10px; border-radius:20px; font-family:'JetBrains Mono',monospace; letter-spacing:1px; text-transform:uppercase; z-index:2; }
-        .mono { font-family:'JetBrains Mono',monospace !important; }
-        ::-webkit-scrollbar { width:6px; }
-        ::-webkit-scrollbar-track { background:#040408; }
-        ::-webkit-scrollbar-thumb { background:#00f5d4; border-radius:3px; }
-        ::selection { background:#00f5d4; color:#080810; }
+        /* ─ RESET + BASE ─ */
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+
+        /* ─ GRID TEXTURE ─ */
+        body::before {
+          content: '';
+          position: fixed; inset: 0; z-index: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(0,245,212,.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,245,212,.018) 1px, transparent 1px);
+          background-size: 72px 72px;
+        }
+        body::after {
+          content: '';
+          position: fixed; inset: 0; z-index: 0; pointer-events: none;
+          background: radial-gradient(ellipse 80% 80% at 50% -10%, rgba(0,245,212,.06) 0%, transparent 60%);
+        }
+
+        #bg-cv { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+        /* ─ NAV ─ */
+        .nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+          display: flex; align-items: center; padding: 0 clamp(20px,5vw,64px);
+          height: 70px; transition: all .4s;
+        }
+        .nav.up {
+          background: rgba(4,4,13,.9);
+          backdrop-filter: blur(24px);
+          border-bottom: 1px solid rgba(0,245,212,.1);
+          height: 60px;
+        }
+        .logo {
+          font-size: 1.45rem; font-weight: 800; color: #d4d4e8;
+          text-decoration: none; letter-spacing: -1px; margin-right: auto;
+        }
+        .logo b { color: #00f5d4; font-weight: 800; }
+        .nav-ul { display: flex; gap: 40px; list-style: none; }
+        .nav-ul a {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: .72rem; font-weight: 500; letter-spacing: 2px;
+          text-transform: uppercase; color: #5a5a7e; text-decoration: none;
+          transition: color .2s;
+        }
+        .nav-ul a:hover { color: #00f5d4; }
+        .hbg { display: none; background: none; border: none; cursor: pointer; padding: 6px; flex-direction: column; gap: 5px; }
+        .hbg s { display: block; width: 22px; height: 2px; background: #d4d4e8; border-radius: 1px; transition: .3s; text-decoration: none; }
+
+        /* ─ MOBILE OVERLAY ─ */
+        .mob {
+          display: none; position: fixed; inset: 0; z-index: 190;
+          background: rgba(4,4,13,.97); backdrop-filter: blur(20px);
+          flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+        }
+        .mob.on { display: flex; }
+        .mob a { font-size: 2.2rem; font-weight: 800; color: #d4d4e8; text-decoration: none; transition: color .2s; }
+        .mob a:hover { color: #00f5d4; }
+        .mob-x { position: absolute; top: 22px; right: 24px; background: none; border: none; color: #5a5a7e; font-size: 1.8rem; cursor: pointer; }
+
+        /* ─ HERO ─ */
+        .hero-wrap {
+          position: relative; z-index: 1; min-height: 100vh;
+          display: grid; grid-template-columns: 55% 45%;
+          align-items: center;
+          padding: clamp(100px,14vh,140px) clamp(20px,5vw,64px) clamp(60px,8vh,100px);
+          max-width: 1400px; margin: 0 auto;
+        }
+        .hero-lhs { max-width: 640px; }
+        .eyebrow {
+          display: inline-flex; align-items: center; gap: 10px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: .68rem; letter-spacing: 4px; text-transform: uppercase;
+          color: #00f5d4; margin-bottom: 32px;
+        }
+        .eyebrow::before { content: ''; width: 28px; height: 1px; background: #00f5d4; flex-shrink: 0; }
+        .hero-h1 {
+          font-size: clamp(3.2rem, 6.5vw, 6rem);
+          font-weight: 800; line-height: 1.0; letter-spacing: -3px;
+          margin-bottom: 22px;
+        }
+        .hero-h1 .name {
+          display: block;
+          background: linear-gradient(110deg, #00f5d4 0%, #7b2fff 55%, #f500a0 100%);
+          -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .tw {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: clamp(.85rem,1.8vw,1.05rem);
+          color: #00f5d4; margin-bottom: 28px; min-height: 30px;
+          display: flex; align-items: center; gap: 1px;
+        }
+        .cur { animation: blink 1s infinite; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .hero-p {
+          font-size: clamp(.93rem,1.4vw,1.05rem);
+          color: #5a5a7e; line-height: 1.9; max-width: 500px; margin-bottom: 48px;
+        }
+        .btns { display: flex; gap: 14px; flex-wrap: wrap; }
+        .btn-g {
+          display: inline-flex; align-items: center; gap: 9px;
+          padding: 15px 34px; border-radius: 9px; font-family: 'Syne', sans-serif;
+          font-weight: 800; font-size: .92rem; text-decoration: none;
+          background: linear-gradient(135deg, #00f5d4 0%, #7b2fff 100%);
+          color: #04040d; border: none; cursor: pointer; transition: all .25s;
+        }
+        .btn-g:hover { opacity: .87; transform: translateY(-2px); box-shadow: 0 14px 36px rgba(0,245,212,.3); }
+        .btn-o {
+          display: inline-flex; align-items: center; gap: 9px;
+          padding: 14px 34px; border-radius: 9px; font-family: 'Syne', sans-serif;
+          font-weight: 700; font-size: .92rem; text-decoration: none;
+          background: transparent; color: #d4d4e8;
+          border: 1px solid rgba(212,212,232,.18); cursor: pointer; transition: all .25s;
+        }
+        .btn-o:hover { border-color: #00f5d4; color: #00f5d4; background: rgba(0,245,212,.06); }
+
+        /* hero 3D side */
+        .hero-rhs {
+          display: flex; justify-content: center; align-items: center;
+          position: relative;
+        }
+        .hero-rhs::before {
+          content: '';
+          position: absolute; width: 520px; height: 520px;
+          background: radial-gradient(ellipse, rgba(0,245,212,.09) 0%, rgba(123,47,255,.05) 40%, transparent 70%);
+          border-radius: 50%; pointer-events: none;
+        }
+        .hero-rhs canvas { display: block; border-radius: 999px; }
+
+        /* ─ SECTION STRUCTURE ─ */
+        .s { position: relative; z-index: 1; }
+        .s-alt { background: rgba(255,255,255,.015); }
+        .si { max-width: 1400px; margin: 0 auto; padding: clamp(72px,10vw,120px) clamp(20px,5vw,64px); }
+        .sh {
+          font-size: clamp(2.2rem,4.5vw,3.6rem);
+          font-weight: 800; letter-spacing: -2px; line-height: 1.08;
+          margin-bottom: clamp(48px,7vw,80px);
+        }
+        .sh em { color: #00f5d4; font-style: normal; }
+        .ey2 {
+          display: inline-flex; align-items: center; gap: 10px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: .66rem; letter-spacing: 4px; text-transform: uppercase;
+          color: #00f5d4; margin-bottom: 20px;
+        }
+        .ey2::before { content: ''; width: 22px; height: 1px; background: #00f5d4; }
+
+        /* ─ ABOUT ─ */
+        .about-g { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px,6vw,80px); align-items: start; }
+        .about-p { font-size: .97rem; color: #5a5a7e; line-height: 1.95; margin-bottom: 22px; }
+        .sk-lbl { font-family: 'JetBrains Mono', monospace; font-size: .63rem; letter-spacing: 3px; text-transform: uppercase; color: #5a5a7e; margin-bottom: 14px; margin-top: 4px; }
+        .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+        .chip {
+          padding: 5px 12px; border-radius: 5px;
+          background: rgba(0,245,212,.07); border: 1px solid rgba(0,245,212,.16);
+          font-family: 'JetBrains Mono', monospace; font-size: .71rem; color: #00f5d4;
+          transition: all .2s; cursor: default; white-space: nowrap;
+        }
+        .chip:hover { background: #00f5d4; color: #04040d; }
+        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .stat {
+          background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+          border-radius: 14px; padding: clamp(20px,3vw,32px); text-align: center;
+          transition: border-color .3s;
+        }
+        .stat:hover { border-color: rgba(0,245,212,.3); }
+        .stat-n { font-size: clamp(2.2rem,4vw,3rem); font-weight: 800; color: #00f5d4; line-height: 1; margin-bottom: 8px; }
+        .stat-l { font-family: 'JetBrains Mono', monospace; font-size: .63rem; color: #5a5a7e; letter-spacing: 1px; }
+
+        /* ─ SERVICES ─ */
+        .srv-g {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          border: 1px solid rgba(255,255,255,.07); border-radius: 18px; overflow: hidden;
+        }
+        .srv {
+          padding: clamp(24px,3vw,40px);
+          border-right: 1px solid rgba(255,255,255,.06);
+          border-bottom: 1px solid rgba(255,255,255,.06);
+          background: rgba(255,255,255,.02);
+          position: relative; overflow: hidden; transition: background .3s;
+        }
+        .srv:hover { background: rgba(0,245,212,.04); }
+        .srv::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, #00f5d4, #7b2fff); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+        .srv:hover::after { transform: scaleX(1); }
+        .srv-n { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #5a5a7e; letter-spacing: 2px; margin-bottom: 14px; }
+        .srv-ic { font-size: 1.5rem; color: #00f5d4; display: block; margin-bottom: 14px; }
+        .srv-t { font-size: .98rem; font-weight: 700; margin-bottom: 10px; }
+        .srv-d { font-size: .84rem; color: #5a5a7e; line-height: 1.75; }
+
+        /* ─ PROJECTS ─ */
+        .proj-g {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          grid-auto-rows: auto;
+          gap: 18px;
+        }
+        .pc {
+          background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+          border-radius: 16px; overflow: hidden; display: flex; flex-direction: column;
+          transition: all .35s;
+        }
+        .pc:hover { border-color: rgba(0,245,212,.3); transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+        .pc.lg { grid-column: span 7; }
+        .pc.sm { grid-column: span 5; }
+        .pc.sm2 { grid-column: span 4; }
+        .pimg { overflow: hidden; flex-shrink: 0; }
+        .pimg img { width: 100%; object-fit: cover; display: block; transition: transform .55s; }
+        .pc.lg .pimg img { height: 260px; }
+        .pc.sm .pimg img { height: 200px; }
+        .pc.sm2 .pimg img { height: 180px; }
+        .pc:hover .pimg img { transform: scale(1.06); }
+        .pb { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+        .py { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #5a5a7e; letter-spacing: 2px; margin-bottom: 6px; }
+        .pt { font-size: 1.08rem; font-weight: 800; margin-bottom: 10px; }
+        .pd { font-size: .84rem; color: #5a5a7e; line-height: 1.65; margin-bottom: 16px; flex: 1; }
+        .ptags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+        .ptag { font-family: 'JetBrains Mono', monospace; font-size: .66rem; padding: 3px 10px; background: rgba(123,47,255,.14); color: #b09eff; border-radius: 4px; }
+        .plinks { display: flex; gap: 20px; margin-top: auto; }
+        .plink { font-size: .8rem; color: #5a5a7e; text-decoration: none; transition: color .2s; font-family: 'JetBrains Mono', monospace; }
+        .plink:hover { color: #00f5d4; }
+
+        /* featured star */
+        .feat-tag {
+          font-family: 'JetBrains Mono', monospace; font-size: .62rem; font-weight: 700;
+          letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+          background: linear-gradient(135deg,#00f5d4,#7b2fff);
+          -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+          display: inline-block;
+        }
+
+        /* ─ CERTS ─ */
+        .cert-g { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+        .cert {
+          background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+          border-radius: 16px; padding: clamp(24px,3vw,36px); position: relative; overflow: hidden;
+          transition: transform .35s, box-shadow .35s;
+        }
+        .cert:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+        .cert-top { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .cert-badge {
+          width: 58px; height: 58px; border-radius: 14px;
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'JetBrains Mono', monospace; font-weight: 800; font-size: .78rem;
+          margin-bottom: 20px; margin-top: 10px; letter-spacing: 1px;
+        }
+        .cert-tit { font-size: 1.05rem; font-weight: 800; margin-bottom: 5px; }
+        .cert-org { font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: 1px; margin-bottom: 14px; }
+        .cert-d { font-size: .85rem; color: #5a5a7e; line-height: 1.7; margin-bottom: 16px; }
+        .cert-dt { font-family: 'JetBrains Mono', monospace; font-size: .68rem; }
+
+        /* ─ COFFEE ─ */
+        .coffee-c { max-width: 780px; margin: 0 auto; text-align: center; }
+        .cof-em { font-size: 4.5rem; display: block; margin-bottom: 24px; animation: fl 3.5s ease-in-out infinite; }
+        @keyframes fl { 0%,100%{transform:translateY(0) rotate(-5deg)} 50%{transform:translateY(-14px) rotate(5deg)} }
+        .cof-p { font-size: 1rem; color: #5a5a7e; line-height: 1.9; margin-bottom: 52px; max-width: 540px; margin-left: auto; margin-right: auto; }
+        .pay-g { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 24px; }
+        .pay-c {
+          background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+          border-radius: 16px; padding: clamp(22px,3vw,30px); text-align: left;
+          cursor: pointer; transition: all .3s; display: flex; flex-direction: column; gap: 0;
+        }
+        .pay-c:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+        .pay-h { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .pay-ico { font-size: 1.8rem; }
+        .pay-name { font-size: 1.05rem; font-weight: 800; }
+        .pay-desc { font-size: .84rem; color: #5a5a7e; line-height: 1.65; margin-bottom: 22px; flex: 1; }
+        .crypto-box {
+          font-family: 'JetBrains Mono', monospace; font-size: .71rem; color: #5a5a7e;
+          background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.07);
+          border-radius: 12px; padding: 20px 24px; text-align: left; line-height: 2.1;
+        }
+        .crypto-box b { color: #d4d4e8; }
+        .crypto-box em { color: #00f5d4; font-style: normal; }
+
+        /* ─ CONTACT ─ */
+        .contact-g { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(40px,6vw,80px); }
+        .ci-title { font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
+        .ci-p { font-size: .97rem; color: #5a5a7e; line-height: 1.9; margin-bottom: 36px; }
+        .citem { display: flex; align-items: center; gap: 16px; margin-bottom: 22px; }
+        .cico {
+          width: 44px; height: 44px; border-radius: 11px; flex-shrink: 0;
+          background: rgba(0,245,212,.08); border: 1px solid rgba(0,245,212,.16);
+          display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
+        .clbl { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #5a5a7e; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+        .cval { font-size: .9rem; color: #d4d4e8; text-decoration: none; transition: color .2s; }
+        .cval:hover { color: #00f5d4; }
+        .socs { display: flex; gap: 10px; margin-top: 30px; }
+        .soc {
+          width: 42px; height: 42px; border-radius: 11px;
+          background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+          display: flex; align-items: center; justify-content: center;
+          font-size: .95rem; color: #5a5a7e; text-decoration: none; transition: all .25s;
+        }
+        .soc:hover { background: #00f5d4; color: #04040d; border-color: #00f5d4; transform: translateY(-3px); }
+        .form-box {
+          background: rgba(255,255,255,.025); border: 1px solid rgba(255,255,255,.08);
+          border-radius: 18px; padding: clamp(24px,4vw,44px);
+        }
+        .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 0; }
+        .fg { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .fl { font-family: 'JetBrains Mono', monospace; font-size: .62rem; color: #5a5a7e; letter-spacing: 2px; text-transform: uppercase; }
+        .fi, .fta {
+          background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+          border-radius: 9px; padding: 13px 16px; color: #d4d4e8;
+          font-family: 'Syne', sans-serif; font-size: .92rem; outline: none; width: 100%;
+          transition: border-color .25s;
+        }
+        .fi:focus, .fta:focus { border-color: #00f5d4; background: rgba(0,245,212,.03); }
+        .fi::placeholder, .fta::placeholder { color: #3a3a5e; }
+        .fta { min-height: 150px; resize: vertical; }
+
+        /* ─ FOOTER ─ */
+        .foot {
+          position: relative; z-index: 1;
+          border-top: 1px solid rgba(255,255,255,.07);
+          background: rgba(4,4,13,.95); padding: 36px clamp(20px,5vw,64px);
+        }
+        .foot-in {
+          max-width: 1400px; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+        }
+        .f-logo { font-size: 1.2rem; font-weight: 800; text-decoration: none; color: #d4d4e8; letter-spacing: -0.5px; }
+        .f-logo b { color: #00f5d4; }
+        .f-nav { display: flex; gap: 24px; flex-wrap: wrap; }
+        .f-nav a { font-size: .78rem; color: #5a5a7e; text-decoration: none; transition: color .2s; }
+        .f-nav a:hover { color: #00f5d4; }
+        .wa { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 10px 22px; border-radius: 50px; font-size: .82rem; font-weight: 700; text-decoration: none; font-family: 'Syne',sans-serif; transition: all .25s; }
+        .wa:hover { background: #1ebe5d; transform: translateY(-2px); }
+        .f-cp { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: #3a3a5e; width: 100%; text-align: center; margin-top: 8px; }
+
+        /* ─ MODAL ─ */
+        .mo { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(4,4,13,.88); backdrop-filter: blur(16px); align-items: center; justify-content: center; padding: 20px; }
+        .mo.on { display: flex; }
+        .mbox { background: #0c0c1f; border: 1px solid rgba(0,245,212,.2); border-radius: 20px; padding: 38px; width: 100%; max-width: 440px; animation: su .3s ease; }
+        @keyframes su { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+        .mhead { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .mtit { font-size: 1.3rem; font-weight: 800; }
+        .mx { background: none; border: none; color: #5a5a7e; font-size: 1.4rem; cursor: pointer; line-height: 1; transition: color .2s; }
+        .mx:hover { color: #d4d4e8; }
+        .msub { font-size: .87rem; color: #5a5a7e; margin-bottom: 24px; }
+        .amts { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 14px; }
+        .ab { padding: 11px 4px; border: 1px solid rgba(255,255,255,.12); border-radius: 8px; background: none; color: #d4d4e8; font-family: 'JetBrains Mono', monospace; font-size: .84rem; font-weight: 700; cursor: pointer; transition: all .2s; }
+        .ab:hover, .ab.on { background: #00f5d4; color: #04040d; border-color: #00f5d4; }
+        .mi { width: 100%; padding: 12px 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 9px; color: #d4d4e8; font-family: 'JetBrains Mono', monospace; font-size: .87rem; outline: none; margin-bottom: 14px; transition: border-color .2s; }
+        .mi:focus { border-color: #00f5d4; }
+        .mi::placeholder { color: #3a3a5e; }
+
+        /* ─ TOAST ─ */
+        .toast { position: fixed; bottom: 28px; right: 28px; z-index: 9999; background: #00ff88; color: #001a0a; padding: 16px 24px; border-radius: 12px; font-weight: 800; font-family: 'Syne', sans-serif; box-shadow: 0 12px 48px rgba(0,255,136,.4); max-width: 360px; animation: su .3s ease; }
+
+        /* reveal */
+        .rv { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+        .rv.vis { opacity: 1; transform: none; }
+
+        /* ─ RESPONSIVE ─ */
+        @media(max-width:1024px){
+          .proj-g .pc.lg { grid-column: span 12; }
+          .proj-g .pc.sm { grid-column: span 6; }
+          .proj-g .pc.sm2 { grid-column: span 6; }
+        }
+        @media(max-width:900px){
+          .hero-wrap { grid-template-columns: 1fr; }
+          .hero-rhs { display: none; }
+          .about-g { grid-template-columns: 1fr; }
+          .srv-g { grid-template-columns: 1fr 1fr; }
+          .cert-g { grid-template-columns: 1fr 1fr; }
+          .contact-g { grid-template-columns: 1fr; }
+          .pay-g { grid-template-columns: 1fr; }
+          .nav-ul { display: none; }
+          .hbg { display: flex; }
+        }
+        @media(max-width:640px){
+          .srv-g { grid-template-columns: 1fr; }
+          .proj-g .pc.sm,.proj-g .pc.sm2 { grid-column: span 12; }
+          .cert-g { grid-template-columns: 1fr; }
+          .frow { grid-template-columns: 1fr; }
+          .foot-in { flex-direction: column; align-items: flex-start; }
+        }
       `}</style>
 
-      <canvas id="bg-canvas" ref={bgCanvasRef} />
+      <canvas id="bg-cv" ref={bgRef} />
 
-      {/* ── APPBAR ─────────────────────────────────────── */}
-      <AppBar position="fixed" sx={{ zIndex:1200, transition:'all .4s', ...(scrolled ? { background:'rgba(8,8,16,.9)', backdropFilter:'blur(20px)', borderBottom:'1px solid rgba(0,245,212,.1)' } : {}) }}>
-        <Toolbar sx={{ maxWidth:1200, mx:'auto', width:'100%', px:{xs:2,md:4} }}>
-          <Typography variant="h6" sx={{ flexGrow:1, fontWeight:800, fontSize:'1.3rem', letterSpacing:'-0.5px' }}>
-            Jesse<Box component="span" sx={{ color:'primary.main' }}>.</Box>
-          </Typography>
-          <Box sx={{ display:{xs:'none',md:'flex'}, gap:4 }}>
-            {NAV.map(n=>(
-              <Box key={n} component="a" href={`#${n.toLowerCase()}`}
-                sx={{ color:'text.secondary', textDecoration:'none', fontSize:'.82rem', fontWeight:600, letterSpacing:'1px', textTransform:'uppercase', transition:'color .2s', '&:hover':{color:'primary.main'} }}>
-                {n === 'Coffee' ? '☕ Coffee' : n}
-              </Box>
-            ))}
-          </Box>
-          <IconButton sx={{ display:{md:'none'}, ml:2, color:'text.primary' }} onClick={()=>setDrawerOpen(true)}>
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      {/* NAV */}
+      <nav className={`nav${scrolled?' up':''}`}>
+        <a href="#" className="logo">Jesse<b>.</b></a>
+        <ul className="nav-ul">
+          {NAV.map(n=><li key={n}><a href={`#${n.toLowerCase()}`}>{n==='Coffee'?'☕ Coffee':n}</a></li>)}
+        </ul>
+        <button className="hbg" onClick={()=>setMenu(true)} aria-label="Menu">
+          <s/><s/><s/>
+        </button>
+      </nav>
 
-      {/* Mobile Drawer */}
-      <Drawer anchor="right" open={drawerOpen} onClose={()=>setDrawerOpen(false)}
-        PaperProps={{ sx:{ width:260, background:'#080810', borderLeft:'1px solid rgba(0,245,212,.15)' } }}>
-        <Box sx={{ p:2, display:'flex', justifyContent:'flex-end' }}>
-          <IconButton onClick={()=>setDrawerOpen(false)} sx={{ color:'text.secondary' }}><CloseIcon /></IconButton>
-        </Box>
-        <List>
-          {NAV.map(n=>(
-            <ListItem key={n} disablePadding>
-              <ListItemButton component="a" href={`#${n.toLowerCase()}`} onClick={()=>setDrawerOpen(false)}
-                sx={{ py:1.5, '& .MuiListItemText-primary':{ fontFamily:"Syne, sans-serif", fontWeight:700, fontSize:'1.1rem' } }}>
-                <ListItemText primary={n === 'Coffee' ? '☕ Coffee' : n} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+      <div className={`mob${menu?' on':''}`}>
+        <button className="mob-x" onClick={()=>setMenu(false)}>✕</button>
+        {NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`} onClick={()=>setMenu(false)}>{n==='Coffee'?'☕ Coffee':n}</a>)}
+      </div>
 
-      {/* ── HERO ───────────────────────────────────────── */}
-      <Box id="hero" component="section" sx={{ position:'relative', zIndex:1, minHeight:'100vh', display:'flex', alignItems:'center', pt:'80px' }}>
-        <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
-            <Grid item xs={12} md={6}>
-              <Box sx={{ fontFamily:"JetBrains Mono, monospace", fontSize:'.78rem', color:'primary.main', letterSpacing:'3px', textTransform:'uppercase', mb:2.5, display:'flex', alignItems:'center', gap:1.5 }}>
-                <Box sx={{ width:28, height:1, background:'primary.main', bgcolor:'primary.main' }} />
-                Available for freelance
-              </Box>
-              <Typography variant="h1" sx={{ fontSize:{xs:'2.6rem',md:'4.2rem'}, lineHeight:1.05, mb:2 }}>
-                Hi, I&apos;m<br />
-                <Box component="span" sx={{ background:'linear-gradient(135deg,#00f5d4 0%,#7b2fff 50%,#f500a0 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
-                  Jesse Kimani
-                </Box>
-              </Typography>
-              <Box className="mono" sx={{ fontSize:'1rem', color:'primary.main', mb:2.5, minHeight:28 }}>
-                {typedText}<Box component="span" sx={{ animation:'blink 1s infinite', '@keyframes blink':{'0%,100%':{opacity:1},'50%':{opacity:0}} }}>|</Box>
-              </Box>
-              <Typography color="text.secondary" sx={{ fontSize:'1rem', lineHeight:1.85, maxWidth:500, mb:4.5 }}>
-                Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. I break things so others don&apos;t have to.
-              </Typography>
-              <Box sx={{ display:'flex', gap:2, flexWrap:'wrap' }}>
-                <Button variant="contained" href="#projects" startIcon={<TerminalIcon />} sx={glowBtn}>View Projects</Button>
-                <Button variant="outlined" href="#contact" startIcon={<EmailIcon />}
-                  sx={{ borderColor:'rgba(255,255,255,.2)', color:'text.primary', px:4, py:1.4, borderRadius:2, fontSize:'.9rem', '&:hover':{borderColor:'primary.main', color:'primary.main'} }}>
-                  Contact Me
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={6} sx={{ display:{xs:'none',md:'flex'}, justifyContent:'center' }}>
-              <canvas ref={heroCanvasRef} style={{ width:420, height:420, borderRadius:20 }} />
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+      {/* HERO */}
+      <section id="hero">
+        <div className="hero-wrap">
+          <div className="hero-lhs">
+            <div className="eyebrow">Available for freelance</div>
+            <h1 className="hero-h1">
+              Hi, I&apos;m
+              <span className="name">Jesse Kimani</span>
+            </h1>
+            <div className="tw">
+              <span>{typed}</span><span className="cur">|</span>
+            </div>
+            <p className="hero-p">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. I break things so others don&apos;t have to.</p>
+            <div className="btns">
+              <a href="#projects" className="btn-g">⬡ View Projects</a>
+              <a href="#contact" className="btn-o">✉ Contact Me</a>
+            </div>
+          </div>
+          <div className="hero-rhs">
+            <canvas ref={heroRef} />
+          </div>
+        </div>
+      </section>
 
-      {/* ── ABOUT ──────────────────────────────────────── */}
-      <Box id="about" component="section" sx={{ position:'relative', zIndex:1, py:14, background:'rgba(4,4,8,.7)', backdropFilter:'blur(4px)' }}>
-        <Container maxWidth="lg">
-          <Box sx={sectionLabel}>Who I Am</Box>
-          <Grid container spacing={8} alignItems="flex-start">
-            <Grid item xs={12} md={7} className="reveal">
-              <Typography variant="h2" sx={{ fontSize:{xs:'2rem',md:'2.8rem'}, mb:4 }}>
-                Network &<br />Cybersecurity Pro
-              </Typography>
-              <Typography color="text.secondary" sx={{ mb:2.5, lineHeight:1.9 }}>
-                Experienced Network Engineer and Penetration Tester specializing in secure infrastructure design, vulnerability assessment, and threat mitigation. CompTIA PenTest+ certified professional with hands-on expertise across the full attack and defense lifecycle.
-              </Typography>
-              <Typography color="text.secondary" sx={{ mb:4, lineHeight:1.9 }}>
-                I help organizations build resilient systems that ensure data confidentiality, integrity, and availability through comprehensive security measures and optimized network solutions.
-              </Typography>
-              <Typography className="mono" sx={{ fontSize:'.72rem', color:'text.secondary', letterSpacing:'3px', textTransform:'uppercase', mb:2 }}>Technical Arsenal</Typography>
-              <Box sx={{ display:'flex', flexWrap:'wrap', gap:1 }}>
-                {SKILLS.map(s=><Chip key={s} label={s} size="small" />)}
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={5} className="reveal" sx={{ transitionDelay:'.15s' }}>
-              <Grid container spacing={2}>
-                {[['3+','Years Experience'],['15+','Projects Done'],['3','Certifications'],['∞','Packets Analyzed']].map(([n,l])=>(
-                  <Grid item xs={6} key={l}>
-                    <Card className="glow-border" sx={{ p:3, textAlign:'center' }}>
-                      <Typography sx={{ fontSize:'2.8rem', fontWeight:800, color:'primary.main', lineHeight:1, mb:.5 }}>{n}</Typography>
-                      <Typography className="mono" sx={{ fontSize:'.72rem', color:'text.secondary', letterSpacing:'1px' }}>{l}</Typography>
-                    </Card>
-                  </Grid>
+      {/* ABOUT */}
+      <div className="s s-alt" id="about">
+        <div className="si">
+          <div className="ey2">Who I Am</div>
+          <div className="about-g">
+            <div className="rv">
+              <h2 className="sh">Network &amp;<br/><em>Cybersecurity</em> Pro</h2>
+              <p className="about-p">Experienced Network Engineer and Penetration Tester specializing in secure infrastructure design, vulnerability assessment, and threat mitigation. CompTIA PenTest+ certified with hands-on expertise across the full attack and defense lifecycle.</p>
+              <p className="about-p">I help organizations build resilient systems ensuring data confidentiality, integrity, and availability through comprehensive security and optimized network design.</p>
+              <div className="sk-lbl">Technical Arsenal</div>
+              <div className="chips">{SKILLS.map(s=><span key={s} className="chip">{s}</span>)}</div>
+            </div>
+            <div className="rv" style={{transitionDelay:'.12s'}}>
+              <div className="stats">
+                {[['3+','Years Exp'],['15+','Projects'],['3','Certifications'],['∞','Packets']].map(([n,l])=>(
+                  <div key={l} className="stat">
+                    <div className="stat-n">{n}</div>
+                    <div className="stat-l">{l}</div>
+                  </div>
                 ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* ── SERVICES ───────────────────────────────────── */}
-      <Box id="services" component="section" sx={{ position:'relative', zIndex:1, py:14 }}>
-        <Container maxWidth="lg">
-          <Box sx={sectionLabel}>What I Do</Box>
-          <Typography variant="h2" className="reveal" sx={{ fontSize:{xs:'2rem',md:'2.8rem'}, mb:7 }}>Professional Services</Typography>
-          <Grid container spacing={.25} sx={{ border:'1px solid rgba(255,255,255,.06)', borderRadius:3, overflow:'hidden' }}>
-            {SERVICES.map((s,i)=>(
-              <Grid item xs={12} sm={6} md={4} key={s.title}>
-                <Box className="reveal glow-border" sx={{ p:4.5, height:'100%', background:'#0d0d1a', cursor:'default', transition:'background .3s', transitionDelay:`${(i%3)*.08}s`, position:'relative', overflow:'hidden',
-                  '&::after':{content:'""'  , position:'absolute', bottom:0, left:0, width:'100%', height:2, background:'linear-gradient(90deg,#00f5d4,#7b2fff)', transform:'scaleX(0)', transition:'transform .35s', transformOrigin:'left'},
-                  '&:hover':{background:'#111125'}, '&:hover::after':{transform:'scaleX(1)'} }}>
-                  <Avatar sx={{ width:48, height:48, background:'rgba(0,245,212,.1)', color:'primary.main', mb:2.5, borderRadius:2 }}><s.Icon /></Avatar>
-                  <Typography variant="h6" sx={{ mb:1.5 }}>{s.title}</Typography>
-                  <Typography color="text.secondary" sx={{ fontSize:'.88rem', lineHeight:1.75 }}>{s.desc}</Typography>
-                </Box>
-              </Grid>
+      {/* SERVICES */}
+      <div className="s" id="services">
+        <div className="si">
+          <div className="ey2">What I Do</div>
+          <h2 className="sh rv">Professional<br/><em>Services</em></h2>
+          <div className="srv-g">
+            {SERVICES.map((sv,i)=>(
+              <div key={sv.title} className="srv rv" style={{transitionDelay:`${(i%3)*.08}s`}}>
+                <div className="srv-n">{sv.n}</div>
+                <span className="srv-ic">{sv.icon}</span>
+                <div className="srv-t">{sv.title}</div>
+                <div className="srv-d">{sv.desc}</div>
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </div>
 
-      {/* ── PROJECTS ───────────────────────────────────── */}
-      <Box id="projects" component="section" sx={{ position:'relative', zIndex:1, py:14, background:'rgba(4,4,8,.7)', backdropFilter:'blur(4px)' }}>
-        <Container maxWidth="lg">
-          <Box sx={sectionLabel}>My Work</Box>
-          <Typography variant="h2" className="reveal" sx={{ fontSize:{xs:'2rem',md:'2.8rem'}, mb:7 }}>Featured Projects</Typography>
-          <Grid container spacing={3}>
+      {/* PROJECTS */}
+      <div className="s s-alt" id="projects">
+        <div className="si">
+          <div className="ey2">My Work</div>
+          <h2 className="sh rv">Featured<br/><em>Projects</em></h2>
+          <div className="proj-g">
             {PROJECTS.map((p,i)=>(
-              <Grid item xs={12} sm={6} md={p.featured?6:4} key={p.title}>
-                <Card className="reveal" sx={{ height:'100%', position:'relative', transitionDelay:`${i*.08}s` }}>
-                  {p.featured && <Box className="featured-badge">Featured</Box>}
-                  <CardMedia component="img" height={p.featured?220:180} image={p.img} alt={p.title} sx={{ transition:'transform .5s', '&:hover':{transform:'scale(1.05)'} }} />
-                  <CardContent sx={{ p:3 }}>
-                    <Typography variant="h6" sx={{ mb:1 }}>{p.title}</Typography>
-                    <Typography color="text.secondary" sx={{ fontSize:'.88rem', mb:2, lineHeight:1.65 }}>{p.desc}</Typography>
-                    <Box sx={{ display:'flex', flexWrap:'wrap', gap:.8, mb:2.5 }}>
-                      {p.tags.map(t=>(
-                        <Box key={t} className="mono" sx={{ fontSize:'.7rem', px:1.2, py:.4, background:'rgba(123,47,255,.15)', color:'#a87fff', borderRadius:1 }}>{t}</Box>
-                      ))}
-                    </Box>
-                    <Box sx={{ display:'flex', gap:2 }}>
-                      <Button size="small" href={p.github} target="_blank" startIcon={<GitHubIcon />} sx={{ color:'text.secondary', fontSize:'.8rem', p:0, '&:hover':{color:'primary.main'} }}>GitHub</Button>
-                      <Button size="small" href={p.link} startIcon={<OpenInNewIcon />} sx={{ color:'text.secondary', fontSize:'.8rem', p:0, '&:hover':{color:'primary.main'} }}>{p.linkLabel}</Button>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
+              <div key={p.title} className={`pc rv ${p.size==='large'?'lg':i===1?'sm':'sm2'}`} style={{transitionDelay:`${i*.07}s`}}>
+                <div className="pimg"><img src={p.img} alt={p.title} loading="lazy"/></div>
+                <div className="pb">
+                  {p.size==='large'&&<span className="feat-tag">★ FEATURED PROJECT</span>}
+                  <div className="py">{p.year}</div>
+                  <div className="pt">{p.title}</div>
+                  <div className="pd">{p.desc}</div>
+                  <div className="ptags">{p.tags.map(t=><span key={t} className="ptag">{t}</span>)}</div>
+                  <div className="plinks">
+                    <a href={p.github} target="_blank" rel="noreferrer" className="plink">⬡ GitHub</a>
+                    <a href={p.link} className="plink">↗ View</a>
+                  </div>
+                </div>
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </div>
 
-      {/* ── CERTIFICATIONS ─────────────────────────────── */}
-      <Box id="certifications" component="section" sx={{ position:'relative', zIndex:1, py:14 }}>
-        <Container maxWidth="lg">
-          <Box sx={sectionLabel}>Credentials</Box>
-          <Typography variant="h2" className="reveal" sx={{ fontSize:{xs:'2rem',md:'2.8rem'}, mb:7 }}>Certifications</Typography>
-          <Grid container spacing={3}>
+      {/* CERTS */}
+      <div className="s" id="certifications">
+        <div className="si">
+          <div className="ey2">Credentials</div>
+          <h2 className="sh rv"><em>Certifications</em></h2>
+          <div className="cert-g">
             {CERTS.map((c,i)=>(
-              <Grid item xs={12} md={4} key={c.title}>
-                <Card className="reveal glow-border" sx={{ p:3, height:'100%', transitionDelay:`${i*.1}s`, borderTop:`3px solid ${c.color}` }}>
-                  <Avatar sx={{ width:52, height:52, background:`${c.color}18`, color:c.color, mb:2, borderRadius:2 }}><c.Icon /></Avatar>
-                  <Typography variant="h6" sx={{ mb:1 }}>{c.title}</Typography>
-                  <Typography color="text.secondary" sx={{ fontSize:'.85rem', lineHeight:1.65, mb:2 }}>{c.desc}</Typography>
-                  <Box className="mono" sx={{ fontSize:'.72rem', color:c.color }}>Issued {c.date}</Box>
-                </Card>
-              </Grid>
+              <div key={c.full} className="cert rv" style={{transitionDelay:`${i*.1}s`, borderTopColor:c.color}}>
+                <div className="cert-top" style={{background:`linear-gradient(90deg,${c.color},transparent)`}}/>
+                <div className="cert-badge" style={{background:`${c.color}15`,color:c.color}}>{c.short}</div>
+                <div className="cert-tit">{c.full}</div>
+                <div className="cert-org" style={{color:c.color}}>{c.org}</div>
+                <div className="cert-d">{c.desc}</div>
+                <div className="cert-dt" style={{color:c.color}}>Issued {c.date}</div>
+              </div>
             ))}
-          </Grid>
-        </Container>
-      </Box>
+          </div>
+        </div>
+      </div>
 
-      {/* ── COFFEE ─────────────────────────────────────── */}
-      <Box id="coffee" component="section" sx={{ position:'relative', zIndex:1, py:14, background:'rgba(4,4,8,.7)', backdropFilter:'blur(4px)', textAlign:'center' }}>
-        <Container maxWidth="sm">
-          <Box sx={{ fontSize:'3.5rem', mb:3, animation:'float 3s ease-in-out infinite', '@keyframes float':{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-12px)'}} }}>☕</Box>
-          <Box sx={sectionLabel} justifyContent="center">Support My Work</Box>
-          <Typography variant="h2" className="reveal" sx={{ fontSize:{xs:'1.8rem',md:'2.5rem'}, mb:2 }}>Buy Me a Coffee</Typography>
-          <Typography color="text.secondary" sx={{ mb:6, lineHeight:1.8 }}>
-            If my open-source work, writeups, or tools have helped you — buy me a coffee! Supports via crypto on Binance or card/M-Pesa via Paystack.
-          </Typography>
-          <Grid container spacing={3} className="reveal">
-            {/* Binance */}
-            <Grid item xs={12} sm={6}>
-              <Card className="glow-border" sx={{ p:3.5, textAlign:'left', borderTop:'3px solid #F0B90B', cursor:'pointer' }} onClick={()=>setModal('binance')}>
-                <Box sx={{ display:'flex', alignItems:'center', gap:1.5, mb:2 }}>
-                  <CurrencyBitcoinIcon sx={{ color:'#F0B90B', fontSize:'2rem' }} />
-                  <Typography sx={{ fontWeight:800, color:'#F0B90B', fontSize:'1.1rem' }}>Binance Pay</Typography>
-                </Box>
-                <Typography color="text.secondary" sx={{ fontSize:'.85rem', mb:2.5, lineHeight:1.6 }}>Send crypto instantly. Zero fees. BTC, ETH, BNB, USDT.</Typography>
-                <Button variant="contained" fullWidth sx={{ background:'#F0B90B', color:'#1a1000', fontWeight:800, '&:hover':{background:'#ffd03a'} }} startIcon={<CurrencyBitcoinIcon />}>Pay with Crypto</Button>
-              </Card>
-            </Grid>
-            {/* Paystack */}
-            <Grid item xs={12} sm={6}>
-              <Card className="glow-border" sx={{ p:3.5, textAlign:'left', borderTop:'3px solid #00C3F7', cursor:'pointer' }} onClick={()=>setModal('paystack')}>
-                <Box sx={{ display:'flex', alignItems:'center', gap:1.5, mb:2 }}>
-                  <CreditCardIcon sx={{ color:'#00C3F7', fontSize:'2rem' }} />
-                  <Typography sx={{ fontWeight:800, color:'#00C3F7', fontSize:'1.1rem' }}>Paystack</Typography>
-                </Box>
-                <Typography color="text.secondary" sx={{ fontSize:'.85rem', mb:2.5, lineHeight:1.6 }}>Card, M-Pesa, or bank transfer. KES, USD, NGN supported.</Typography>
-                <Button variant="contained" fullWidth sx={{ background:'#00C3F7', color:'#001a22', fontWeight:800, '&:hover':{background:'#40d4ff'} }} startIcon={<CreditCardIcon />}>Pay with Card / M-Pesa</Button>
-              </Card>
-            </Grid>
-          </Grid>
-          {/* Direct crypto */}
-          <Box className="mono reveal" sx={{ mt:4, p:2.5, background:'rgba(255,255,255,.02)', border:'1px solid rgba(255,255,255,.07)', borderRadius:2, textAlign:'left', fontSize:'.75rem', color:'text.secondary', lineHeight:2 }}>
-            <Box component="span" sx={{ color:'text.primary', fontWeight:700 }}>Direct crypto? </Box>
-            <Box component="span" sx={{ color:'primary.main' }}>BTC: </Box>bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9<br />
-            <Box component="span" sx={{ color:'primary.main' }}>ETH/USDT: </Box>0x71C7656EC7ab88b098defB751B7401B5f6d8976F<br />
-            <Box sx={{ color:'text.secondary', opacity:.6, mt:.5 }}>* Replace with your real wallet addresses</Box>
-          </Box>
-        </Container>
-      </Box>
+      {/* COFFEE */}
+      <div className="s s-alt" id="coffee">
+        <div className="si">
+          <div className="coffee-c">
+            <span className="cof-em">☕</span>
+            <div className="ey2" style={{justifyContent:'center'}}>Support My Work</div>
+            <h2 className="sh rv" style={{marginBottom:20}}>Buy Me a<br/><em>Coffee</em></h2>
+            <p className="cof-p">If my open-source work, writeups, or tools have helped you — buy me a coffee! Pay via crypto on Binance or card/M-Pesa via Paystack.</p>
+            <div className="pay-g rv">
+              <div className="pay-c" style={{borderTop:'3px solid #F0B90B'}} onClick={()=>setModal('binance')}>
+                <div className="pay-h">
+                  <span className="pay-ico">₿</span>
+                  <span className="pay-name" style={{color:'#F0B90B'}}>Binance Pay</span>
+                </div>
+                <p className="pay-desc">Send crypto instantly. Zero fees. BTC, ETH, BNB, USDT all supported.</p>
+                <button className="btn-g" style={{background:'#F0B90B',width:'100%',justifyContent:'center'}}>Pay with Crypto</button>
+              </div>
+              <div className="pay-c" style={{borderTop:'3px solid #00C3F7'}} onClick={()=>setModal('paystack')}>
+                <div className="pay-h">
+                  <span className="pay-ico">💳</span>
+                  <span className="pay-name" style={{color:'#00C3F7'}}>Paystack</span>
+                </div>
+                <p className="pay-desc">Card, M-Pesa or bank transfer. KES, USD, NGN supported.</p>
+                <button className="btn-g" style={{background:'#00C3F7',color:'#001a22',width:'100%',justifyContent:'center'}}>Pay with Card / M-Pesa</button>
+              </div>
+            </div>
+            <div className="crypto-box rv">
+              <b>Direct crypto?  </b>
+              <em>BTC: </em>bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9<br/>
+              <em>ETH/USDT: </em>0x71C7656EC7ab88b098defB751B7401B5f6d8976F<br/>
+              <span style={{opacity:.5,fontSize:'.65rem'}}>* Replace with your real wallet addresses before going live</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* ── CONTACT ────────────────────────────────────── */}
-      <Box id="contact" component="section" sx={{ position:'relative', zIndex:1, py:14 }}>
-        <Container maxWidth="lg">
-          <Box sx={sectionLabel}>Get In Touch</Box>
-          <Grid container spacing={8}>
-            <Grid item xs={12} md={5} className="reveal">
-              <Typography variant="h3" sx={{ mb:2 }}>Let&apos;s Connect</Typography>
-              <Typography color="text.secondary" sx={{ mb:5, lineHeight:1.8 }}>Always open to new projects, collaboration, or chatting about tech and security. Reach out any time.</Typography>
+      {/* CONTACT */}
+      <div className="s" id="contact">
+        <div className="si">
+          <div className="ey2">Get In Touch</div>
+          <div className="contact-g">
+            <div className="rv">
+              <div className="ci-title">Let&apos;s<br/><em style={{color:'#00f5d4',fontStyle:'normal'}}>Connect</em></div>
+              <p className="ci-p">Always open to new projects, collaboration, or just chatting about tech and security. Reach out any time.</p>
               {[
-                { Icon:EmailIcon,       label:'Email',    val:'netg3ek@gmail.com',        href:'mailto:netg3ek@gmail.com' },
-                { Icon:LocationOnIcon,  label:'Location', val:'Nairobi, Kenya 🇰🇪',      href:'#' },
-                { Icon:GitHubIcon,      label:'GitHub',   val:'github.com/netgee-k',     href:'https://github.com/netgee-k' },
+                {ico:'✉',lbl:'Email',   val:'netg3ek@gmail.com',  href:'mailto:netg3ek@gmail.com'},
+                {ico:'📍',lbl:'Based',  val:'Nairobi, Kenya 🇰🇪',href:'#'},
+                {ico:'⬡',lbl:'GitHub', val:'github.com/netgee-k', href:'https://github.com/netgee-k'},
               ].map(c=>(
-                <Box key={c.label} sx={{ display:'flex', alignItems:'center', gap:2, mb:3 }}>
-                  <Avatar sx={{ background:'rgba(0,245,212,.1)', border:'1px solid rgba(0,245,212,.2)', color:'primary.main', width:46, height:46, borderRadius:2 }}><c.Icon /></Avatar>
-                  <Box>
-                    <Typography className="mono" sx={{ fontSize:'.68rem', color:'text.secondary', letterSpacing:'1px', textTransform:'uppercase', mb:.3 }}>{c.label}</Typography>
-                    <Box component="a" href={c.href} target="_blank" rel="noreferrer" sx={{ color:'text.primary', textDecoration:'none', fontSize:'.9rem', '&:hover':{color:'primary.main'} }}>{c.val}</Box>
-                  </Box>
-                </Box>
+                <div key={c.lbl} className="citem">
+                  <div className="cico">{c.ico}</div>
+                  <div>
+                    <div className="clbl">{c.lbl}</div>
+                    <a href={c.href} target="_blank" rel="noreferrer" className="cval">{c.val}</a>
+                  </div>
+                </div>
               ))}
-              <Box sx={{ display:'flex', gap:1.5, mt:4 }}>
-                {[
-                  { Icon:TwitterIcon,  href:'#' },
-                  { Icon:GitHubIcon,   href:'https://github.com/netgee-k' },
-                  { Icon:LinkedInIcon, href:'#' },
-                  { Icon:WhatsAppIcon, href:'https://wa.me/254707540010' },
-                ].map(({Icon,href},i)=>(
-                  <Tooltip key={i} title="">
-                    <IconButton component="a" href={href} target="_blank"
-                      sx={{ background:'rgba(255,255,255,.05)', border:'1px solid rgba(255,255,255,.1)', borderRadius:2, '&:hover':{background:'primary.main', bgcolor:'primary.main', color:'#080810', borderColor:'primary.main'} }}>
-                      <Icon sx={{ fontSize:'1.1rem' }} />
-                    </IconButton>
-                  </Tooltip>
+              <div className="socs">
+                {[{i:'𝕏',h:'#'},{i:'⬡',h:'https://github.com/netgee-k'},{i:'in',h:'#'},{i:'💬',h:'https://wa.me/254707540010'}].map((s,idx)=>(
+                  <a key={idx} href={s.h} target="_blank" rel="noreferrer" className="soc">{s.i}</a>
                 ))}
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={7} className="reveal" sx={{ transitionDelay:'.12s' }}>
-              <Card sx={{ p:4 }}>
-                <Box component="form" onSubmit={handleSubmit}>
-                  <Grid container spacing={2.5}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label="Name" required value={form.name} onChange={e=>setForm({...form,name:e.target.value})} variant="outlined" />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label="Email" type="email" required value={form.email} onChange={e=>setForm({...form,email:e.target.value})} variant="outlined" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Subject" required value={form.subject} onChange={e=>setForm({...form,subject:e.target.value})} variant="outlined" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField fullWidth label="Message" multiline rows={4} required value={form.message} onChange={e=>setForm({...form,message:e.target.value})} variant="outlined" />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Button type="submit" variant="contained" fullWidth size="large" endIcon={<SendIcon />} sx={{ ...glowBtn, py:1.6 }}>Send Message</Button>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Card>
-            </Grid>
-          </Grid>
-        </Container>
-      </Box>
+              </div>
+            </div>
+            <div className="rv" style={{transitionDelay:'.12s'}}>
+              <div className="form-box">
+                <form onSubmit={onSub}>
+                  <div className="frow">
+                    <div className="fg">
+                      <label className="fl">Name</label>
+                      <input className="fi" required placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})}/>
+                    </div>
+                    <div className="fg">
+                      <label className="fl">Email</label>
+                      <input className="fi" type="email" required placeholder="you@email.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})}/>
+                    </div>
+                  </div>
+                  <div className="fg">
+                    <label className="fl">Subject</label>
+                    <input className="fi" required placeholder="What's this about?" value={form.subject} onChange={e=>setForm({...form,subject:e.target.value})}/>
+                  </div>
+                  <div className="fg">
+                    <label className="fl">Message</label>
+                    <textarea className="fta" required placeholder="Tell me more..." value={form.message} onChange={e=>setForm({...form,message:e.target.value})}/>
+                  </div>
+                  <button type="submit" className="btn-g" style={{width:'100%',justifyContent:'center',padding:'16px',marginTop:4}}>
+                    Send Message ↗
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      {/* ── FOOTER ─────────────────────────────────────── */}
-      <Box component="footer" sx={{ position:'relative', zIndex:1, borderTop:'1px solid rgba(255,255,255,.06)', py:4, background:'rgba(4,4,8,.9)' }}>
-        <Container maxWidth="lg">
-          <Box sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:3 }}>
-            <Typography sx={{ fontWeight:800 }}>Jesse<Box component="span" sx={{ color:'primary.main' }}>.</Box></Typography>
-            <Box sx={{ display:'flex', gap:3, flexWrap:'wrap' }}>
-              {NAV.map(n=>(
-                <Box key={n} component="a" href={`#${n.toLowerCase()}`} sx={{ color:'text.secondary', textDecoration:'none', fontSize:'.8rem', '&:hover':{color:'primary.main'} }}>
-                  {n === 'Coffee' ? 'Coffee' : n}
-                </Box>
-              ))}
-            </Box>
-            <Button component="a" href="https://wa.me/254707540010" target="_blank" startIcon={<WhatsAppIcon />}
-              sx={{ background:'#25D366', color:'white', fontWeight:700, borderRadius:'50px', px:2.5, fontSize:'.82rem', '&:hover':{background:'#1ebe5d'} }}>
-              WhatsApp
-            </Button>
-            <Typography className="mono" sx={{ fontSize:'.72rem', color:'text.secondary', width:'100%', textAlign:'center', mt:1 }}>
-              © 2025 Jesse Kimani — All rights reserved.
-            </Typography>
-          </Box>
-        </Container>
-      </Box>
+      {/* FOOTER */}
+      <footer className="foot">
+        <div className="foot-in">
+          <a href="#" className="f-logo">Jesse<b>.</b></a>
+          <nav className="f-nav">
+            {NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`}>{n}</a>)}
+          </nav>
+          <a href="https://wa.me/254707540010" target="_blank" rel="noreferrer" className="wa">💬 WhatsApp</a>
+          <p className="f-cp">© 2025 Jesse Kimani — All rights reserved.</p>
+        </div>
+      </footer>
 
-      {/* ── BINANCE MODAL ──────────────────────────────── */}
-      <Dialog open={modal==='binance'} onClose={()=>setModal(null)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', pb:1 }}>
-          <Box sx={{ display:'flex', alignItems:'center', gap:1 }}><CoffeeIcon sx={{ color:'#F0B90B' }} /><span>Buy Me a Coffee</span></Box>
-          <IconButton onClick={()=>setModal(null)} size="small"><CloseIcon /></IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Typography color="text.secondary" sx={{ mb:3, fontSize:'.9rem' }}>Send via <Box component="span" sx={{ color:'#F0B90B', fontWeight:800 }}>Binance Pay</Box> — choose an amount:</Typography>
-          <Grid container spacing={1} sx={{ mb:2 }}>
-            {BINANCE_AMOUNTS.map(a=>(
-              <Grid item xs={4} key={a}>
-                <Button fullWidth variant={selBinance===a&&!custBinance?'contained':'outlined'} onClick={()=>{setSelBinance(a);setCustBinance('');}}
-                  sx={{ fontFamily:"JetBrains Mono, monospace", borderColor:'rgba(255,255,255,.15)', ...(selBinance===a&&!custBinance?{background:'#00f5d4',color:'#080810'}:{color:'text.primary'}) }}>
-                  ${a}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
-          <TextField fullWidth label="Custom amount (USD)" type="number" value={custBinance} onChange={e=>setCustBinance(e.target.value)} size="small" sx={{ mb:3 }} />
-          <Button fullWidth variant="contained" size="large" onClick={payBinance} startIcon={<CurrencyBitcoinIcon />}
-            sx={{ background:'#F0B90B', color:'#1a1000', fontWeight:800, '&:hover':{background:'#ffd03a'} }}>
-            Proceed with Binance Pay
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {/* BINANCE MODAL */}
+      <div className={`mo${modal==='binance'?' on':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
+        <div className="mbox">
+          <div className="mhead">
+            <span className="mtit">☕ Buy Me a Coffee</span>
+            <button className="mx" onClick={()=>setModal(null)}>✕</button>
+          </div>
+          <p className="msub">Via <strong style={{color:'#F0B90B'}}>Binance Pay</strong> — pick an amount:</p>
+          <div className="amts">
+            {B_AMT.map(a=><button key={a} className={`ab${selB===a&&!custB?' on':''}`} onClick={()=>{setSelB(a);setCustB('');}}>${a}</button>)}
+          </div>
+          <input className="mi" type="number" placeholder="Custom amount (USD)" min="1" value={custB} onChange={e=>setCustB(e.target.value)}/>
+          <button className="btn-g" style={{width:'100%',justifyContent:'center',background:'#F0B90B',padding:'14px'}} onClick={payB}>Proceed with Binance Pay</button>
+        </div>
+      </div>
 
-      {/* ── PAYSTACK MODAL ─────────────────────────────── */}
-      <Dialog open={modal==='paystack'} onClose={()=>setModal(null)} maxWidth="xs" fullWidth>
-        <DialogTitle sx={{ display:'flex', justifyContent:'space-between', alignItems:'center', pb:1 }}>
-          <Box sx={{ display:'flex', alignItems:'center', gap:1 }}><CoffeeIcon sx={{ color:'#00C3F7' }} /><span>Buy Me a Coffee</span></Box>
-          <IconButton onClick={()=>setModal(null)} size="small"><CloseIcon /></IconButton>
-        </DialogTitle>
-        <DialogContent>
-          <Typography color="text.secondary" sx={{ mb:3, fontSize:'.9rem' }}>Pay via <Box component="span" sx={{ color:'#00C3F7', fontWeight:800 }}>Paystack</Box> — card, M-Pesa, or bank:</Typography>
-          <Grid container spacing={1} sx={{ mb:2 }}>
-            {PAYSTACK_AMOUNTS.map(a=>(
-              <Grid item xs={4} key={a}>
-                <Button fullWidth variant={selPaystack===a&&!custPaystack?'contained':'outlined'} onClick={()=>{setSelPaystack(a);setCustPaystack('');}}
-                  sx={{ fontFamily:"JetBrains Mono, monospace", fontSize:'.72rem', borderColor:'rgba(255,255,255,.15)', ...(selPaystack===a&&!custPaystack?{background:'#00f5d4',color:'#080810'}:{color:'text.primary'}) }}>
-                  {a>=1000?`${a/1000}k`:a}
-                </Button>
-              </Grid>
-            ))}
-          </Grid>
-          <TextField fullWidth label="Custom amount (KES)" type="number" value={custPaystack} onChange={e=>setCustPaystack(e.target.value)} size="small" sx={{ mb:2 }} />
-          <TextField fullWidth label="Your email (for receipt)" type="email" value={psEmail} onChange={e=>setPsEmail(e.target.value)} size="small" sx={{ mb:3 }} />
-          <Button fullWidth variant="contained" size="large" onClick={payPaystack} startIcon={<CreditCardIcon />}
-            sx={{ background:'#00C3F7', color:'#001a22', fontWeight:800, '&:hover':{background:'#40d4ff'} }}>
-            Pay with Paystack
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {/* PAYSTACK MODAL */}
+      <div className={`mo${modal==='paystack'?' on':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
+        <div className="mbox">
+          <div className="mhead">
+            <span className="mtit">☕ Buy Me a Coffee</span>
+            <button className="mx" onClick={()=>setModal(null)}>✕</button>
+          </div>
+          <p className="msub">Via <strong style={{color:'#00C3F7'}}>Paystack</strong> — card, M-Pesa or bank:</p>
+          <div className="amts">
+            {P_AMT.map(a=><button key={a} className={`ab${selP===a&&!custP?' on':''}`} onClick={()=>{setSelP(a);setCustP('');}}>{a>=1000?`${a/1000}k`:a}</button>)}
+          </div>
+          <input className="mi" type="number" placeholder="Custom amount (KES)" min="100" value={custP} onChange={e=>setCustP(e.target.value)}/>
+          <input className="mi" type="email" placeholder="Your email (for receipt)" value={psEmail} onChange={e=>setPsEmail(e.target.value)}/>
+          <button className="btn-g" style={{width:'100%',justifyContent:'center',background:'#00C3F7',color:'#001a22',padding:'14px'}} onClick={payP}>Pay with Paystack</button>
+        </div>
+      </div>
 
-      {/* ── SNACKBAR ───────────────────────────────────── */}
-      <Snackbar open={!!snack} autoHideDuration={5000} onClose={()=>setSnack('')} anchorOrigin={{ vertical:'bottom', horizontal:'right' }}>
-        <Alert onClose={()=>setSnack('')} severity="success" variant="filled" sx={{ background:'#00ff88', color:'#001a0a', fontWeight:700 }}>{snack}</Alert>
-      </Snackbar>
-
-    </ThemeProvider>
+      {toast&&<div className="toast">{toast}</div>}
+    </>
   );
 }
