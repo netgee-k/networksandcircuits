@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import Script from 'next/script';
 
 const ThreeBackground = lazy(() => import('@/components/ThreeBackground'));
+const AiBrain = lazy(() => import('@/components/AiBrain'));
 
 const CONFIG = {
   paystack: {
@@ -99,6 +100,9 @@ export default function Home() {
     showToast('Redirecting to Binance Pay...');
   };
 
+  // Format KES amount for display
+  const formatKES = (amt: number) => amt >= 1000 ? `KES ${(amt/1000).toFixed(amt%1000===0?0:1)}k` : `KES ${amt}`;
+
   const handlePaystackPay=()=>{
     const amount=(parseFloat(custP)||selP)*100;
     const email=psEmail||CONFIG.paystack.emailFallback;
@@ -137,7 +141,7 @@ export default function Home() {
         }
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         html { scroll-behavior:smooth; overflow-x:hidden; }
-        body { font-family:'Syne',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; min-height:100vh; }
+        body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; min-height:100vh; }
         ::selection { background:var(--cyan); color:var(--bg); }
         ::-webkit-scrollbar { width:5px; }
         ::-webkit-scrollbar-thumb { background:var(--grad); border-radius:3px; }
@@ -172,7 +176,7 @@ export default function Home() {
         .nav-logo em { color:var(--cyan); font-style:normal; }
         .nav-links { display:flex; gap:36px; list-style:none; }
         .nav-links a {
-          font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:500;
+          font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:500;
           letter-spacing:2px; text-transform:uppercase; color:var(--muted);
           text-decoration:none; transition:color .2s; position:relative; padding-bottom:3px;
         }
@@ -204,13 +208,13 @@ export default function Home() {
         .hero-inner { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; width:100%; }
         .eyebrow {
           display:inline-flex; align-items:center; gap:10px; margin-bottom:28px;
-          font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:4px;
+          font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:4px;
           text-transform:uppercase; color:var(--cyan);
         }
         .eyebrow::before { content:''; width:28px; height:1px; background:var(--cyan); }
-        .hero h1 { font-size:clamp(2.5rem,5.5vw,5rem); font-weight:800; letter-spacing:-2px; line-height:1.08; margin-bottom:18px; }
+        .hero h1 { font-size:clamp(2.6rem,5.5vw,5.2rem); font-weight:800; letter-spacing:-3px; line-height:1.05; margin-bottom:18px; font-family:'Plus Jakarta Sans',sans-serif; }
         .hero h1 .grad { display:block; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-        .typed-line { font-family:'JetBrains Mono',monospace; font-size:clamp(.88rem,1.5vw,1.05rem); color:var(--cyan); margin-bottom:24px; min-height:28px; }
+        .typed-line { font-family:'IBM Plex Mono',monospace; font-size:clamp(.88rem,1.5vw,1.05rem); color:var(--cyan); margin-bottom:24px; min-height:28px; }
         .cursor { animation:blink 1s infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         .hero-desc { font-size:clamp(.9rem,1.2vw,.98rem); color:var(--muted); line-height:1.9; max-width:500px; margin-bottom:40px; }
@@ -219,7 +223,7 @@ export default function Home() {
           display:inline-flex; align-items:center; gap:9px;
           padding:15px 30px; border-radius:8px; border:none;
           background:var(--grad); color:var(--bg);
-          font-family:'Syne',sans-serif; font-weight:800; font-size:.9rem;
+          font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:.9rem;
           cursor:pointer; text-decoration:none; transition:all .25s;
         }
         .btn-g:hover { opacity:.87; transform:translateY(-2px); box-shadow:0 14px 32px rgba(0,245,212,.28); }
@@ -227,7 +231,7 @@ export default function Home() {
           display:inline-flex; align-items:center; gap:9px;
           padding:14px 30px; border-radius:8px;
           border:1px solid rgba(255,255,255,.15); background:transparent;
-          color:var(--text); font-family:'Syne',sans-serif; font-weight:700;
+          color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;
           font-size:.9rem; cursor:pointer; text-decoration:none; transition:all .25s;
         }
         .btn-o:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,245,212,.05); transform:translateY(-2px); }
@@ -251,7 +255,7 @@ export default function Home() {
         .s-inner { max-width:1400px; margin:0 auto; }
         .s-eyebrow {
           display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;
-          font-family:'JetBrains Mono',monospace; font-size:.65rem; letter-spacing:4px;
+          font-family:'IBM Plex Mono',monospace; font-size:.65rem; letter-spacing:4px;
           text-transform:uppercase; color:var(--cyan);
         }
         .s-eyebrow::before { content:''; width:22px; height:1px; background:var(--cyan); }
@@ -265,15 +269,15 @@ export default function Home() {
         /* ── ABOUT ── */
         .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(40px,6vw,80px); align-items:start; }
         .about-p { font-size:.95rem; color:var(--muted); line-height:1.95; margin-bottom:18px; }
-        .skills-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
+        .skills-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
         .chips { display:flex; flex-wrap:wrap; gap:7px; }
-        .chip { padding:5px 12px; border-radius:4px; background:rgba(0,245,212,.07); border:1px solid rgba(0,245,212,.16); font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--cyan); transition:all .2s; cursor:default; }
+        .chip { padding:5px 12px; border-radius:4px; background:rgba(0,245,212,.07); border:1px solid rgba(0,245,212,.16); font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--cyan); transition:all .2s; cursor:default; }
         .chip:hover { background:var(--cyan); color:var(--bg); transform:translateY(-2px); }
         .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
         .stat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:26px; text-align:center; transition:all .3s; backdrop-filter:blur(10px); }
         .stat-card:hover { border-color:var(--bh); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,245,212,.1); }
         .stat-n { font-size:clamp(2rem,2.8vw,2.6rem); font-weight:800; color:var(--cyan); line-height:1; margin-bottom:6px; }
-        .stat-l { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; }
+        .stat-l { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; }
 
         /* ── SERVICES ── */
         .srv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.06); border-radius:14px; overflow:hidden; }
@@ -281,7 +285,7 @@ export default function Home() {
         .srv-card:hover { background:rgba(0,245,212,.03); }
         .srv-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--grad); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
         .srv-card:hover::after { transform:scaleX(1); }
-        .srv-n { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:14px; }
+        .srv-n { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:14px; }
         .srv-icon { font-size:1.6rem; color:var(--cyan); display:block; margin-bottom:16px; }
         .srv-title { font-size:1rem; font-weight:700; margin-bottom:10px; }
         .srv-desc { font-size:.84rem; color:var(--muted); line-height:1.75; }
@@ -298,14 +302,14 @@ export default function Home() {
         .proj-card.small .proj-img img  { height:180px; }
         .proj-card:hover .proj-img img { transform:scale(1.07); }
         .proj-body { padding:22px; flex:1; display:flex; flex-direction:column; }
-        .feat-tag { font-family:'JetBrains Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
-        .proj-year { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
+        .feat-tag { font-family:'IBM Plex Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
+        .proj-year { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
         .proj-title { font-size:1.1rem; font-weight:800; margin-bottom:10px; }
         .proj-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:16px; flex:1; }
         .proj-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-        .proj-tag { font-family:'JetBrains Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; }
+        .proj-tag { font-family:'IBM Plex Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; }
         .proj-links { display:flex; gap:18px; margin-top:auto; }
-        .proj-link { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+        .proj-link { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
         .proj-link:hover { color:var(--cyan); }
 
         /* ── CERTS ── */
@@ -313,12 +317,12 @@ export default function Home() {
         .cert-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; position:relative; overflow:hidden; transition:all .35s; backdrop-filter:blur(8px); }
         .cert-card:hover { transform:translateY(-5px); box-shadow:0 22px 50px rgba(0,0,0,.4); }
         .cert-strip { position:absolute; top:0; left:0; right:0; height:3px; }
-        .cert-badge { width:50px; height:50px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:800; font-size:.78rem; margin-bottom:18px; transition:transform .3s; }
+        .cert-badge { width:50px; height:50px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:.78rem; margin-bottom:18px; transition:transform .3s; }
         .cert-card:hover .cert-badge { transform:scale(1.08); }
         .cert-title { font-size:1.05rem; font-weight:800; margin-bottom:5px; }
-        .cert-org { font-family:'JetBrains Mono',monospace; font-size:.68rem; margin-bottom:12px; }
+        .cert-org { font-family:'IBM Plex Mono',monospace; font-size:.68rem; margin-bottom:12px; }
         .cert-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:14px; }
-        .cert-date { font-family:'JetBrains Mono',monospace; font-size:.68rem; }
+        .cert-date { font-family:'IBM Plex Mono',monospace; font-size:.68rem; }
 
         /* ── COFFEE ── */
         .coffee-wrap { max-width:800px; margin:0 auto; text-align:center; }
@@ -332,7 +336,7 @@ export default function Home() {
         .pay-icon { font-size:1.7rem; }
         .pay-name { font-size:1.05rem; font-weight:800; }
         .pay-desc { font-size:.84rem; color:var(--muted); line-height:1.6; margin-bottom:20px; }
-        .crypto-box { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; }
+        .crypto-box { font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; }
         .crypto-box strong { color:var(--text); }
         .crypto-box em { color:var(--cyan); font-style:normal; }
 
@@ -344,7 +348,7 @@ export default function Home() {
         .contact-item:hover { transform:translateX(8px); }
         .contact-icon { width:44px; height:44px; border-radius:10px; background:rgba(0,245,212,.08); border:1px solid rgba(0,245,212,.18); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; transition:all .2s; }
         .contact-item:hover .contact-icon { background:var(--cyan); color:var(--bg); }
-        .contact-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
+        .contact-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
         .contact-val { font-size:.9rem; color:var(--text); text-decoration:none; transition:color .2s; }
         .contact-val:hover { color:var(--cyan); }
         .socials { display:flex; gap:10px; margin-top:28px; }
@@ -353,8 +357,8 @@ export default function Home() {
         .contact-form { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:clamp(24px,4vw,40px); backdrop-filter:blur(10px); }
         .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
         .form-group { display:flex; flex-direction:column; gap:7px; margin-bottom:16px; }
-        .form-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
-        .form-in, .form-ta { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:8px; padding:13px 15px; color:var(--text); font-family:'Syne',sans-serif; font-size:.9rem; outline:none; transition:all .25s; width:100%; }
+        .form-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
+        .form-in, .form-ta { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:8px; padding:13px 15px; color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; outline:none; transition:all .25s; width:100%; }
         .form-in:focus, .form-ta:focus { border-color:var(--cyan); background:rgba(0,245,212,.04); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
         .form-ta { min-height:130px; resize:vertical; }
 
@@ -368,7 +372,7 @@ export default function Home() {
         .footer-nav a:hover { color:var(--cyan); }
         .wa-btn { display:inline-flex; align-items:center; gap:8px; background:#25D366; color:#fff; padding:9px 20px; border-radius:30px; font-size:.83rem; font-weight:700; text-decoration:none; transition:all .25s; }
         .wa-btn:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 10px 22px rgba(37,211,102,.28); }
-        .footer-copy { font-family:'JetBrains Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
+        .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
 
         /* ── MODAL ── */
         .modal-ov { display:none; position:fixed; inset:0; z-index:1000; background:rgba(4,4,13,.88); backdrop-filter:blur(20px); align-items:center; justify-content:center; padding:20px; }
@@ -381,14 +385,32 @@ export default function Home() {
         .mx:hover { color:var(--text); transform:rotate(90deg); }
         .msub { font-size:.88rem; color:var(--muted); margin-bottom:22px; }
         .amts { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
-        .ab { padding:12px 5px; border:1px solid var(--border); border-radius:6px; background:none; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:.85rem; font-weight:700; cursor:pointer; transition:all .2s; }
+        .ab { padding:12px 5px; border:1px solid var(--border); border-radius:6px; background:none; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:.85rem; font-weight:700; cursor:pointer; transition:all .2s; }
         .ab:hover, .ab.on { background:var(--cyan); color:var(--bg); border-color:var(--cyan); }
-        .mi { width:100%; padding:13px 15px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:.9rem; outline:none; margin-bottom:14px; transition:all .25s; }
+        .mi { width:100%; padding:13px 15px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:.9rem; outline:none; margin-bottom:14px; transition:all .25s; }
         .mi:focus { border-color:var(--cyan); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
 
         /* ── TOAST ── */
-        .toast { position:fixed; bottom:22px; right:22px; z-index:2000; background:#00ff88; color:#001a0a; padding:14px 22px; border-radius:8px; font-weight:800; font-family:'Syne',sans-serif; box-shadow:0 10px 32px rgba(0,255,136,.3); animation:slideUp .3s ease; max-width:320px; }
+        .toast { position:fixed; bottom:22px; right:22px; z-index:2000; background:#00ff88; color:#001a0a; padding:14px 22px; border-radius:8px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif; box-shadow:0 10px 32px rgba(0,255,136,.3); animation:slideUp .3s ease; max-width:320px; }
 
+
+        /* ── PGP ── */
+        .pgp-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:clamp(30px,5vw,60px); align-items:start; }
+        .pgp-intro { font-size:.95rem; color:var(--muted); line-height:1.9; margin-bottom:28px; }
+        .pgp-meta { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+        .pgp-row { display:flex; gap:16px; align-items:baseline; }
+        .pgp-lbl { font-family:'IBM Plex Mono',monospace; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); min-width:90px; flex-shrink:0; }
+        .pgp-val { font-size:.88rem; color:var(--text); }
+        .pgp-val.mono { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--cyan); word-break:break-all; }
+        .pgp-actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+        .pgp-block { background:rgba(0,0,0,.4); border:1px solid rgba(0,245,212,.2); border-radius:12px; overflow:hidden; }
+        .pgp-block-header { display:flex; justify-content:space-between; align-items:center; padding:12px 18px; border-bottom:1px solid rgba(0,245,212,.12); background:rgba(0,245,212,.04); }
+        .pgp-copy-btn { background:none; border:1px solid rgba(0,245,212,.25); border-radius:4px; color:var(--cyan); font-family:'IBM Plex Mono',monospace; font-size:.68rem; padding:4px 10px; cursor:pointer; transition:all .2s; }
+        .pgp-copy-btn:hover { background:rgba(0,245,212,.1); }
+        .pgp-key-text { font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:rgba(0,245,212,.6); line-height:1.7; padding:18px; margin:0; white-space:pre-wrap; word-break:break-all; max-height:280px; overflow-y:auto; }
+        .pgp-key-text::-webkit-scrollbar { width:3px; }
+        .pgp-key-text::-webkit-scrollbar-thumb { background:rgba(0,245,212,.3); }
+        @media (max-width:900px) { .pgp-grid { grid-template-columns:1fr; } }
         /* ── RESPONSIVE ── */
         @media (max-width:1024px) {
           .proj-card.large, .proj-card.small { grid-column:span 6; }
@@ -433,7 +455,7 @@ export default function Home() {
 
       {/* Three.js — lazy loaded, won't block render */}
       <Suspense fallback={null}>
-        <ThreeBackground heroRef={heroRef} />
+        <ThreeBackground />
       </Suspense>
 
       {/* ── HERO ── */}
@@ -450,7 +472,9 @@ export default function Home() {
             </div>
           </div>
           <div className="hero-canvas-wrap">
-            <canvas ref={heroRef} />
+            <Suspense fallback={<div style={{width:500,height:500,display:'flex',alignItems:'center',justifyContent:'center',color:'rgba(0,245,212,.3)',fontFamily:'IBM Plex Mono',fontSize:'.8rem'}}>initializing...</div>}>
+              <AiBrain />
+            </Suspense>
           </div>
         </div>
       </section>
@@ -630,6 +654,60 @@ export default function Home() {
                   <button type="submit" className="btn-g" style={{width:'100%',justifyContent:'center',padding:'16px'}}>Send Message ↗</button>
                 </form>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ── PGP SIGNATURE ── */}
+      <section id="pgp" className="section">
+        <div className="s-inner">
+          <div className="s-eyebrow reveal">Cryptographic Identity</div>
+          <h2 className="s-title reveal">PGP <em>Signature</em></h2>
+          <div className="pgp-grid reveal">
+            <div className="pgp-info">
+              <div className="pgp-intro">
+                Verify my identity cryptographically. All official communications, signed commits, and security advisories are signed with my PGP key. If it's not signed, it's not me.
+              </div>
+              <div className="pgp-meta">
+                <div className="pgp-row"><span className="pgp-lbl">Key ID</span><span className="pgp-val mono">0xDEAD BEEF CAFE 1337</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Algorithm</span><span className="pgp-val mono">RSA-4096</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Fingerprint</span><span className="pgp-val mono" style={{fontSize:'.7rem'}}>DEAD BEEF CAFE 1337 0000 DEAD BEEF CAFE 1337 0000</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Created</span><span className="pgp-val mono">2023-01-01</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Expires</span><span className="pgp-val mono">Never</span></div>
+              </div>
+              <div className="pgp-actions">
+                <a href="https://keys.openpgp.org" target="_blank" rel="noreferrer" className="btn-g" style={{display:'inline-flex',alignItems:'center',gap:8,padding:'13px 24px',fontSize:'.88rem'}}>
+                  🔑 Fetch from Keyserver
+                </a>
+                <button className="btn-o" style={{padding:'12px 22px',fontSize:'.88rem'}}
+                  onClick={()=>{navigator.clipboard?.writeText('-----BEGIN PGP PUBLIC KEY BLOCK-----\n[Replace with your real key]\n-----END PGP PUBLIC KEY BLOCK-----');showToast('PGP key copied to clipboard 🔑');}}>
+                  Copy Key
+                </button>
+              </div>
+            </div>
+            <div className="pgp-block">
+              <div className="pgp-block-header">
+                <span className="mono" style={{fontSize:'.65rem',color:'var(--muted)',letterSpacing:'2px'}}>PUBLIC KEY BLOCK</span>
+                <button className="pgp-copy-btn" onClick={()=>{navigator.clipboard?.writeText(document.querySelector('.pgp-key-text')?.textContent||'');showToast('PGP key copied! 🔑');}}>⎘ copy</button>
+              </div>
+              <pre className="pgp-key-text">
+{`-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+[Replace this with your actual PGP public key block.
+Generate one with: gpg --full-generate-key
+Export with: gpg --armor --export your@email.com
+
+Your key will look like a long block of random
+base64-encoded text here. Keep your private key
+safe — never share it.]
+
+mQINBF...AAAA...BBBB...CCCC
+[your actual key data here]
+...
+-----END PGP PUBLIC KEY BLOCK-----`}
+              </pre>
             </div>
           </div>
         </div>

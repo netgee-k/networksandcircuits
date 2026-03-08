@@ -17,6 +17,8 @@ var _s = __turbopack_context__.k.signature();
 ;
 const ThreeBackground = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["lazy"])(()=>__turbopack_context__.A("[project]/networksandcircuits/src/components/ThreeBackground.tsx [app-client] (ecmascript, async loader)"));
 _c = ThreeBackground;
+const AiBrain = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["lazy"])(()=>__turbopack_context__.A("[project]/networksandcircuits/src/components/AiBrain.tsx [app-client] (ecmascript, async loader)"));
+_c1 = AiBrain;
 const CONFIG = {
     paystack: {
         publicKey: ("TURBOPACK compile-time value", "pk_live_your_real_key_here") || 'pk_test_your_key_here',
@@ -302,6 +304,8 @@ function Home() {
         setModal(null);
         showToast('Redirecting to Binance Pay...');
     };
+    // Format KES amount for display
+    const formatKES = (amt)=>amt >= 1000 ? `KES ${(amt / 1000).toFixed(amt % 1000 === 0 ? 0 : 1)}k` : `KES ${amt}`;
     const handlePaystackPay = ()=>{
         const amount = (parseFloat(custP) || selP) * 100;
         const email = psEmail || CONFIG.paystack.emailFallback;
@@ -344,7 +348,7 @@ function Home() {
                 strategy: "lazyOnload"
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 121,
+                lineNumber: 125,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("style", {
@@ -365,7 +369,7 @@ function Home() {
         }
         *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
         html { scroll-behavior:smooth; overflow-x:hidden; }
-        body { font-family:'Syne',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; min-height:100vh; }
+        body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; min-height:100vh; }
         ::selection { background:var(--cyan); color:var(--bg); }
         ::-webkit-scrollbar { width:5px; }
         ::-webkit-scrollbar-thumb { background:var(--grad); border-radius:3px; }
@@ -400,7 +404,7 @@ function Home() {
         .nav-logo em { color:var(--cyan); font-style:normal; }
         .nav-links { display:flex; gap:36px; list-style:none; }
         .nav-links a {
-          font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:500;
+          font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:500;
           letter-spacing:2px; text-transform:uppercase; color:var(--muted);
           text-decoration:none; transition:color .2s; position:relative; padding-bottom:3px;
         }
@@ -432,13 +436,13 @@ function Home() {
         .hero-inner { max-width:1400px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; width:100%; }
         .eyebrow {
           display:inline-flex; align-items:center; gap:10px; margin-bottom:28px;
-          font-family:'JetBrains Mono',monospace; font-size:.68rem; letter-spacing:4px;
+          font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:4px;
           text-transform:uppercase; color:var(--cyan);
         }
         .eyebrow::before { content:''; width:28px; height:1px; background:var(--cyan); }
-        .hero h1 { font-size:clamp(2.5rem,5.5vw,5rem); font-weight:800; letter-spacing:-2px; line-height:1.08; margin-bottom:18px; }
+        .hero h1 { font-size:clamp(2.6rem,5.5vw,5.2rem); font-weight:800; letter-spacing:-3px; line-height:1.05; margin-bottom:18px; font-family:'Plus Jakarta Sans',sans-serif; }
         .hero h1 .grad { display:block; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-        .typed-line { font-family:'JetBrains Mono',monospace; font-size:clamp(.88rem,1.5vw,1.05rem); color:var(--cyan); margin-bottom:24px; min-height:28px; }
+        .typed-line { font-family:'IBM Plex Mono',monospace; font-size:clamp(.88rem,1.5vw,1.05rem); color:var(--cyan); margin-bottom:24px; min-height:28px; }
         .cursor { animation:blink 1s infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         .hero-desc { font-size:clamp(.9rem,1.2vw,.98rem); color:var(--muted); line-height:1.9; max-width:500px; margin-bottom:40px; }
@@ -447,7 +451,7 @@ function Home() {
           display:inline-flex; align-items:center; gap:9px;
           padding:15px 30px; border-radius:8px; border:none;
           background:var(--grad); color:var(--bg);
-          font-family:'Syne',sans-serif; font-weight:800; font-size:.9rem;
+          font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:.9rem;
           cursor:pointer; text-decoration:none; transition:all .25s;
         }
         .btn-g:hover { opacity:.87; transform:translateY(-2px); box-shadow:0 14px 32px rgba(0,245,212,.28); }
@@ -455,7 +459,7 @@ function Home() {
           display:inline-flex; align-items:center; gap:9px;
           padding:14px 30px; border-radius:8px;
           border:1px solid rgba(255,255,255,.15); background:transparent;
-          color:var(--text); font-family:'Syne',sans-serif; font-weight:700;
+          color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-weight:700;
           font-size:.9rem; cursor:pointer; text-decoration:none; transition:all .25s;
         }
         .btn-o:hover { border-color:var(--cyan); color:var(--cyan); background:rgba(0,245,212,.05); transform:translateY(-2px); }
@@ -479,7 +483,7 @@ function Home() {
         .s-inner { max-width:1400px; margin:0 auto; }
         .s-eyebrow {
           display:inline-flex; align-items:center; gap:10px; margin-bottom:14px;
-          font-family:'JetBrains Mono',monospace; font-size:.65rem; letter-spacing:4px;
+          font-family:'IBM Plex Mono',monospace; font-size:.65rem; letter-spacing:4px;
           text-transform:uppercase; color:var(--cyan);
         }
         .s-eyebrow::before { content:''; width:22px; height:1px; background:var(--cyan); }
@@ -493,15 +497,15 @@ function Home() {
         /* ── ABOUT ── */
         .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(40px,6vw,80px); align-items:start; }
         .about-p { font-size:.95rem; color:var(--muted); line-height:1.95; margin-bottom:18px; }
-        .skills-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
+        .skills-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
         .chips { display:flex; flex-wrap:wrap; gap:7px; }
-        .chip { padding:5px 12px; border-radius:4px; background:rgba(0,245,212,.07); border:1px solid rgba(0,245,212,.16); font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--cyan); transition:all .2s; cursor:default; }
+        .chip { padding:5px 12px; border-radius:4px; background:rgba(0,245,212,.07); border:1px solid rgba(0,245,212,.16); font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--cyan); transition:all .2s; cursor:default; }
         .chip:hover { background:var(--cyan); color:var(--bg); transform:translateY(-2px); }
         .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
         .stat-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:26px; text-align:center; transition:all .3s; backdrop-filter:blur(10px); }
         .stat-card:hover { border-color:var(--bh); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,245,212,.1); }
         .stat-n { font-size:clamp(2rem,2.8vw,2.6rem); font-weight:800; color:var(--cyan); line-height:1; margin-bottom:6px; }
-        .stat-l { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; }
+        .stat-l { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; }
 
         /* ── SERVICES ── */
         .srv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.06); border-radius:14px; overflow:hidden; }
@@ -509,7 +513,7 @@ function Home() {
         .srv-card:hover { background:rgba(0,245,212,.03); }
         .srv-card::after { content:''; position:absolute; bottom:0; left:0; width:100%; height:2px; background:var(--grad); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
         .srv-card:hover::after { transform:scaleX(1); }
-        .srv-n { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:14px; }
+        .srv-n { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:14px; }
         .srv-icon { font-size:1.6rem; color:var(--cyan); display:block; margin-bottom:16px; }
         .srv-title { font-size:1rem; font-weight:700; margin-bottom:10px; }
         .srv-desc { font-size:.84rem; color:var(--muted); line-height:1.75; }
@@ -526,14 +530,14 @@ function Home() {
         .proj-card.small .proj-img img  { height:180px; }
         .proj-card:hover .proj-img img { transform:scale(1.07); }
         .proj-body { padding:22px; flex:1; display:flex; flex-direction:column; }
-        .feat-tag { font-family:'JetBrains Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
-        .proj-year { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
+        .feat-tag { font-family:'IBM Plex Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
+        .proj-year { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
         .proj-title { font-size:1.1rem; font-weight:800; margin-bottom:10px; }
         .proj-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:16px; flex:1; }
         .proj-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-        .proj-tag { font-family:'JetBrains Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; }
+        .proj-tag { font-family:'IBM Plex Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; }
         .proj-links { display:flex; gap:18px; margin-top:auto; }
-        .proj-link { font-family:'JetBrains Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+        .proj-link { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
         .proj-link:hover { color:var(--cyan); }
 
         /* ── CERTS ── */
@@ -541,12 +545,12 @@ function Home() {
         .cert-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; position:relative; overflow:hidden; transition:all .35s; backdrop-filter:blur(8px); }
         .cert-card:hover { transform:translateY(-5px); box-shadow:0 22px 50px rgba(0,0,0,.4); }
         .cert-strip { position:absolute; top:0; left:0; right:0; height:3px; }
-        .cert-badge { width:50px; height:50px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:800; font-size:.78rem; margin-bottom:18px; transition:transform .3s; }
+        .cert-badge { width:50px; height:50px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:.78rem; margin-bottom:18px; transition:transform .3s; }
         .cert-card:hover .cert-badge { transform:scale(1.08); }
         .cert-title { font-size:1.05rem; font-weight:800; margin-bottom:5px; }
-        .cert-org { font-family:'JetBrains Mono',monospace; font-size:.68rem; margin-bottom:12px; }
+        .cert-org { font-family:'IBM Plex Mono',monospace; font-size:.68rem; margin-bottom:12px; }
         .cert-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:14px; }
-        .cert-date { font-family:'JetBrains Mono',monospace; font-size:.68rem; }
+        .cert-date { font-family:'IBM Plex Mono',monospace; font-size:.68rem; }
 
         /* ── COFFEE ── */
         .coffee-wrap { max-width:800px; margin:0 auto; text-align:center; }
@@ -560,7 +564,7 @@ function Home() {
         .pay-icon { font-size:1.7rem; }
         .pay-name { font-size:1.05rem; font-weight:800; }
         .pay-desc { font-size:.84rem; color:var(--muted); line-height:1.6; margin-bottom:20px; }
-        .crypto-box { font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; }
+        .crypto-box { font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; }
         .crypto-box strong { color:var(--text); }
         .crypto-box em { color:var(--cyan); font-style:normal; }
 
@@ -572,7 +576,7 @@ function Home() {
         .contact-item:hover { transform:translateX(8px); }
         .contact-icon { width:44px; height:44px; border-radius:10px; background:rgba(0,245,212,.08); border:1px solid rgba(0,245,212,.18); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; transition:all .2s; }
         .contact-item:hover .contact-icon { background:var(--cyan); color:var(--bg); }
-        .contact-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
+        .contact-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
         .contact-val { font-size:.9rem; color:var(--text); text-decoration:none; transition:color .2s; }
         .contact-val:hover { color:var(--cyan); }
         .socials { display:flex; gap:10px; margin-top:28px; }
@@ -581,8 +585,8 @@ function Home() {
         .contact-form { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:clamp(24px,4vw,40px); backdrop-filter:blur(10px); }
         .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
         .form-group { display:flex; flex-direction:column; gap:7px; margin-bottom:16px; }
-        .form-lbl { font-family:'JetBrains Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
-        .form-in, .form-ta { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:8px; padding:13px 15px; color:var(--text); font-family:'Syne',sans-serif; font-size:.9rem; outline:none; transition:all .25s; width:100%; }
+        .form-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; }
+        .form-in, .form-ta { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:8px; padding:13px 15px; color:var(--text); font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; outline:none; transition:all .25s; width:100%; }
         .form-in:focus, .form-ta:focus { border-color:var(--cyan); background:rgba(0,245,212,.04); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
         .form-ta { min-height:130px; resize:vertical; }
 
@@ -596,7 +600,7 @@ function Home() {
         .footer-nav a:hover { color:var(--cyan); }
         .wa-btn { display:inline-flex; align-items:center; gap:8px; background:#25D366; color:#fff; padding:9px 20px; border-radius:30px; font-size:.83rem; font-weight:700; text-decoration:none; transition:all .25s; }
         .wa-btn:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 10px 22px rgba(37,211,102,.28); }
-        .footer-copy { font-family:'JetBrains Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
+        .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
 
         /* ── MODAL ── */
         .modal-ov { display:none; position:fixed; inset:0; z-index:1000; background:rgba(4,4,13,.88); backdrop-filter:blur(20px); align-items:center; justify-content:center; padding:20px; }
@@ -609,14 +613,32 @@ function Home() {
         .mx:hover { color:var(--text); transform:rotate(90deg); }
         .msub { font-size:.88rem; color:var(--muted); margin-bottom:22px; }
         .amts { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:14px; }
-        .ab { padding:12px 5px; border:1px solid var(--border); border-radius:6px; background:none; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:.85rem; font-weight:700; cursor:pointer; transition:all .2s; }
+        .ab { padding:12px 5px; border:1px solid var(--border); border-radius:6px; background:none; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:.85rem; font-weight:700; cursor:pointer; transition:all .2s; }
         .ab:hover, .ab.on { background:var(--cyan); color:var(--bg); border-color:var(--cyan); }
-        .mi { width:100%; padding:13px 15px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:.9rem; outline:none; margin-bottom:14px; transition:all .25s; }
+        .mi { width:100%; padding:13px 15px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:.9rem; outline:none; margin-bottom:14px; transition:all .25s; }
         .mi:focus { border-color:var(--cyan); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
 
         /* ── TOAST ── */
-        .toast { position:fixed; bottom:22px; right:22px; z-index:2000; background:#00ff88; color:#001a0a; padding:14px 22px; border-radius:8px; font-weight:800; font-family:'Syne',sans-serif; box-shadow:0 10px 32px rgba(0,255,136,.3); animation:slideUp .3s ease; max-width:320px; }
+        .toast { position:fixed; bottom:22px; right:22px; z-index:2000; background:#00ff88; color:#001a0a; padding:14px 22px; border-radius:8px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif; box-shadow:0 10px 32px rgba(0,255,136,.3); animation:slideUp .3s ease; max-width:320px; }
 
+
+        /* ── PGP ── */
+        .pgp-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:clamp(30px,5vw,60px); align-items:start; }
+        .pgp-intro { font-size:.95rem; color:var(--muted); line-height:1.9; margin-bottom:28px; }
+        .pgp-meta { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+        .pgp-row { display:flex; gap:16px; align-items:baseline; }
+        .pgp-lbl { font-family:'IBM Plex Mono',monospace; font-size:.65rem; letter-spacing:2px; text-transform:uppercase; color:var(--muted); min-width:90px; flex-shrink:0; }
+        .pgp-val { font-size:.88rem; color:var(--text); }
+        .pgp-val.mono { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--cyan); word-break:break-all; }
+        .pgp-actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+        .pgp-block { background:rgba(0,0,0,.4); border:1px solid rgba(0,245,212,.2); border-radius:12px; overflow:hidden; }
+        .pgp-block-header { display:flex; justify-content:space-between; align-items:center; padding:12px 18px; border-bottom:1px solid rgba(0,245,212,.12); background:rgba(0,245,212,.04); }
+        .pgp-copy-btn { background:none; border:1px solid rgba(0,245,212,.25); border-radius:4px; color:var(--cyan); font-family:'IBM Plex Mono',monospace; font-size:.68rem; padding:4px 10px; cursor:pointer; transition:all .2s; }
+        .pgp-copy-btn:hover { background:rgba(0,245,212,.1); }
+        .pgp-key-text { font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:rgba(0,245,212,.6); line-height:1.7; padding:18px; margin:0; white-space:pre-wrap; word-break:break-all; max-height:280px; overflow-y:auto; }
+        .pgp-key-text::-webkit-scrollbar { width:3px; }
+        .pgp-key-text::-webkit-scrollbar-thumb { background:rgba(0,245,212,.3); }
+        @media (max-width:900px) { .pgp-grid { grid-template-columns:1fr; } }
         /* ── RESPONSIVE ── */
         @media (max-width:1024px) {
           .proj-card.large, .proj-card.small { grid-column:span 6; }
@@ -641,7 +663,7 @@ function Home() {
       `
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 123,
+                lineNumber: 127,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -658,13 +680,13 @@ function Home() {
                                     children: "."
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 418,
+                                    lineNumber: 440,
                                     columnNumber: 49
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 418,
+                            lineNumber: 440,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -675,17 +697,17 @@ function Home() {
                                         children: n === 'Coffee' ? '☕ Coffee' : n
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 420,
+                                        lineNumber: 442,
                                         columnNumber: 37
                                     }, this)
                                 }, n, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 420,
+                                    lineNumber: 442,
                                     columnNumber: 25
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 419,
+                            lineNumber: 441,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -695,34 +717,34 @@ function Home() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 423,
+                                    lineNumber: 445,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 423,
+                                    lineNumber: 445,
                                     columnNumber: 20
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 423,
+                                    lineNumber: 445,
                                     columnNumber: 27
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 422,
+                            lineNumber: 444,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 417,
+                    lineNumber: 439,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 416,
+                lineNumber: 438,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -734,7 +756,7 @@ function Home() {
                         children: "✕"
                     }, void 0, false, {
                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                        lineNumber: 430,
+                        lineNumber: 452,
                         columnNumber: 9
                     }, this),
                     NAV.map((n)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -743,27 +765,25 @@ function Home() {
                             children: n === 'Coffee' ? '☕ Coffee' : n
                         }, n, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 431,
+                            lineNumber: 453,
                             columnNumber: 21
                         }, this))
                 ]
             }, void 0, true, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 429,
+                lineNumber: 451,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
                 fallback: null,
-                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ThreeBackground, {
-                    heroRef: heroRef
-                }, void 0, false, {
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(ThreeBackground, {}, void 0, false, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 436,
+                    lineNumber: 458,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 435,
+                lineNumber: 457,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -779,7 +799,7 @@ function Home() {
                                     children: "Available for freelance"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 443,
+                                    lineNumber: 465,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
@@ -790,13 +810,13 @@ function Home() {
                                             children: "Jesse Kimani"
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 444,
+                                            lineNumber: 466,
                                             columnNumber: 29
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 444,
+                                    lineNumber: 466,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -808,13 +828,13 @@ function Home() {
                                             children: "|"
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 445,
+                                            lineNumber: 467,
                                             columnNumber: 48
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 445,
+                                    lineNumber: 467,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -822,7 +842,7 @@ function Home() {
                                     children: "Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. I break things so others don't have to."
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 446,
+                                    lineNumber: 468,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -834,7 +854,7 @@ function Home() {
                                             children: "⬡ View Projects"
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 448,
+                                            lineNumber: 470,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -843,44 +863,65 @@ function Home() {
                                             children: "✉ Contact Me"
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 449,
+                                            lineNumber: 471,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 447,
+                                    lineNumber: 469,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 442,
+                            lineNumber: 464,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "hero-canvas-wrap",
-                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("canvas", {
-                                ref: heroRef
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Suspense"], {
+                                fallback: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        width: 500,
+                                        height: 500,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'rgba(0,245,212,.3)',
+                                        fontFamily: 'IBM Plex Mono',
+                                        fontSize: '.8rem'
+                                    },
+                                    children: "initializing..."
+                                }, void 0, false, {
+                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                    lineNumber: 475,
+                                    columnNumber: 33
+                                }, void 0),
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(AiBrain, {}, void 0, false, {
+                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                    lineNumber: 476,
+                                    columnNumber: 15
+                                }, this)
                             }, void 0, false, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 453,
+                                lineNumber: 475,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 452,
+                            lineNumber: 474,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 441,
+                    lineNumber: 463,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 440,
+                lineNumber: 462,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -894,7 +935,7 @@ function Home() {
                             children: "Who I Am"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 461,
+                            lineNumber: 485,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -903,21 +944,21 @@ function Home() {
                                 "Network &",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 462,
+                                    lineNumber: 486,
                                     columnNumber: 55
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                     children: "Cybersecurity"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 462,
+                                    lineNumber: 486,
                                     columnNumber: 61
                                 }, this),
                                 " Pro"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 462,
+                            lineNumber: 486,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -931,7 +972,7 @@ function Home() {
                                             children: "Experienced Network Engineer and Penetration Tester specializing in secure infrastructure design, vulnerability assessment, and threat mitigation. CompTIA PenTest+ certified with hands-on expertise across the full attack and defense lifecycle."
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 465,
+                                            lineNumber: 489,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -939,7 +980,7 @@ function Home() {
                                             children: "I help organizations build resilient systems ensuring data confidentiality, integrity, and availability through comprehensive security and optimized network design."
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 466,
+                                            lineNumber: 490,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -947,7 +988,7 @@ function Home() {
                                             children: "Technical Arsenal"
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 467,
+                                            lineNumber: 491,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -957,18 +998,18 @@ function Home() {
                                                     children: s
                                                 }, s, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 468,
+                                                    lineNumber: 492,
                                                     columnNumber: 53
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 468,
+                                            lineNumber: 492,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 464,
+                                    lineNumber: 488,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1003,7 +1044,7 @@ function Home() {
                                                         children: n
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 474,
+                                                        lineNumber: 498,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1011,40 +1052,40 @@ function Home() {
                                                         children: l
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 475,
+                                                        lineNumber: 499,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, l, true, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 473,
+                                                lineNumber: 497,
                                                 columnNumber: 19
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 471,
+                                        lineNumber: 495,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 470,
+                                    lineNumber: 494,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 463,
+                            lineNumber: 487,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 460,
+                    lineNumber: 484,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 459,
+                lineNumber: 483,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1058,7 +1099,7 @@ function Home() {
                             children: "What I Do"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 487,
+                            lineNumber: 511,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1067,20 +1108,20 @@ function Home() {
                                 "Professional",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 488,
+                                    lineNumber: 512,
                                     columnNumber: 54
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                     children: "Services"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 488,
+                                    lineNumber: 512,
                                     columnNumber: 60
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 488,
+                            lineNumber: 512,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1096,7 +1137,7 @@ function Home() {
                                             children: s.n
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 492,
+                                            lineNumber: 516,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1104,7 +1145,7 @@ function Home() {
                                             children: s.icon
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 493,
+                                            lineNumber: 517,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1112,7 +1153,7 @@ function Home() {
                                             children: s.title
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 494,
+                                            lineNumber: 518,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1120,29 +1161,29 @@ function Home() {
                                             children: s.desc
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 495,
+                                            lineNumber: 519,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, s.title, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 491,
+                                    lineNumber: 515,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 489,
+                            lineNumber: 513,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 486,
+                    lineNumber: 510,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 485,
+                lineNumber: 509,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1156,7 +1197,7 @@ function Home() {
                             children: "My Work"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 505,
+                            lineNumber: 529,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1165,20 +1206,20 @@ function Home() {
                                 "Featured",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 506,
+                                    lineNumber: 530,
                                     columnNumber: 50
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                     children: "Projects"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 506,
+                                    lineNumber: 530,
                                     columnNumber: 56
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 506,
+                            lineNumber: 530,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1197,12 +1238,12 @@ function Home() {
                                                 loading: "lazy"
                                             }, void 0, false, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 510,
+                                                lineNumber: 534,
                                                 columnNumber: 43
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 510,
+                                            lineNumber: 534,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1213,7 +1254,7 @@ function Home() {
                                                     children: "★ FEATURED PROJECT"
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 512,
+                                                    lineNumber: 536,
                                                     columnNumber: 40
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1221,7 +1262,7 @@ function Home() {
                                                     children: p.year
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 513,
+                                                    lineNumber: 537,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1229,7 +1270,7 @@ function Home() {
                                                     children: p.title
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 514,
+                                                    lineNumber: 538,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1237,7 +1278,7 @@ function Home() {
                                                     children: p.desc
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 515,
+                                                    lineNumber: 539,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1247,12 +1288,12 @@ function Home() {
                                                             children: t
                                                         }, t, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 516,
+                                                            lineNumber: 540,
                                                             columnNumber: 61
                                                         }, this))
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 516,
+                                                    lineNumber: 540,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1266,7 +1307,7 @@ function Home() {
                                                             children: "⬡ GitHub"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 518,
+                                                            lineNumber: 542,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1275,41 +1316,41 @@ function Home() {
                                                             children: "↗ View"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 519,
+                                                            lineNumber: 543,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 517,
+                                                    lineNumber: 541,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 511,
+                                            lineNumber: 535,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, p.title, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 509,
+                                    lineNumber: 533,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 507,
+                            lineNumber: 531,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 504,
+                    lineNumber: 528,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 503,
+                lineNumber: 527,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1323,7 +1364,7 @@ function Home() {
                             children: "Credentials"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 531,
+                            lineNumber: 555,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1332,12 +1373,12 @@ function Home() {
                                 children: "Certifications"
                             }, void 0, false, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 532,
+                                lineNumber: 556,
                                 columnNumber: 42
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 532,
+                            lineNumber: 556,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1355,7 +1396,7 @@ function Home() {
                                             }
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 536,
+                                            lineNumber: 560,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1367,7 +1408,7 @@ function Home() {
                                             children: c.short
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 537,
+                                            lineNumber: 561,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1375,7 +1416,7 @@ function Home() {
                                             children: c.full
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 538,
+                                            lineNumber: 562,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1386,7 +1427,7 @@ function Home() {
                                             children: c.org
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 539,
+                                            lineNumber: 563,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1394,7 +1435,7 @@ function Home() {
                                             children: c.desc
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 540,
+                                            lineNumber: 564,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1408,29 +1449,29 @@ function Home() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 541,
+                                            lineNumber: 565,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, c.full, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 535,
+                                    lineNumber: 559,
                                     columnNumber: 15
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 533,
+                            lineNumber: 557,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 530,
+                    lineNumber: 554,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 529,
+                lineNumber: 553,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1446,7 +1487,7 @@ function Home() {
                                 children: "☕"
                             }, void 0, false, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 552,
+                                lineNumber: 576,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1457,7 +1498,7 @@ function Home() {
                                 children: "Support My Work"
                             }, void 0, false, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 553,
+                                lineNumber: 577,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1470,20 +1511,20 @@ function Home() {
                                     "Buy Me a",
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 554,
+                                        lineNumber: 578,
                                         columnNumber: 97
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                         children: "Coffee"
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 554,
+                                        lineNumber: 578,
                                         columnNumber: 103
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 554,
+                                lineNumber: 578,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1491,7 +1532,7 @@ function Home() {
                                 children: "If my open-source work, writeups, or tools have helped you — buy me a coffee! Pay via crypto on Binance or card/M-Pesa via Paystack."
                             }, void 0, false, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 555,
+                                lineNumber: 579,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1512,7 +1553,7 @@ function Home() {
                                                         children: "₿"
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 558,
+                                                        lineNumber: 582,
                                                         columnNumber: 43
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1523,13 +1564,13 @@ function Home() {
                                                         children: "Binance Pay"
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 558,
+                                                        lineNumber: 582,
                                                         columnNumber: 78
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 558,
+                                                lineNumber: 582,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1537,7 +1578,7 @@ function Home() {
                                                 children: "Send crypto instantly. Zero fees. BTC, ETH, BNB, USDT all supported."
                                             }, void 0, false, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 559,
+                                                lineNumber: 583,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1550,13 +1591,13 @@ function Home() {
                                                 children: "Pay with Crypto"
                                             }, void 0, false, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 560,
+                                                lineNumber: 584,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 557,
+                                        lineNumber: 581,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1574,7 +1615,7 @@ function Home() {
                                                         children: "💳"
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 563,
+                                                        lineNumber: 587,
                                                         columnNumber: 43
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1585,13 +1626,13 @@ function Home() {
                                                         children: "Paystack"
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 563,
+                                                        lineNumber: 587,
                                                         columnNumber: 79
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 563,
+                                                lineNumber: 587,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1599,7 +1640,7 @@ function Home() {
                                                 children: "Card, M-Pesa or bank transfer. KES, USD, NGN all supported."
                                             }, void 0, false, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 564,
+                                                lineNumber: 588,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1613,19 +1654,19 @@ function Home() {
                                                 children: "Pay with Card / M-Pesa"
                                             }, void 0, false, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 565,
+                                                lineNumber: 589,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 562,
+                                        lineNumber: 586,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 556,
+                                lineNumber: 580,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1635,38 +1676,38 @@ function Home() {
                                         children: "Direct crypto?"
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 569,
+                                        lineNumber: 593,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 569,
+                                        lineNumber: 593,
                                         columnNumber: 46
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                         children: "BTC: "
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 570,
+                                        lineNumber: 594,
                                         columnNumber: 15
                                     }, this),
                                     CRYPTO.btc,
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 570,
+                                        lineNumber: 594,
                                         columnNumber: 41
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                         children: "ETH/USDT: "
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 571,
+                                        lineNumber: 595,
                                         columnNumber: 15
                                     }, this),
                                     CRYPTO.eth,
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 571,
+                                        lineNumber: 595,
                                         columnNumber: 46
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1677,29 +1718,29 @@ function Home() {
                                         children: "* Update your real wallet addresses in .env.local before going live"
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 572,
+                                        lineNumber: 596,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                lineNumber: 568,
+                                lineNumber: 592,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                        lineNumber: 551,
+                        lineNumber: 575,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 550,
+                    lineNumber: 574,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 549,
+                lineNumber: 573,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
@@ -1713,7 +1754,7 @@ function Home() {
                             children: "Get In Touch"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 581,
+                            lineNumber: 605,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1722,20 +1763,20 @@ function Home() {
                                 "Let's",
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("br", {}, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 582,
+                                    lineNumber: 606,
                                     columnNumber: 52
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
                                     children: "Connect"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 582,
+                                    lineNumber: 606,
                                     columnNumber: 58
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 582,
+                            lineNumber: 606,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1756,13 +1797,13 @@ function Home() {
                                                     children: "amazing"
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 585,
+                                                    lineNumber: 609,
                                                     columnNumber: 73
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 585,
+                                            lineNumber: 609,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1770,7 +1811,7 @@ function Home() {
                                             children: "Always open to new projects, collaboration, or just chatting about tech and security. Reach out any time."
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 586,
+                                            lineNumber: 610,
                                             columnNumber: 15
                                         }, this),
                                         [
@@ -1800,7 +1841,7 @@ function Home() {
                                                         children: c.icon
                                                     }, void 0, false, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 593,
+                                                        lineNumber: 617,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1810,7 +1851,7 @@ function Home() {
                                                                 children: c.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                lineNumber: 595,
+                                                                lineNumber: 619,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1821,19 +1862,19 @@ function Home() {
                                                                 children: c.val
                                                             }, void 0, false, {
                                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                lineNumber: 596,
+                                                                lineNumber: 620,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                        lineNumber: 594,
+                                                        lineNumber: 618,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, c.label, true, {
                                                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                lineNumber: 592,
+                                                lineNumber: 616,
                                                 columnNumber: 17
                                             }, this)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1863,18 +1904,18 @@ function Home() {
                                                     children: s.icon
                                                 }, i, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 606,
+                                                    lineNumber: 630,
                                                     columnNumber: 30
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 600,
+                                            lineNumber: 624,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 584,
+                                    lineNumber: 608,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1898,7 +1939,7 @@ function Home() {
                                                                     children: "Name"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                    lineNumber: 614,
+                                                                    lineNumber: 638,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1912,13 +1953,13 @@ function Home() {
                                                                         })
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                    lineNumber: 615,
+                                                                    lineNumber: 639,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 613,
+                                                            lineNumber: 637,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1929,7 +1970,7 @@ function Home() {
                                                                     children: "Email"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                    lineNumber: 618,
+                                                                    lineNumber: 642,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1944,19 +1985,19 @@ function Home() {
                                                                         })
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                                    lineNumber: 619,
+                                                                    lineNumber: 643,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 617,
+                                                            lineNumber: 641,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 612,
+                                                    lineNumber: 636,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1967,7 +2008,7 @@ function Home() {
                                                             children: "Subject"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 623,
+                                                            lineNumber: 647,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1981,13 +2022,13 @@ function Home() {
                                                                 })
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 624,
+                                                            lineNumber: 648,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 622,
+                                                    lineNumber: 646,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1998,7 +2039,7 @@ function Home() {
                                                             children: "Message"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 627,
+                                                            lineNumber: 651,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -2012,13 +2053,13 @@ function Home() {
                                                                 })
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                            lineNumber: 628,
+                                                            lineNumber: 652,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 626,
+                                                    lineNumber: 650,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2032,40 +2073,352 @@ function Home() {
                                                     children: "Send Message ↗"
                                                 }, void 0, false, {
                                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                                    lineNumber: 630,
+                                                    lineNumber: 654,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                            lineNumber: 611,
+                                            lineNumber: 635,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                        lineNumber: 610,
+                                        lineNumber: 634,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 609,
+                                    lineNumber: 633,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 583,
+                            lineNumber: 607,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 580,
+                    lineNumber: 604,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 579,
+                lineNumber: 603,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("section", {
+                id: "pgp",
+                className: "section",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "s-inner",
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "s-eyebrow reveal",
+                            children: "Cryptographic Identity"
+                        }, void 0, false, {
+                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                            lineNumber: 666,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                            className: "s-title reveal",
+                            children: [
+                                "PGP ",
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("em", {
+                                    children: "Signature"
+                                }, void 0, false, {
+                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                    lineNumber: 667,
+                                    columnNumber: 46
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                            lineNumber: 667,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "pgp-grid reveal",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "pgp-info",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pgp-intro",
+                                            children: "Verify my identity cryptographically. All official communications, signed commits, and security advisories are signed with my PGP key. If it's not signed, it's not me."
+                                        }, void 0, false, {
+                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                            lineNumber: 670,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pgp-meta",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pgp-row",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-lbl",
+                                                            children: "Key ID"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 674,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-val mono",
+                                                            children: "0xDEAD BEEF CAFE 1337"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 674,
+                                                            columnNumber: 81
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 674,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pgp-row",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-lbl",
+                                                            children: "Algorithm"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 675,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-val mono",
+                                                            children: "RSA-4096"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 675,
+                                                            columnNumber: 84
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 675,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pgp-row",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-lbl",
+                                                            children: "Fingerprint"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 676,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-val mono",
+                                                            style: {
+                                                                fontSize: '.7rem'
+                                                            },
+                                                            children: "DEAD BEEF CAFE 1337 0000 DEAD BEEF CAFE 1337 0000"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 676,
+                                                            columnNumber: 86
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 676,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pgp-row",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-lbl",
+                                                            children: "Created"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 677,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-val mono",
+                                                            children: "2023-01-01"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 677,
+                                                            columnNumber: 82
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 677,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "pgp-row",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-lbl",
+                                                            children: "Expires"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 678,
+                                                            columnNumber: 42
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                            className: "pgp-val mono",
+                                                            children: "Never"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                            lineNumber: 678,
+                                                            columnNumber: 82
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 678,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                            lineNumber: 673,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pgp-actions",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                                    href: "https://keys.openpgp.org",
+                                                    target: "_blank",
+                                                    rel: "noreferrer",
+                                                    className: "btn-g",
+                                                    style: {
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: 8,
+                                                        padding: '13px 24px',
+                                                        fontSize: '.88rem'
+                                                    },
+                                                    children: "🔑 Fetch from Keyserver"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 681,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "btn-o",
+                                                    style: {
+                                                        padding: '12px 22px',
+                                                        fontSize: '.88rem'
+                                                    },
+                                                    onClick: ()=>{
+                                                        navigator.clipboard?.writeText('-----BEGIN PGP PUBLIC KEY BLOCK-----\n[Replace with your real key]\n-----END PGP PUBLIC KEY BLOCK-----');
+                                                        showToast('PGP key copied to clipboard 🔑');
+                                                    },
+                                                    children: "Copy Key"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 684,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                            lineNumber: 680,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                    lineNumber: 669,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: "pgp-block",
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "pgp-block-header",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    className: "mono",
+                                                    style: {
+                                                        fontSize: '.65rem',
+                                                        color: 'var(--muted)',
+                                                        letterSpacing: '2px'
+                                                    },
+                                                    children: "PUBLIC KEY BLOCK"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 692,
+                                                    columnNumber: 17
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                                    className: "pgp-copy-btn",
+                                                    onClick: ()=>{
+                                                        navigator.clipboard?.writeText(document.querySelector('.pgp-key-text')?.textContent || '');
+                                                        showToast('PGP key copied! 🔑');
+                                                    },
+                                                    children: "⎘ copy"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                                    lineNumber: 693,
+                                                    columnNumber: 17
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                            lineNumber: 691,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
+                                            className: "pgp-key-text",
+                                            children: `-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+[Replace this with your actual PGP public key block.
+Generate one with: gpg --full-generate-key
+Export with: gpg --armor --export your@email.com
+
+Your key will look like a long block of random
+base64-encoded text here. Keep your private key
+safe — never share it.]
+
+mQINBF...AAAA...BBBB...CCCC
+[your actual key data here]
+...
+-----END PGP PUBLIC KEY BLOCK-----`
+                                        }, void 0, false, {
+                                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                            lineNumber: 695,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                                    lineNumber: 690,
+                                    columnNumber: 13
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                            lineNumber: 668,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                    lineNumber: 665,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/networksandcircuits/src/app/page.tsx",
+                lineNumber: 664,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -2082,13 +2435,13 @@ function Home() {
                                     children: "."
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 641,
+                                    lineNumber: 719,
                                     columnNumber: 52
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 641,
+                            lineNumber: 719,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -2098,12 +2451,12 @@ function Home() {
                                     children: n
                                 }, n, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 642,
+                                    lineNumber: 720,
                                     columnNumber: 51
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 642,
+                            lineNumber: 720,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -2114,7 +2467,7 @@ function Home() {
                             children: "💬 WhatsApp"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 643,
+                            lineNumber: 721,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2122,18 +2475,18 @@ function Home() {
                             children: "© 2025 Jesse Kimani — All rights reserved."
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 644,
+                            lineNumber: 722,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 640,
+                    lineNumber: 718,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 639,
+                lineNumber: 717,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2152,7 +2505,7 @@ function Home() {
                                     children: "☕ Buy Me a Coffee"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 651,
+                                    lineNumber: 729,
                                     columnNumber: 34
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2161,13 +2514,13 @@ function Home() {
                                     children: "✕"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 651,
+                                    lineNumber: 729,
                                     columnNumber: 81
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 651,
+                            lineNumber: 729,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2181,14 +2534,14 @@ function Home() {
                                     children: "Binance Pay"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 652,
+                                    lineNumber: 730,
                                     columnNumber: 35
                                 }, this),
                                 " — pick an amount:"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 652,
+                            lineNumber: 730,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2205,12 +2558,12 @@ function Home() {
                                     ]
                                 }, a, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 654,
+                                    lineNumber: 732,
                                     columnNumber: 27
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 653,
+                            lineNumber: 731,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2222,7 +2575,7 @@ function Home() {
                             onChange: (e)=>setCustB(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 656,
+                            lineNumber: 734,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2237,18 +2590,18 @@ function Home() {
                             children: "Proceed with Binance Pay"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 657,
+                            lineNumber: 735,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 650,
+                    lineNumber: 728,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 649,
+                lineNumber: 727,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2267,7 +2620,7 @@ function Home() {
                                     children: "☕ Buy Me a Coffee"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 664,
+                                    lineNumber: 742,
                                     columnNumber: 34
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2276,13 +2629,13 @@ function Home() {
                                     children: "✕"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 664,
+                                    lineNumber: 742,
                                     columnNumber: 81
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 664,
+                            lineNumber: 742,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2296,14 +2649,14 @@ function Home() {
                                     children: "Paystack"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 665,
+                                    lineNumber: 743,
                                     columnNumber: 35
                                 }, this),
                                 " — card, M-Pesa or bank:"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 665,
+                            lineNumber: 743,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2317,12 +2670,12 @@ function Home() {
                                     children: a >= 1000 ? `${a / 1000}k` : a
                                 }, a, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 667,
+                                    lineNumber: 745,
                                     columnNumber: 27
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 666,
+                            lineNumber: 744,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2334,7 +2687,7 @@ function Home() {
                             onChange: (e)=>setCustP(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 669,
+                            lineNumber: 747,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2345,7 +2698,7 @@ function Home() {
                             onChange: (e)=>setPsEmail(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 670,
+                            lineNumber: 748,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2361,18 +2714,18 @@ function Home() {
                             children: "Pay with Paystack"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 671,
+                            lineNumber: 749,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 663,
+                    lineNumber: 741,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 662,
+                lineNumber: 740,
                 columnNumber: 7
             }, this),
             toast && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2380,17 +2733,18 @@ function Home() {
                 children: toast
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 675,
+                lineNumber: 753,
                 columnNumber: 17
             }, this)
         ]
     }, void 0, true);
 }
 _s(Home, "cCsJZ/O0I/c49Kvz2/5rkFjdH8I=");
-_c1 = Home;
-var _c, _c1;
+_c2 = Home;
+var _c, _c1, _c2;
 __turbopack_context__.k.register(_c, "ThreeBackground");
-__turbopack_context__.k.register(_c1, "Home");
+__turbopack_context__.k.register(_c1, "AiBrain");
+__turbopack_context__.k.register(_c2, "Home");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }

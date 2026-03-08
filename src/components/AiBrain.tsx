@@ -147,15 +147,10 @@ export default function AiBrain() {
 
         const baseR = n.r * (n.active ? 1.6 : 1) * (0.9+0.1*glow);
 
-        // Outer glow
-        const g2 = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, baseR*3.5);
-        g2.addColorStop(0, n.color.replace(')',`,${n.active?0.5:0.15})`).replace('#','rgba(').replace(/([0-9a-f]{2})/gi,v=>`${parseInt(v,16)},`).replace(/,$/,''));
-        g2.addColorStop(1, 'rgba(0,0,0,0)');
-        // simpler glow:
+        // Outer glow — hex alpha suffix, no conversion needed
         ctx.beginPath();
-        ctx.arc(n.x, n.y, baseR*3.5, 0, Math.PI*2);
-        const glowAlpha = n.active ? 0.4 : 0.1;
-        ctx.fillStyle = n.color + (glowAlpha < 0.2 ? '1a' : '66');
+        ctx.arc(n.x, n.y, baseR * 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = n.color + (n.active ? '44' : '18');
         ctx.fill();
 
         // Core dot
