@@ -671,10 +671,10 @@ export default function Home() {
                 Verify my identity cryptographically. All official communications, signed commits, and security advisories are signed with my PGP key. If it's not signed, it's not me.
               </div>
               <div className="pgp-meta">
-                <div className="pgp-row"><span className="pgp-lbl">Key ID</span><span className="pgp-val mono">0xDEAD BEEF CAFE 1337</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Key ID</span><span className="pgp-val mono">0xB3C0C1480CB85B5F</span></div>
                 <div className="pgp-row"><span className="pgp-lbl">Algorithm</span><span className="pgp-val mono">RSA-4096</span></div>
-                <div className="pgp-row"><span className="pgp-lbl">Fingerprint</span><span className="pgp-val mono" style={{fontSize:'.7rem'}}>DEAD BEEF CAFE 1337 0000 DEAD BEEF CAFE 1337 0000</span></div>
-                <div className="pgp-row"><span className="pgp-lbl">Created</span><span className="pgp-val mono">2023-01-01</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Fingerprint</span><span className="pgp-val mono" style={{fontSize:'.7rem'}}>7780 FA39 1A53 5DB7 020E  8454 B3C0 C148 0CB8 5B5F</span></div>
+                <div className="pgp-row"><span className="pgp-lbl">Created</span><span className="pgp-val mono">2026-03-08</span></div>
                 <div className="pgp-row"><span className="pgp-lbl">Expires</span><span className="pgp-val mono">Never</span></div>
               </div>
               <div className="pgp-actions">
@@ -682,7 +682,7 @@ export default function Home() {
                   🔑 Fetch from Keyserver
                 </a>
                 <button className="btn-o" style={{padding:'12px 22px',fontSize:'.88rem'}}
-                  onClick={()=>{navigator.clipboard?.writeText('-----BEGIN PGP PUBLIC KEY BLOCK-----\n[Replace with your real key]\n-----END PGP PUBLIC KEY BLOCK-----');showToast('PGP key copied to clipboard 🔑');}}>
+                  onClick={()=>{navigator.clipboard?.writeText(`-----BEGIN PGP PUBLIC KEY BLOCK-----\nmQINBGmtoPYBEACjPNsC79blyL/hwntpz0k+hv4w/DF9k041T5TZPpjlBa4HOnA3\n...\n=NJlL\n-----END PGP PUBLIC KEY BLOCK-----`);showToast('PGP key copied to clipboard 🔑');}}>
                   Copy Key
                 </button>
               </div>
@@ -694,18 +694,55 @@ export default function Home() {
               </div>
               <pre className="pgp-key-text">
 {`-----BEGIN PGP PUBLIC KEY BLOCK-----
-
-[Replace this with your actual PGP public key block.
-Generate one with: gpg --full-generate-key
-Export with: gpg --armor --export your@email.com
-
-Your key will look like a long block of random
-base64-encoded text here. Keep your private key
-safe — never share it.]
-
-mQINBF...AAAA...BBBB...CCCC
-[your actual key data here]
-...
+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
+P+J/hTNn
+=NJlL
 -----END PGP PUBLIC KEY BLOCK-----`}
               </pre>
             </div>

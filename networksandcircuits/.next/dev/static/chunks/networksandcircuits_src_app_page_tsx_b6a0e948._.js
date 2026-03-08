@@ -2170,7 +2170,7 @@ function Home() {
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "pgp-val mono",
-                                                            children: "0xDEAD BEEF CAFE 1337"
+                                                            children: "0xB3C0C1480CB85B5F"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
                                                             lineNumber: 674,
@@ -2223,7 +2223,7 @@ function Home() {
                                                             style: {
                                                                 fontSize: '.7rem'
                                                             },
-                                                            children: "DEAD BEEF CAFE 1337 0000 DEAD BEEF CAFE 1337 0000"
+                                                            children: "7780 FA39 1A53 5DB7 020E  8454 B3C0 C148 0CB8 5B5F"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
                                                             lineNumber: 676,
@@ -2248,7 +2248,7 @@ function Home() {
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "pgp-val mono",
-                                                            children: "2023-01-01"
+                                                            children: "2026-03-08"
                                                         }, void 0, false, {
                                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
                                                             lineNumber: 677,
@@ -2319,7 +2319,7 @@ function Home() {
                                                         fontSize: '.88rem'
                                                     },
                                                     onClick: ()=>{
-                                                        navigator.clipboard?.writeText('-----BEGIN PGP PUBLIC KEY BLOCK-----\n[Replace with your real key]\n-----END PGP PUBLIC KEY BLOCK-----');
+                                                        navigator.clipboard?.writeText(`-----BEGIN PGP PUBLIC KEY BLOCK-----\nmQINBGmtoPYBEACjPNsC79blyL/hwntpz0k+hv4w/DF9k041T5TZPpjlBa4HOnA3\n...\n=NJlL\n-----END PGP PUBLIC KEY BLOCK-----`);
                                                         showToast('PGP key copied to clipboard 🔑');
                                                     },
                                                     children: "Copy Key"
@@ -2380,18 +2380,55 @@ function Home() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
                                             className: "pgp-key-text",
                                             children: `-----BEGIN PGP PUBLIC KEY BLOCK-----
-
-[Replace this with your actual PGP public key block.
-Generate one with: gpg --full-generate-key
-Export with: gpg --armor --export your@email.com
-
-Your key will look like a long block of random
-base64-encoded text here. Keep your private key
-safe — never share it.]
-
-mQINBF...AAAA...BBBB...CCCC
-[your actual key data here]
-...
+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
+P+J/hTNn
+=NJlL
 -----END PGP PUBLIC KEY BLOCK-----`
                                         }, void 0, false, {
                                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
@@ -2435,13 +2472,13 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "."
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 719,
+                                    lineNumber: 756,
                                     columnNumber: 52
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 719,
+                            lineNumber: 756,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -2451,12 +2488,12 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: n
                                 }, n, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 720,
+                                    lineNumber: 757,
                                     columnNumber: 51
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 720,
+                            lineNumber: 757,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -2467,7 +2504,7 @@ mQINBF...AAAA...BBBB...CCCC
                             children: "💬 WhatsApp"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 721,
+                            lineNumber: 758,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2475,18 +2512,18 @@ mQINBF...AAAA...BBBB...CCCC
                             children: "© 2025 Jesse Kimani — All rights reserved."
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 722,
+                            lineNumber: 759,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 718,
+                    lineNumber: 755,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 717,
+                lineNumber: 754,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2505,7 +2542,7 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "☕ Buy Me a Coffee"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 729,
+                                    lineNumber: 766,
                                     columnNumber: 34
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2514,13 +2551,13 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "✕"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 729,
+                                    lineNumber: 766,
                                     columnNumber: 81
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 729,
+                            lineNumber: 766,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2534,14 +2571,14 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "Binance Pay"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 730,
+                                    lineNumber: 767,
                                     columnNumber: 35
                                 }, this),
                                 " — pick an amount:"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 730,
+                            lineNumber: 767,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2558,12 +2595,12 @@ mQINBF...AAAA...BBBB...CCCC
                                     ]
                                 }, a, true, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 732,
+                                    lineNumber: 769,
                                     columnNumber: 27
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 731,
+                            lineNumber: 768,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2575,7 +2612,7 @@ mQINBF...AAAA...BBBB...CCCC
                             onChange: (e)=>setCustB(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 734,
+                            lineNumber: 771,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2590,18 +2627,18 @@ mQINBF...AAAA...BBBB...CCCC
                             children: "Proceed with Binance Pay"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 735,
+                            lineNumber: 772,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 728,
+                    lineNumber: 765,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 727,
+                lineNumber: 764,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2620,7 +2657,7 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "☕ Buy Me a Coffee"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 742,
+                                    lineNumber: 779,
                                     columnNumber: 34
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2629,13 +2666,13 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "✕"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 742,
+                                    lineNumber: 779,
                                     columnNumber: 81
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 742,
+                            lineNumber: 779,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2649,14 +2686,14 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: "Paystack"
                                 }, void 0, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 743,
+                                    lineNumber: 780,
                                     columnNumber: 35
                                 }, this),
                                 " — card, M-Pesa or bank:"
                             ]
                         }, void 0, true, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 743,
+                            lineNumber: 780,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2670,12 +2707,12 @@ mQINBF...AAAA...BBBB...CCCC
                                     children: a >= 1000 ? `${a / 1000}k` : a
                                 }, a, false, {
                                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                                    lineNumber: 745,
+                                    lineNumber: 782,
                                     columnNumber: 27
                                 }, this))
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 744,
+                            lineNumber: 781,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2687,7 +2724,7 @@ mQINBF...AAAA...BBBB...CCCC
                             onChange: (e)=>setCustP(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 747,
+                            lineNumber: 784,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2698,7 +2735,7 @@ mQINBF...AAAA...BBBB...CCCC
                             onChange: (e)=>setPsEmail(e.target.value)
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 748,
+                            lineNumber: 785,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2714,18 +2751,18 @@ mQINBF...AAAA...BBBB...CCCC
                             children: "Pay with Paystack"
                         }, void 0, false, {
                             fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                            lineNumber: 749,
+                            lineNumber: 786,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                    lineNumber: 741,
+                    lineNumber: 778,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 740,
+                lineNumber: 777,
                 columnNumber: 7
             }, this),
             toast && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2733,7 +2770,7 @@ mQINBF...AAAA...BBBB...CCCC
                 children: toast
             }, void 0, false, {
                 fileName: "[project]/networksandcircuits/src/app/page.tsx",
-                lineNumber: 753,
+                lineNumber: 790,
                 columnNumber: 17
             }, this)
         ]
