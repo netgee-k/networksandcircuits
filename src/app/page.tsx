@@ -523,31 +523,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PROJECTS ── */}
-      <section id="projects" className="section section-alt">
-        <div className="s-inner">
-          <div className="s-eyebrow reveal">My Work</div>
-          <h2 className="s-title reveal">Featured<br /><em>Projects</em></h2>
-          <div className="proj-grid">
-            {PROJECTS.map((p,i)=>(
-              <div key={p.title} className={`proj-card ${p.size} reveal`} style={{transitionDelay:`${i*.07}s`}}>
-                <div className="proj-img"><img src={p.img} alt={p.title} loading="lazy" /></div>
-                <div className="proj-body">
-                  {p.size==='large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
-                  <div className="proj-year">{p.year}</div>
-                  <div className="proj-title">{p.title}</div>
-                  <div className="proj-desc">{p.desc}</div>
-                  <div className="proj-tags">{p.tags.map(t=><span key={t} className="proj-tag">{t}</span>)}</div>
-                  <div className="proj-links">
-                    <a href={p.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
-                    <a href={p.link} className="proj-link">↗ View</a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* ── CERTS ── */}
       <section id="certifications" className="section">

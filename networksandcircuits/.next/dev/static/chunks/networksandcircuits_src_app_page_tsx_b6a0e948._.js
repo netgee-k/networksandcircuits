@@ -21,8 +21,8 @@ const AiBrain = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2
 _c1 = AiBrain;
 const CONFIG = {
     paystack: {
-        publicKey: ("TURBOPACK compile-time value", "pk_live_your_real_key_here") || 'pk_test_your_key_here',
-        emailFallback: ("TURBOPACK compile-time value", "netg3ek@gmail.com") || 'netg3ek@gmail.com'
+        publicKey: ("TURBOPACK compile-time value", "pk_live_c5c091d90e3da012856cca578be8a92dbf41dc24") || 'pk_test_your_key_here',
+        emailFallback: ("TURBOPACK compile-time value", "networksandcircuits@gmail.com") || 'netg3ek@gmail.com'
     },
     binance: {
         payLink: ("TURBOPACK compile-time value", "https://pay.binance.com/en") || 'https://pay.binance.com/en'
@@ -37,8 +37,8 @@ const CONTACT = {
     linkedin: '#'
 };
 const CRYPTO = {
-    btc: ("TURBOPACK compile-time value", "bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9") || 'bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9',
-    eth: ("TURBOPACK compile-time value", "0x71C7656EC7ab88b098defB751B7401B5f6d8976F") || '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
+    btc: __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_BTC_ADDRESS || 'bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9',
+    eth: __TURBOPACK__imported__module__$5b$project$5d2f$networksandcircuits$2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_ETH_ADDRESS || '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
 };
 const NAV = [
     'About',
