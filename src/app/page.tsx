@@ -15,6 +15,12 @@ interface Project {
   position: number;
 }
 
+interface MediaItem {
+  type: 'image' | 'video';
+  url: string;
+  embedUrl?: string;
+}
+
 import { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import Script from 'next/script';
 
@@ -96,16 +102,8 @@ export default function Home() {
         
         if (Array.isArray(data)) {
           setProjects(data);
-          // Initialize slide index for each project
           const initialSlides: Record<number, number> = {};
           data.forEach((p: Project) => {
-            initialSlides[p.id] = 0;
-          });
-          setCurrentSlide(initialSlides);
-        } else if (data && Array.isArray(data.projects)) {
-          setProjects(data.projects);
-          const initialSlides: Record<number, number> = {};
-          data.projects.forEach((p: Project) => {
             initialSlides[p.id] = 0;
           });
           setCurrentSlide(initialSlides);
@@ -124,22 +122,20 @@ export default function Home() {
     return () => abortController.abort();
   }, []);
 
-  // Start/stop slideshow when project is hovered
-  const startSlideshow = (projectId: number, mediaItems: string[]) => {
+  // Start slideshow
+  const startSlideshow = (projectId: number, mediaItems: MediaItem[]) => {
     if (mediaItems.length <= 1) return;
     
-    // Clear existing interval
     if (slideIntervals[projectId]) {
       clearInterval(slideIntervals[projectId]);
     }
     
-    // Start new interval
     const interval = setInterval(() => {
       setCurrentSlide(prev => ({
         ...prev,
         [projectId]: ((prev[projectId] || 0) + 1) % mediaItems.length
       }));
-    }, 3000); // Change slide every 3 seconds
+    }, 3000);
     
     setSlideIntervals(prev => ({ ...prev, [projectId]: interval }));
   };
@@ -155,11 +151,11 @@ export default function Home() {
     }
   };
   
-  const goToSlide = (projectId: number, index: number, mediaItems: string[]) => {
+  const goToSlide = (projectId: number, index: number) => {
     setCurrentSlide(prev => ({ ...prev, [projectId]: index }));
   };
 
-  // Cleanup intervals on unmount
+  // Cleanup intervals
   useEffect(() => {
     return () => {
       Object.values(slideIntervals).forEach(interval => clearInterval(interval));
@@ -250,7 +246,6 @@ export default function Home() {
     setForm({name:'',email:'',subject:'',message:''});
   };
 
-  // Helper to check if URL is a video
   const isVideoUrl = (url: string) => {
     if (!url) return false;
     const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.mkv'];
@@ -259,17 +254,14 @@ export default function Home() {
            videoDomains.some(domain => url.toLowerCase().includes(domain));
   };
 
-  // Get embed URL for YouTube/Vimeo
   const getEmbedUrl = (url: string) => {
     if (!url) return null;
     
-    // YouTube
     const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
     if (youtubeMatch) {
       return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
     }
     
-    // Vimeo
     const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
     if (vimeoMatch) {
       return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
@@ -278,16 +270,13 @@ export default function Home() {
     return null;
   };
 
-  // Get all media items (cover + gallery + video)
-  const getAllMedia = (project: Project): Array<{type: 'image' | 'video', url: string, embedUrl?: string}> => {
-    const media: Array<{type: 'image' | 'video', url: string, embedUrl?: string}> = [];
+  const getAllMedia = (project: Project): MediaItem[] => {
+    const media: MediaItem[] = [];
     
-    // Add cover image
     if (project.cover) {
       media.push({ type: 'image', url: project.cover });
     }
     
-    // Add video if exists
     if (project.video && project.video.trim()) {
       const embedUrl = getEmbedUrl(project.video);
       media.push({ 
@@ -297,7 +286,6 @@ export default function Home() {
       });
     }
     
-    // Add gallery images
     if (project.gallery && project.gallery.length > 0) {
       project.gallery.forEach(img => {
         if (img && img.trim() && img !== project.cover) {
@@ -348,7 +336,6 @@ export default function Home() {
             radial-gradient(circle at 100% 100%, rgba(245,0,160,.07)  0%, transparent 50%);
         }
 
-        /* NAV */
         .navbar {
           position:fixed; top:0; left:0; right:0; z-index:200;
           padding:20px clamp(20px,5vw,64px);
@@ -385,7 +372,6 @@ export default function Home() {
         .mob-close { position:absolute; top:20px; right:24px; background:none; border:none; color:var(--muted); font-size:1.8rem; cursor:pointer; transition:all .2s; line-height:1; }
         .mob-close:hover { color:var(--cyan); transform:rotate(90deg); }
 
-        /* HERO */
         .hero {
           position:relative; z-index:1;
           min-height:100vh; display:flex; align-items:center;
@@ -472,7 +458,6 @@ export default function Home() {
         .srv-title { font-size:1rem; font-weight:700; margin-bottom:10px; }
         .srv-desc { font-size:.84rem; color:var(--muted); line-height:1.75; }
 
-        /* PROJECTS SLIDESHOW STYLES */
         .proj-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
         .proj-card { 
           background:var(--card); 
@@ -492,7 +477,6 @@ export default function Home() {
         .proj-card.large { grid-column:span 7; }
         .proj-card.small { grid-column:span 5; }
         
-        /* Slideshow Container */
         .slideshow-container {
           position: relative;
           overflow: hidden;
@@ -519,7 +503,6 @@ export default function Home() {
           transform: scale(1.05);
         }
         
-        /* Navigation Arrows */
         .slide-nav {
           position: absolute;
           top: 50%;
@@ -538,7 +521,6 @@ export default function Home() {
           transition: all 0.2s;
           z-index: 10;
           opacity: 0;
-          transition: opacity 0.3s;
         }
         .proj-card:hover .slide-nav {
           opacity: 1;
@@ -551,7 +533,6 @@ export default function Home() {
         .slide-prev { left: 10px; }
         .slide-next { right: 10px; }
         
-        /* Dots Indicator */
         .slide-dots {
           position: absolute;
           bottom: 10px;
@@ -580,7 +561,6 @@ export default function Home() {
           transform: scale(1.2);
         }
         
-        /* Media Badge */
         .media-badge {
           position: absolute;
           top: 10px;
@@ -735,7 +715,6 @@ export default function Home() {
         }
       `}</style>
 
-      {/* NAV */}
       <nav className={`navbar${scrolled?' scrolled':''}`}>
         <div className="nav-inner">
           <a href="#" className="nav-logo">Jesse<em>.</em></a>
@@ -757,7 +736,6 @@ export default function Home() {
         <ThreeBackground />
       </Suspense>
 
-      {/* HERO */}
       <section id="hero" className="hero">
         <div className="hero-inner">
           <div>
@@ -778,7 +756,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ABOUT */}
       <section id="about" className="section section-alt">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Who I Am</div>
@@ -804,7 +781,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES */}
       <section id="services" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">What I Do</div>
@@ -822,7 +798,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PROJECTS with SLIDESHOW */}
       <section id="projects" className="section section-alt">
         <div className="s-inner">
           <div className="s-eyebrow reveal">My Work</div>
@@ -849,7 +824,7 @@ export default function Home() {
                     key={project.id || project.title} 
                     className={`proj-card ${project.size} reveal`} 
                     style={{transitionDelay: `${i * 0.07}s`}}
-                    onMouseEnter={() => hasMultipleMedia && startSlideshow(project.id, mediaItems.map(m => m.url))}
+                    onMouseEnter={() => hasMultipleMedia && startSlideshow(project.id, mediaItems)}
                     onMouseLeave={() => hasMultipleMedia && stopSlideshow(project.id)}
                   >
                     <div className="slideshow-container">
@@ -866,11 +841,9 @@ export default function Home() {
                               />
                             ) : (
                               <video 
-                                autoPlay={false}
                                 loop 
                                 muted 
                                 playsInline
-                                controls={false}
                               >
                                 <source src={currentMedia.url} type="video/mp4" />
                               </video>
@@ -888,14 +861,12 @@ export default function Home() {
                         </div>
                       )}
                       
-                      {/* Media counter badge */}
                       {hasMultipleMedia && (
                         <div className="media-badge">
                           📷 {currentIndex + 1}/{mediaItems.length}
                         </div>
                       )}
                       
-                      {/* Navigation Arrows */}
                       {hasMultipleMedia && (
                         <>
                           <button 
@@ -903,7 +874,7 @@ export default function Home() {
                             onClick={(e) => {
                               e.stopPropagation();
                               const newIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
-                              goToSlide(project.id, newIndex, mediaItems);
+                              goToSlide(project.id, newIndex);
                               stopSlideshow(project.id);
                             }}
                           >
@@ -914,7 +885,7 @@ export default function Home() {
                             onClick={(e) => {
                               e.stopPropagation();
                               const newIndex = (currentIndex + 1) % mediaItems.length;
-                              goToSlide(project.id, newIndex, mediaItems);
+                              goToSlide(project.id, newIndex);
                               stopSlideshow(project.id);
                             }}
                           >
@@ -923,7 +894,6 @@ export default function Home() {
                         </>
                       )}
                       
-                      {/* Dots indicator */}
                       {hasMultipleMedia && (
                         <div className="slide-dots">
                           {mediaItems.map((_, idx) => (
@@ -932,7 +902,7 @@ export default function Home() {
                               className={`dot ${idx === currentIndex ? 'active' : ''}`}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                goToSlide(project.id, idx, mediaItems);
+                                goToSlide(project.id, idx);
                                 stopSlideshow(project.id);
                               }}
                             />
@@ -962,7 +932,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CERTS */}
       <section id="certifications" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Credentials</div>
@@ -982,7 +951,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* COFFEE */}
       <section id="coffee" className="section section-alt">
         <div className="s-inner">
           <div className="coffee-wrap">
@@ -1012,7 +980,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
       <section id="contact" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Get In Touch</div>
@@ -1072,7 +1039,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PGP */}
       <section id="pgp" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Cryptographic Identity</div>
@@ -1162,7 +1128,6 @@ P+J/hTNn
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-inner">
           <a href="#" className="footer-logo">Jesse<em>.</em></a>
@@ -1172,7 +1137,6 @@ P+J/hTNn
         </div>
       </footer>
 
-      {/* MODALS */}
       <div className={`modal-ov${modal==='binance'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
           <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)}>✕</button></div>
