@@ -60,78 +60,144 @@ const B_AMT = [1,3,5,10,20,50];
 const P_AMT = [150,400,700,1500,3000,7000];
 
 export default function Home() {
-
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(r => r.json())
-      .then(data => setProjects(Array.isArray(data) ? data : []))
-      .catch(() => setProjects([]));
-  }, []);
   const heroRef = useRef<HTMLCanvasElement>(null);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [menu,    setMenu]    = useState(false);
-  const [scrolled,setScrolled]= useState(false);
-  const [typed,   setTyped]   = useState('');
-  const [modal,   setModal]   = useState<'binance'|'paystack'|null>(null);
-  const [selB,    setSelB]    = useState(5);
-  const [selP,    setSelP]    = useState(700);
-  const [custB,   setCustB]   = useState('');
-  const [custP,   setCustP]   = useState('');
+  const [projectsLoading, setProjectsLoading] = useState(true);
+  const [menu, setMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [typed, setTyped] = useState('');
+  const [modal, setModal] = useState<'binance'|'paystack'|null>(null);
+  const [selB, setSelB] = useState(5);
+  const [selP, setSelP] = useState(700);
+  const [custB, setCustB] = useState('');
+  const [custP, setCustP] = useState('');
   const [psEmail, setPsEmail] = useState('');
-  const [toast,   setToast]   = useState('');
-  const [form,    setForm]    = useState({name:'',email:'',subject:'',message:''});
+  const [toast, setToast] = useState('');
+  const [form, setForm] = useState({name:'',email:'',subject:'',message:''});
 
-  useEffect(()=>{
-    const onScroll = ()=>setScrolled(window.scrollY>50);
+  // Fixed: Projects fetch with abort controller and loading state
+  useEffect(() => {
+    const abortController = new AbortController();
+    
+    async function loadProjects() {
+      try {
+        setProjectsLoading(true);
+        console.log('Fetching projects...');
+        const response = await fetch('/api/projects', { 
+          signal: abortController.signal 
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        console.log('Projects received:', data);
+        
+        if (Array.isArray(data)) {
+          setProjects(data);
+        } else if (data && Array.isArray(data.projects)) {
+          setProjects(data.projects);
+        } else {
+          console.warn('Unexpected data format:', data);
+          setProjects([]);
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name !== 'AbortError') {
+          console.error('Failed to fetch projects:', err);
+          setProjects([]);
+        }
+      } finally {
+        setProjectsLoading(false);
+      }
+    }
+    
+    loadProjects();
+    
+    return () => abortController.abort();
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', onScroll);
-    return ()=>window.removeEventListener('scroll', onScroll);
-  },[]);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-  useEffect(()=>{
-    const obs = new IntersectionObserver(entries=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
-    },{ threshold:0.08, rootMargin:'40px' });
-    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-    return ()=>obs.disconnect();
-  },[]);
+  useEffect(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { 
+        if (e.isIntersecting) e.target.classList.add('visible'); 
+      });
+    }, { threshold: 0.08, rootMargin: '40px' });
+    
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    return () => obs.disconnect();
+  }, [projects]); // Re-run when projects load to observe new elements
 
-  useEffect(()=>{
-    let ri=0, ci=0, del=false;
+  useEffect(() => {
+    let ri = 0, ci = 0, del = false;
     let t: ReturnType<typeof setTimeout>;
-    const tick=()=>{
-      const w=ROLES[ri];
-      setTyped(del ? w.slice(0,ci--) : w.slice(0,ci++));
-      if(!del && ci>w.length)    { del=true;  t=setTimeout(tick,2000); return; }
-      if( del && ci<0)           { del=false; ri=(ri+1)%ROLES.length; ci=0; t=setTimeout(tick,400); return; }
-      t=setTimeout(tick, del?50:100);
+    const tick = () => {
+      const w = ROLES[ri];
+      setTyped(del ? w.slice(0, ci--) : w.slice(0, ci++));
+      if (!del && ci > w.length) { 
+        del = true;  
+        t = setTimeout(tick, 2000); 
+        return; 
+      }
+      if (del && ci < 0) { 
+        del = false; 
+        ri = (ri + 1) % ROLES.length; 
+        ci = 0; 
+        t = setTimeout(tick, 400); 
+        return; 
+      }
+      t = setTimeout(tick, del ? 50 : 100);
     };
-    t=setTimeout(tick,600);
-    return ()=>clearTimeout(t);
-  },[]);
+    t = setTimeout(tick, 600);
+    return () => clearTimeout(t);
+  }, []);
 
-  const showToast=(msg:string)=>{setToast(msg);setTimeout(()=>setToast(''),5000);};
+  const showToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 5000);
+  };
 
-  const handleBinancePay=()=>{
-    window.open(`${CONFIG.binance.payLink}?amount=${parseFloat(custB)||selB}&currency=USDT&memo=CoffeeJesse`,'_blank');
+  const handleBinancePay = () => {
+    window.open(`${CONFIG.binance.payLink}?amount=${parseFloat(custB) || selB}&currency=USDT&memo=CoffeeJesse`, '_blank');
     setModal(null);
     showToast('Redirecting to Binance Pay...');
   };
 
-  // Format KES amount for display
   const formatKES = (amt: number) => amt >= 1000 ? `KES ${(amt/1000).toFixed(amt%1000===0?0:1)}k` : `KES ${amt}`;
 
-  const handlePaystackPay=()=>{
-    const amount=(parseFloat(custP)||selP)*100;
-    const email=psEmail||CONFIG.paystack.emailFallback;
-    if(!email.includes('@')){ alert('Please enter a valid email.'); return; }
-    const PS=(window as any).PaystackPop;
-    if(!PS){ alert('Payment loading, try again.'); return; }
-    PS.setup({ key:CONFIG.paystack.publicKey, email, amount, currency:'KES', ref:'coffee_'+Date.now(),
-      callback:(r:any)=>{ setModal(null); showToast('Thank you! ☕ Ref: '+r.reference); },
-      onClose:()=>{} }).openIframe();
+  const handlePaystackPay = () => {
+    const amount = (parseFloat(custP) || selP) * 100;
+    const email = psEmail || CONFIG.paystack.emailFallback;
+    if (!email.includes('@')) { 
+      alert('Please enter a valid email.'); 
+      return; 
+    }
+    const PS = (window as any).PaystackPop;
+    if (!PS) { 
+      alert('Payment loading, try again.'); 
+      return; 
+    }
+    PS.setup({ 
+      key: CONFIG.paystack.publicKey, 
+      email, 
+      amount, 
+      currency: 'KES', 
+      ref: 'coffee_' + Date.now(),
+      callback: (r: any) => { 
+        setModal(null); 
+        showToast('Thank you! ☕ Ref: ' + r.reference); 
+      },
+      onClose: () => {} 
+    }).openIframe();
   };
 
-  const handleSubmit=(e:React.FormEvent)=>{
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     showToast("Message sent! I'll reply soon 🚀");
     setForm({name:'',email:'',subject:'',message:''});
@@ -328,6 +394,21 @@ export default function Home() {
         .proj-links { display:flex; gap:18px; margin-top:auto; }
         .proj-link { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
         .proj-link:hover { color:var(--cyan); }
+
+        /* Loading and empty states */
+        .proj-loading, .proj-empty {
+          grid-column: span 12;
+          text-align: center;
+          padding: 60px 20px;
+          font-family: 'IBM Plex Mono', monospace;
+          color: var(--muted);
+          background: var(--card);
+          border-radius: 14px;
+          border: 1px solid var(--border);
+        }
+        .proj-empty {
+          background: rgba(0,0,0,0.3);
+        }
 
         /* ── CERTS ── */
         .cert-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
@@ -545,24 +626,41 @@ export default function Home() {
         <div className="s-inner">
           <div className="s-eyebrow reveal">My Work</div>
           <h2 className="s-title reveal">Featured<br /><em>Projects</em></h2>
-          <div className="proj-grid">
-            {projects.map((p,i)=>(
-              <div key={p.title} className={`proj-card ${p.size} reveal`} style={{transitionDelay:`${i*.07}s`}}>
-                <div className="proj-img"><img src={p.cover} alt={p.title} loading="lazy" /></div>
-                <div className="proj-body">
-                  {p.size==='large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
-                  <div className="proj-year">{p.year}</div>
-                  <div className="proj-title">{p.title}</div>
-                  <div className="proj-desc">{p.description}</div>
-                  <div className="proj-tags">{p.tags.map(t=><span key={t} className="proj-tag">{t}</span>)}</div>
-                  <div className="proj-links">
-                    <a href={p.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
-                    <a href={p.url} className="proj-link">↗ View</a>
+          
+          {projectsLoading ? (
+            <div className="proj-loading reveal">
+              <span style={{display: 'inline-block', animation: 'pulse 1.5s ease-in-out infinite'}}>⟳</span> Loading projects...
+            </div>
+          ) : projects.length === 0 ? (
+            <div className="proj-empty reveal">
+              ⚡ No projects found. Check back soon for updates!
+            </div>
+          ) : (
+            <div className="proj-grid">
+              {projects.map((p, i) => (
+                <div key={p.id || p.title} className={`proj-card ${p.size} reveal`} style={{transitionDelay: `${i * 0.07}s`}}>
+                  <div className="proj-img">
+                    <img src={p.cover} alt={p.title} loading="lazy" onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/0a0a18/00f5d4?text=Project+Image';
+                    }} />
+                  </div>
+                  <div className="proj-body">
+                    {p.size === 'large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
+                    <div className="proj-year">{p.year}</div>
+                    <div className="proj-title">{p.title}</div>
+                    <div className="proj-desc">{p.description}</div>
+                    <div className="proj-tags">
+                      {p.tags && p.tags.map(t => <span key={t} className="proj-tag">{t}</span>)}
+                    </div>
+                    <div className="proj-links">
+                      <a href={p.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
+                      <a href={p.url} className="proj-link">↗ View</a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -675,7 +773,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
 
       {/* ── PGP SIGNATURE ── */}
       <section id="pgp" className="section">
