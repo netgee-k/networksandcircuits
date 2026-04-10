@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase, supabaseAdmin } from '@/lib/supabase';
 
-const ADMIN_KEY = process.env.ADMIN_SECRET_KEY!;
+const ADMIN_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 function isAdmin(req: NextRequest) {
   return req.headers.get('x-admin-key') === ADMIN_KEY;

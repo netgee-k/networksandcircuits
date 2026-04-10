@@ -1,20 +1,5 @@
 'use client';
 
-interface Project {
-  id: number;
-  title: string;
-  year: string;
-  size: 'large' | 'small';
-  description: string;
-  tags: string[];
-  github: string;
-  url: string;
-  video: string;
-  cover: string;
-  gallery: string[];
-  position: number;
-}
-
 import { useEffect, useRef, useState, Suspense, lazy } from 'react';
 import Script from 'next/script';
 
@@ -51,6 +36,12 @@ const SERVICES = [
   { n:'05', icon:'◉', title:'Telemetry & Monitoring',    desc:'Grafana, Prometheus and custom dashboards for full network and security visibility.' },
   { n:'06', icon:'⬡', title:'Cloud Security',            desc:'AWS and Azure hardening: IAM policies, secure VPC design and cloud-native security tooling.' },
 ];
+const PROJECTS = [
+  { img:'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?auto=format&fit=crop&w=1200&q=80', title:'Autoshift v3',          year:'2024', desc:'Intelligent automation platform streamlining shift management, scheduling and workforce coordination with a modern React frontend and robust Node.js API.', tags:['React','Node.js','Automation','Dashboard'], github:'https://github.com/netgee-k/Autoshift-v3', link:'#', size:'large'  },
+  { img:'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',   title:'Metasploitable2 Guide', year:'2023', desc:'Full exploitation chain on deliberately vulnerable VMs. Documented for security training and research.',                                                   tags:['PenTest','Security','VMs'],                github:'https://github.com/netgee-k',            link:'#', size:'small' },
+  { img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',   title:'SDN DDoS Detection',    year:'2023', desc:'Research comparing DDoS resilience between Software Defined Networks and traditional architectures.',                                                 tags:['SDN','Research','Network'],               github:'https://github.com/netgee-k',            link:'#', size:'small' },
+  { img:'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80',   title:'TillBase POS',          year:'2022', desc:'Secure cloud-based POS and inventory system with PCI DSS compliance and real-time analytics.',                                                        tags:['Python','PCI DSS','Cloud'],               github:'https://github.com/netgee-k',            link:'#', size:'small' },
+];
 const CERTS = [
   { short:'PT+',   full:'CompTIA PenTest+',            org:'CompTIA', date:'May 2023', color:'#ff6b35', desc:'Planning, scoping, scanning and executing penetration testing engagements at enterprise scale.' },
   { short:'OPSWAT',full:'OPSWAT Data Transfer Security',org:'OPSWAT',  date:'Dec 2022', color:'#00f5d4', desc:'Critical infrastructure protection, secure data transfer protocols and advanced malware prevention.' },
@@ -60,15 +51,7 @@ const B_AMT = [1,3,5,10,20,50];
 const P_AMT = [150,400,700,1500,3000,7000];
 
 export default function Home() {
-
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(r => r.json())
-      .then(data => setProjects(Array.isArray(data) ? data : []))
-      .catch(() => setProjects([]));
-  }, []);
   const heroRef = useRef<HTMLCanvasElement>(null);
-  const [projects, setProjects] = useState<Project[]>([]);
   const [menu,    setMenu]    = useState(false);
   const [scrolled,setScrolled]= useState(false);
   const [typed,   setTyped]   = useState('');
@@ -546,18 +529,18 @@ export default function Home() {
           <div className="s-eyebrow reveal">My Work</div>
           <h2 className="s-title reveal">Featured<br /><em>Projects</em></h2>
           <div className="proj-grid">
-            {projects.map((p,i)=>(
+            {PROJECTS.map((p,i)=>(
               <div key={p.title} className={`proj-card ${p.size} reveal`} style={{transitionDelay:`${i*.07}s`}}>
-                <div className="proj-img"><img src={p.cover} alt={p.title} loading="lazy" /></div>
+                <div className="proj-img"><img src={p.img} alt={p.title} loading="lazy" /></div>
                 <div className="proj-body">
                   {p.size==='large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
                   <div className="proj-year">{p.year}</div>
                   <div className="proj-title">{p.title}</div>
-                  <div className="proj-desc">{p.description}</div>
+                  <div className="proj-desc">{p.desc}</div>
                   <div className="proj-tags">{p.tags.map(t=><span key={t} className="proj-tag">{t}</span>)}</div>
                   <div className="proj-links">
                     <a href={p.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
-                    <a href={p.url} className="proj-link">↗ View</a>
+                    <a href={p.link} className="proj-link">↗ View</a>
                   </div>
                 </div>
               </div>
