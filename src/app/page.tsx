@@ -74,48 +74,97 @@ export default function Home() {
   const [psEmail, setPsEmail] = useState('');
   const [toast, setToast] = useState('');
   const [form, setForm] = useState({name:'',email:'',subject:'',message:''});
+  const [currentSlide, setCurrentSlide] = useState<Record<number, number>>({});
+  const [slideIntervals, setSlideIntervals] = useState<Record<number, NodeJS.Timeout>>({});
 
-  // Fixed: Projects fetch with abort controller and loading state
+  // Projects fetch
   useEffect(() => {
     const abortController = new AbortController();
     
     async function loadProjects() {
       try {
         setProjectsLoading(true);
-        console.log('Fetching projects...');
         const response = await fetch('/api/projects', { 
           signal: abortController.signal 
         });
         
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          throw new Error(`HTTP ${response.status}`);
         }
         
         const data = await response.json();
-        console.log('Projects received:', data);
         
         if (Array.isArray(data)) {
           setProjects(data);
+          // Initialize slide index for each project
+          const initialSlides: Record<number, number> = {};
+          data.forEach((p: Project) => {
+            initialSlides[p.id] = 0;
+          });
+          setCurrentSlide(initialSlides);
         } else if (data && Array.isArray(data.projects)) {
           setProjects(data.projects);
+          const initialSlides: Record<number, number> = {};
+          data.projects.forEach((p: Project) => {
+            initialSlides[p.id] = 0;
+          });
+          setCurrentSlide(initialSlides);
         } else {
-          console.warn('Unexpected data format:', data);
           setProjects([]);
         }
       } catch (err) {
-        if (err instanceof Error && err.name !== 'AbortError') {
-          console.error('Failed to fetch projects:', err);
-          setProjects([]);
-        }
+        console.error('Failed to fetch projects:', err);
+        setProjects([]);
       } finally {
         setProjectsLoading(false);
       }
     }
     
     loadProjects();
-    
     return () => abortController.abort();
   }, []);
+
+  // Start/stop slideshow when project is hovered
+  const startSlideshow = (projectId: number, mediaItems: string[]) => {
+    if (mediaItems.length <= 1) return;
+    
+    // Clear existing interval
+    if (slideIntervals[projectId]) {
+      clearInterval(slideIntervals[projectId]);
+    }
+    
+    // Start new interval
+    const interval = setInterval(() => {
+      setCurrentSlide(prev => ({
+        ...prev,
+        [projectId]: ((prev[projectId] || 0) + 1) % mediaItems.length
+      }));
+    }, 3000); // Change slide every 3 seconds
+    
+    setSlideIntervals(prev => ({ ...prev, [projectId]: interval }));
+  };
+  
+  const stopSlideshow = (projectId: number) => {
+    if (slideIntervals[projectId]) {
+      clearInterval(slideIntervals[projectId]);
+      setSlideIntervals(prev => {
+        const newIntervals = { ...prev };
+        delete newIntervals[projectId];
+        return newIntervals;
+      });
+    }
+  };
+  
+  const goToSlide = (projectId: number, index: number, mediaItems: string[]) => {
+    setCurrentSlide(prev => ({ ...prev, [projectId]: index }));
+  };
+
+  // Cleanup intervals on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(slideIntervals).forEach(interval => clearInterval(interval));
+    };
+  }, [slideIntervals]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -132,7 +181,7 @@ export default function Home() {
     
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     return () => obs.disconnect();
-  }, [projects]); // Re-run when projects load to observe new elements
+  }, [projects]);
 
   useEffect(() => {
     let ri = 0, ci = 0, del = false;
@@ -169,8 +218,6 @@ export default function Home() {
     showToast('Redirecting to Binance Pay...');
   };
 
-  const formatKES = (amt: number) => amt >= 1000 ? `KES ${(amt/1000).toFixed(amt%1000===0?0:1)}k` : `KES ${amt}`;
-
   const handlePaystackPay = () => {
     const amount = (parseFloat(custP) || selP) * 100;
     const email = psEmail || CONFIG.paystack.emailFallback;
@@ -203,6 +250,65 @@ export default function Home() {
     setForm({name:'',email:'',subject:'',message:''});
   };
 
+  // Helper to check if URL is a video
+  const isVideoUrl = (url: string) => {
+    if (!url) return false;
+    const videoExtensions = ['.mp4', '.webm', '.ogg', '.mov', '.mkv'];
+    const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com'];
+    return videoExtensions.some(ext => url.toLowerCase().includes(ext)) ||
+           videoDomains.some(domain => url.toLowerCase().includes(domain));
+  };
+
+  // Get embed URL for YouTube/Vimeo
+  const getEmbedUrl = (url: string) => {
+    if (!url) return null;
+    
+    // YouTube
+    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
+    if (youtubeMatch) {
+      return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    }
+    
+    // Vimeo
+    const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+    if (vimeoMatch) {
+      return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+    }
+    
+    return null;
+  };
+
+  // Get all media items (cover + gallery + video)
+  const getAllMedia = (project: Project): Array<{type: 'image' | 'video', url: string, embedUrl?: string}> => {
+    const media: Array<{type: 'image' | 'video', url: string, embedUrl?: string}> = [];
+    
+    // Add cover image
+    if (project.cover) {
+      media.push({ type: 'image', url: project.cover });
+    }
+    
+    // Add video if exists
+    if (project.video && project.video.trim()) {
+      const embedUrl = getEmbedUrl(project.video);
+      media.push({ 
+        type: 'video', 
+        url: project.video,
+        embedUrl: embedUrl || undefined
+      });
+    }
+    
+    // Add gallery images
+    if (project.gallery && project.gallery.length > 0) {
+      project.gallery.forEach(img => {
+        if (img && img.trim() && img !== project.cover) {
+          media.push({ type: 'image', url: img });
+        }
+      });
+    }
+    
+    return media;
+  };
+
   return (
     <>
       <Script src="https://js.paystack.co/v1/inline.js" strategy="lazyOnload" />
@@ -229,13 +335,11 @@ export default function Home() {
         ::-webkit-scrollbar { width:5px; }
         ::-webkit-scrollbar-thumb { background:var(--grad); border-radius:3px; }
 
-        /* Grid overlay */
         body::before {
           content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
           background-image: linear-gradient(rgba(0,245,212,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,245,212,.025) 1px, transparent 1px);
           background-size:55px 55px;
         }
-        /* Radial glows */
         body::after {
           content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
           background:
@@ -244,7 +348,7 @@ export default function Home() {
             radial-gradient(circle at 100% 100%, rgba(245,0,160,.07)  0%, transparent 50%);
         }
 
-        /* ── NAV ── */
+        /* NAV */
         .navbar {
           position:fixed; top:0; left:0; right:0; z-index:200;
           padding:20px clamp(20px,5vw,64px);
@@ -269,7 +373,6 @@ export default function Home() {
         .menu-btn { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
         .menu-btn span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all .3s; }
 
-        /* ── MOBILE MENU ── */
         .mob-menu {
           position:fixed; inset:0; z-index:199;
           background:rgba(4,4,13,.97); backdrop-filter:blur(20px);
@@ -282,7 +385,7 @@ export default function Home() {
         .mob-close { position:absolute; top:20px; right:24px; background:none; border:none; color:var(--muted); font-size:1.8rem; cursor:pointer; transition:all .2s; line-height:1; }
         .mob-close:hover { color:var(--cyan); transform:rotate(90deg); }
 
-        /* ── HERO ── */
+        /* HERO */
         .hero {
           position:relative; z-index:1;
           min-height:100vh; display:flex; align-items:center;
@@ -332,7 +435,6 @@ export default function Home() {
         @keyframes pulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:.9;transform:scale(1.08)} }
         .hero-canvas-wrap canvas { display:block; width:100%; max-width:480px; aspect-ratio:1; border-radius:50%; }
 
-        /* ── SECTIONS ── */
         .section { position:relative; z-index:1; padding:clamp(70px,10vw,120px) clamp(20px,5vw,64px); }
         .section-alt { background:rgba(255,255,255,.02); }
         .s-inner { max-width:1400px; margin:0 auto; }
@@ -345,11 +447,9 @@ export default function Home() {
         .s-title { font-size:clamp(1.9rem,3.5vw,3rem); font-weight:800; letter-spacing:-1px; line-height:1.15; margin-bottom:clamp(40px,6vw,70px); }
         .s-title em { color:var(--cyan); font-style:normal; }
 
-        /* Reveal */
         .reveal { opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
         .reveal.visible { opacity:1; transform:none; }
 
-        /* ── ABOUT ── */
         .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(40px,6vw,80px); align-items:start; }
         .about-p { font-size:.95rem; color:var(--muted); line-height:1.95; margin-bottom:18px; }
         .skills-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
@@ -362,7 +462,6 @@ export default function Home() {
         .stat-n { font-size:clamp(2rem,2.8vw,2.6rem); font-weight:800; color:var(--cyan); line-height:1; margin-bottom:6px; }
         .stat-l { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:1px; }
 
-        /* ── SERVICES ── */
         .srv-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.06); border-radius:14px; overflow:hidden; }
         .srv-card { background:var(--card); padding:clamp(22px,3vw,38px); position:relative; overflow:hidden; transition:background .3s; cursor:default; }
         .srv-card:hover { background:rgba(0,245,212,.03); }
@@ -373,29 +472,144 @@ export default function Home() {
         .srv-title { font-size:1rem; font-weight:700; margin-bottom:10px; }
         .srv-desc { font-size:.84rem; color:var(--muted); line-height:1.75; }
 
-        /* ── PROJECTS ── */
+        /* PROJECTS SLIDESHOW STYLES */
         .proj-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
-        .proj-card { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; transition:all .35s; display:flex; flex-direction:column; backdrop-filter:blur(8px); }
-        .proj-card:hover { border-color:var(--bh); transform:translateY(-5px); box-shadow:0 22px 50px rgba(0,0,0,.45); }
+        .proj-card { 
+          background:var(--card); 
+          border:1px solid var(--border); 
+          border-radius:14px; 
+          overflow:hidden; 
+          transition:all .35s var(--ease); 
+          display:flex; 
+          flex-direction:column; 
+          backdrop-filter:blur(8px);
+        }
+        .proj-card:hover { 
+          border-color:var(--bh); 
+          transform:translateY(-8px) scale(1.01); 
+          box-shadow:0 22px 50px rgba(0,0,0,.45); 
+        }
         .proj-card.large { grid-column:span 7; }
         .proj-card.small { grid-column:span 5; }
-        .proj-img { overflow:hidden; }
-        .proj-img img { width:100%; object-fit:cover; display:block; transition:transform .5s; }
-        .proj-card.large .proj-img img { height:240px; }
-        .proj-card.small .proj-img img  { height:180px; }
-        .proj-card:hover .proj-img img { transform:scale(1.07); }
+        
+        /* Slideshow Container */
+        .slideshow-container {
+          position: relative;
+          overflow: hidden;
+          background: linear-gradient(135deg, rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+        }
+        .proj-card.large .slideshow-container { height: 240px; }
+        .proj-card.small .slideshow-container { height: 180px; }
+        
+        .slideshow-slide {
+          width: 100%;
+          height: 100%;
+          position: relative;
+        }
+        .slideshow-slide img,
+        .slideshow-slide video,
+        .slideshow-slide iframe {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s var(--ease);
+        }
+        .proj-card:hover .slideshow-slide img,
+        .proj-card:hover .slideshow-slide video {
+          transform: scale(1.05);
+        }
+        
+        /* Navigation Arrows */
+        .slide-nav {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0,0,0,0.6);
+          backdrop-filter: blur(4px);
+          color: white;
+          border: none;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+          z-index: 10;
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .proj-card:hover .slide-nav {
+          opacity: 1;
+        }
+        .slide-nav:hover {
+          background: var(--cyan);
+          color: var(--bg);
+          transform: translateY(-50%) scale(1.1);
+        }
+        .slide-prev { left: 10px; }
+        .slide-next { right: 10px; }
+        
+        /* Dots Indicator */
+        .slide-dots {
+          position: absolute;
+          bottom: 10px;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          gap: 8px;
+          z-index: 10;
+        }
+        .dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.5);
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .dot.active {
+          background: var(--cyan);
+          width: 20px;
+          border-radius: 4px;
+        }
+        .dot:hover {
+          background: var(--cyan);
+          transform: scale(1.2);
+        }
+        
+        /* Media Badge */
+        .media-badge {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: rgba(0,0,0,0.6);
+          backdrop-filter: blur(4px);
+          padding: 4px 8px;
+          border-radius: 20px;
+          font-size: 0.7rem;
+          font-family: 'IBM Plex Mono', monospace;
+          color: var(--cyan);
+          z-index: 10;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+        
         .proj-body { padding:22px; flex:1; display:flex; flex-direction:column; }
         .feat-tag { font-family:'IBM Plex Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
         .proj-year { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
         .proj-title { font-size:1.1rem; font-weight:800; margin-bottom:10px; }
-        .proj-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:16px; flex:1; }
+        .proj-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:16px; flex:1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
         .proj-tags { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
-        .proj-tag { font-family:'IBM Plex Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; }
+        .proj-tag { font-family:'IBM Plex Mono',monospace; font-size:.65rem; padding:3px 9px; background:rgba(123,47,255,.15); color:#b09eff; border-radius:4px; transition:all 0.2s; }
+        .proj-tag:hover { background:rgba(0,245,212,.2); color:var(--cyan); transform:translateY(-2px); }
         .proj-links { display:flex; gap:18px; margin-top:auto; }
         .proj-link { font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
         .proj-link:hover { color:var(--cyan); }
 
-        /* Loading and empty states */
         .proj-loading, .proj-empty {
           grid-column: span 12;
           text-align: center;
@@ -406,11 +620,7 @@ export default function Home() {
           border-radius: 14px;
           border: 1px solid var(--border);
         }
-        .proj-empty {
-          background: rgba(0,0,0,0.3);
-        }
 
-        /* ── CERTS ── */
         .cert-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
         .cert-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:30px; position:relative; overflow:hidden; transition:all .35s; backdrop-filter:blur(8px); }
         .cert-card:hover { transform:translateY(-5px); box-shadow:0 22px 50px rgba(0,0,0,.4); }
@@ -422,7 +632,6 @@ export default function Home() {
         .cert-desc { font-size:.84rem; color:var(--muted); line-height:1.7; margin-bottom:14px; }
         .cert-date { font-family:'IBM Plex Mono',monospace; font-size:.68rem; }
 
-        /* ── COFFEE ── */
         .coffee-wrap { max-width:800px; margin:0 auto; text-align:center; }
         .coffee-emoji { font-size:4.5rem; display:block; margin-bottom:28px; animation:floatcof 3.5s ease-in-out infinite; }
         @keyframes floatcof { 0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-14px) rotate(4deg)} }
@@ -438,7 +647,6 @@ export default function Home() {
         .crypto-box strong { color:var(--text); }
         .crypto-box em { color:var(--cyan); font-style:normal; }
 
-        /* ── CONTACT ── */
         .contact-grid { display:grid; grid-template-columns:1fr 1.5fr; gap:clamp(40px,6vw,80px); }
         .contact-title { font-size:clamp(1.5rem,2.5vw,2rem); font-weight:800; letter-spacing:-1px; margin-bottom:16px; }
         .contact-desc { font-size:.95rem; color:var(--muted); line-height:1.9; margin-bottom:36px; }
@@ -460,7 +668,6 @@ export default function Home() {
         .form-in:focus, .form-ta:focus { border-color:var(--cyan); background:rgba(0,245,212,.04); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
         .form-ta { min-height:130px; resize:vertical; }
 
-        /* ── FOOTER ── */
         .footer { position:relative; z-index:1; border-top:1px solid var(--border); background:rgba(4,4,13,.94); padding:36px clamp(20px,5vw,64px); backdrop-filter:blur(10px); }
         .footer-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
         .footer-logo { font-size:1.2rem; font-weight:800; text-decoration:none; color:var(--text); letter-spacing:-.5px; }
@@ -472,7 +679,6 @@ export default function Home() {
         .wa-btn:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 10px 22px rgba(37,211,102,.28); }
         .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
 
-        /* ── MODAL ── */
         .modal-ov { display:none; position:fixed; inset:0; z-index:1000; background:rgba(4,4,13,.88); backdrop-filter:blur(20px); align-items:center; justify-content:center; padding:20px; }
         .modal-ov.open { display:flex; }
         .modal-box { background:var(--bg2); border:1px solid rgba(0,245,212,.22); border-radius:18px; padding:38px; width:100%; max-width:450px; animation:slideUp .3s ease; }
@@ -488,11 +694,8 @@ export default function Home() {
         .mi { width:100%; padding:13px 15px; background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:6px; color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:.9rem; outline:none; margin-bottom:14px; transition:all .25s; }
         .mi:focus { border-color:var(--cyan); box-shadow:0 0 0 2px rgba(0,245,212,.1); }
 
-        /* ── TOAST ── */
         .toast { position:fixed; bottom:22px; right:22px; z-index:2000; background:#00ff88; color:#001a0a; padding:14px 22px; border-radius:8px; font-weight:800; font-family:'Plus Jakarta Sans',sans-serif; box-shadow:0 10px 32px rgba(0,255,136,.3); animation:slideUp .3s ease; max-width:320px; }
 
-
-        /* ── PGP ── */
         .pgp-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:clamp(30px,5vw,60px); align-items:start; }
         .pgp-intro { font-size:.95rem; color:var(--muted); line-height:1.9; margin-bottom:28px; }
         .pgp-meta { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
@@ -509,7 +712,7 @@ export default function Home() {
         .pgp-key-text::-webkit-scrollbar { width:3px; }
         .pgp-key-text::-webkit-scrollbar-thumb { background:rgba(0,245,212,.3); }
         @media (max-width:900px) { .pgp-grid { grid-template-columns:1fr; } }
-        /* ── RESPONSIVE ── */
+        
         @media (max-width:1024px) {
           .proj-card.large, .proj-card.small { grid-column:span 6; }
           .srv-grid { grid-template-columns:1fr 1fr; }
@@ -532,7 +735,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* ── NAV ── */}
+      {/* NAV */}
       <nav className={`navbar${scrolled?' scrolled':''}`}>
         <div className="nav-inner">
           <a href="#" className="nav-logo">Jesse<em>.</em></a>
@@ -545,18 +748,16 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
       <div className={`mob-menu${menu?' open':''}`}>
         <button className="mob-close" onClick={()=>setMenu(false)}>✕</button>
         {NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`} onClick={()=>setMenu(false)}>{n==='Coffee'?'☕ Coffee':n}</a>)}
       </div>
 
-      {/* Three.js — lazy loaded, won't block render */}
       <Suspense fallback={null}>
         <ThreeBackground />
       </Suspense>
 
-      {/* ── HERO ── */}
+      {/* HERO */}
       <section id="hero" className="hero">
         <div className="hero-inner">
           <div>
@@ -577,7 +778,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
+      {/* ABOUT */}
       <section id="about" className="section section-alt">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Who I Am</div>
@@ -603,7 +804,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
+      {/* SERVICES */}
       <section id="services" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">What I Do</div>
@@ -621,7 +822,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PROJECTS ── */}
+      {/* PROJECTS with SLIDESHOW */}
       <section id="projects" className="section section-alt">
         <div className="s-inner">
           <div className="s-eyebrow reveal">My Work</div>
@@ -637,34 +838,131 @@ export default function Home() {
             </div>
           ) : (
             <div className="proj-grid">
-              {projects.map((p, i) => (
-                <div key={p.id || p.title} className={`proj-card ${p.size} reveal`} style={{transitionDelay: `${i * 0.07}s`}}>
-                  <div className="proj-img">
-                    <img src={p.cover} alt={p.title} loading="lazy" onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/0a0a18/00f5d4?text=Project+Image';
-                    }} />
-                  </div>
-                  <div className="proj-body">
-                    {p.size === 'large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
-                    <div className="proj-year">{p.year}</div>
-                    <div className="proj-title">{p.title}</div>
-                    <div className="proj-desc">{p.description}</div>
-                    <div className="proj-tags">
-                      {p.tags && p.tags.map(t => <span key={t} className="proj-tag">{t}</span>)}
+              {projects.map((project, i) => {
+                const mediaItems = getAllMedia(project);
+                const currentIndex = currentSlide[project.id] || 0;
+                const currentMedia = mediaItems[currentIndex];
+                const hasMultipleMedia = mediaItems.length > 1;
+                
+                return (
+                  <div 
+                    key={project.id || project.title} 
+                    className={`proj-card ${project.size} reveal`} 
+                    style={{transitionDelay: `${i * 0.07}s`}}
+                    onMouseEnter={() => hasMultipleMedia && startSlideshow(project.id, mediaItems.map(m => m.url))}
+                    onMouseLeave={() => hasMultipleMedia && stopSlideshow(project.id)}
+                  >
+                    <div className="slideshow-container">
+                      {currentMedia && (
+                        <div className="slideshow-slide">
+                          {currentMedia.type === 'video' ? (
+                            currentMedia.embedUrl ? (
+                              <iframe
+                                src={currentMedia.embedUrl}
+                                title={project.title}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                              />
+                            ) : (
+                              <video 
+                                autoPlay={false}
+                                loop 
+                                muted 
+                                playsInline
+                                controls={false}
+                              >
+                                <source src={currentMedia.url} type="video/mp4" />
+                              </video>
+                            )
+                          ) : (
+                            <img 
+                              src={currentMedia.url} 
+                              alt={project.title} 
+                              loading="lazy"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/0a0a18/00f5d4?text=Image+Not+Found';
+                              }}
+                            />
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Media counter badge */}
+                      {hasMultipleMedia && (
+                        <div className="media-badge">
+                          📷 {currentIndex + 1}/{mediaItems.length}
+                        </div>
+                      )}
+                      
+                      {/* Navigation Arrows */}
+                      {hasMultipleMedia && (
+                        <>
+                          <button 
+                            className="slide-nav slide-prev"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const newIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
+                              goToSlide(project.id, newIndex, mediaItems);
+                              stopSlideshow(project.id);
+                            }}
+                          >
+                            ‹
+                          </button>
+                          <button 
+                            className="slide-nav slide-next"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const newIndex = (currentIndex + 1) % mediaItems.length;
+                              goToSlide(project.id, newIndex, mediaItems);
+                              stopSlideshow(project.id);
+                            }}
+                          >
+                            ›
+                          </button>
+                        </>
+                      )}
+                      
+                      {/* Dots indicator */}
+                      {hasMultipleMedia && (
+                        <div className="slide-dots">
+                          {mediaItems.map((_, idx) => (
+                            <button
+                              key={idx}
+                              className={`dot ${idx === currentIndex ? 'active' : ''}`}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                goToSlide(project.id, idx, mediaItems);
+                                stopSlideshow(project.id);
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <div className="proj-links">
-                      <a href={p.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
-                      <a href={p.url} className="proj-link">↗ View</a>
+                    
+                    <div className="proj-body">
+                      {project.size === 'large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
+                      <div className="proj-year">{project.year}</div>
+                      <div className="proj-title">{project.title}</div>
+                      <div className="proj-desc">{project.description}</div>
+                      <div className="proj-tags">
+                        {project.tags && project.tags.map(tag => <span key={tag} className="proj-tag">{tag}</span>)}
+                      </div>
+                      <div className="proj-links">
+                        <a href={project.github} target="_blank" rel="noreferrer" className="proj-link">⬡ GitHub</a>
+                        <a href={project.url} className="proj-link">↗ View</a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
-      {/* ── CERTS ── */}
+      {/* CERTS */}
       <section id="certifications" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Credentials</div>
@@ -684,7 +982,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── COFFEE ── */}
+      {/* COFFEE */}
       <section id="coffee" className="section section-alt">
         <div className="s-inner">
           <div className="coffee-wrap">
@@ -714,7 +1012,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── CONTACT ── */}
+      {/* CONTACT */}
       <section id="contact" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Get In Touch</div>
@@ -774,7 +1072,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── PGP SIGNATURE ── */}
+      {/* PGP */}
       <section id="pgp" className="section">
         <div className="s-inner">
           <div className="s-eyebrow reveal">Cryptographic Identity</div>
@@ -864,7 +1162,7 @@ P+J/hTNn
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
+      {/* FOOTER */}
       <footer className="footer">
         <div className="footer-inner">
           <a href="#" className="footer-logo">Jesse<em>.</em></a>
@@ -874,7 +1172,7 @@ P+J/hTNn
         </div>
       </footer>
 
-      {/* ── BINANCE MODAL ── */}
+      {/* MODALS */}
       <div className={`modal-ov${modal==='binance'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
           <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)}>✕</button></div>
@@ -887,7 +1185,6 @@ P+J/hTNn
         </div>
       </div>
 
-      {/* ── PAYSTACK MODAL ── */}
       <div className={`modal-ov${modal==='paystack'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
           <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)}>✕</button></div>
