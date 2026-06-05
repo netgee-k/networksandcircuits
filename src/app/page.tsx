@@ -717,7 +717,7 @@ export default function Home() {
 
       <nav className={`navbar${scrolled?' scrolled':''}`}>
         <div className="nav-inner">
-          <a href="#" className="nav-logo">Jesse<em>.</em></a>
+          <a href="#" className="nav-logo">NETWORKS & CIRCUITS <em>.</em></a>
           <ul className="nav-links">
             {NAV.map(n=><li key={n}><a href={`#${n.toLowerCase()}`}>{n==='Coffee'?'☕ Coffee':n}</a></li>)}
           </ul>
@@ -740,9 +740,9 @@ export default function Home() {
         <div className="hero-inner">
           <div>
             <div className="eyebrow">Available for freelance</div>
-            <h1>Hi, I&apos;m<span className="grad">Jesse Kimani</span></h1>
+            <h1>Hi, I&apos;m<span className="grad">NETWORKS & CIRCUITS</span></h1>
             <div className="typed-line">{typed}<span className="cursor">|</span></div>
-            <p className="hero-desc">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. I break things so others don&apos;t have to.</p>
+            <p className="hero-desc">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. </p>
             <div className="hero-btns">
               <a href="#projects" className="btn-g">⬡ View Projects</a>
               <a href="#contact"  className="btn-o">✉ Contact Me</a>
@@ -1130,10 +1130,10 @@ P+J/hTNn
 
       <footer className="footer">
         <div className="footer-inner">
-          <a href="#" className="footer-logo">Jesse<em>.</em></a>
+          <a href="#" className="footer-logo">NETWORKS & CIRCUITS<em>.</em></a>
           <nav className="footer-nav">{NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`}>{n}</a>)}</nav>
           <a href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noreferrer" className="wa-btn">💬 WhatsApp</a>
-          <p className="footer-copy">© 2025 Jesse Kimani — All rights reserved.</p>
+          <p className="footer-copy">© 2025 NETWORKS &CIRCUITS — All rights reserved.</p>
         </div>
       </footer>
 
