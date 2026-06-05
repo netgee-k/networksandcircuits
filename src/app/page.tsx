@@ -30,12 +30,12 @@ const AiBrain = lazy(() => import('@/components/AiBrain'));
 const CONFIG = {
   paystack: {
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || 'pk_test_your_key_here',
-    emailFallback: process.env.NEXT_PUBLIC_PAYSTACK_EMAIL || 'netg3ek@gmail.com'
+    emailFallback: process.env.NEXT_PUBLIC_PAYSTACK_EMAIL || 'networksandcircuits@gmail.com'
   },
   binance: { payLink: process.env.NEXT_PUBLIC_BINANCE_PAY_LINK || 'https://pay.binance.com/en' },
 };
 const CONTACT = {
-  email:    process.env.NEXT_PUBLIC_CONTACT_EMAIL   || 'netg3ek@gmail.com',
+  email:    process.env.NEXT_PUBLIC_CONTACT_EMAIL   || 'networksandcircuits@gmail.com',
   github:   process.env.NEXT_PUBLIC_GITHUB_URL      || 'https://github.com/netgee-k',
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '254707540010',
   location: process.env.NEXT_PUBLIC_LOCATION        || 'Nairobi, Kenya 🇰🇪',
@@ -53,7 +53,7 @@ const SERVICES = [
   { n:'01', icon:'◈', title:'Penetration Testing',      desc:'Full security assessments, vulnerability scanning, ethical hacking and remediation to fortify your defenses.' },
   { n:'02', icon:'◎', title:'Network Design & Security', desc:'Security-first architectures: SDN, VLANs, routing protocols and hardened remote access solutions.' },
   { n:'03', icon:'⟨/⟩',title:'Web Development',          desc:'Secure full-stack apps from polished frontends to hardened APIs, built with security from day one.' },
-  { n:'04', icon:'⊕', title:'Digital Forensics',         desc:'Incident response, evidence collection and court-ready analysis after breaches or investigations.' },
+  { n:'04', icon:'⊕', title:'Digital Forensics',        desc:'Authorized incident response, digital forensic investigations, and evidence preservation for cybersecurity, compliance, and client-approved security engagements.' },
   { n:'05', icon:'◉', title:'Telemetry & Monitoring',    desc:'Grafana, Prometheus and custom dashboards for full network and security visibility.' },
   { n:'06', icon:'⬡', title:'Cloud Security',            desc:'AWS and Azure hardening: IAM policies, secure VPC design and cloud-native security tooling.' },
 ];
