@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Jesse Kimani | Network Engineer & Cybersecurity Specialist',
-  description: 'Network Engineer, Cybersecurity Specialist and Penetration Tester based in Nairobi, Kenya.',
+  title: 'NETWORKS & CIRCUITS',
+  description: 'Networking, Cybersecurity  and  Digital forensics based in Nairobi, Kenya.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
