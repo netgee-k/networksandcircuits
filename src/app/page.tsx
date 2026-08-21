@@ -740,12 +740,12 @@ export default function Home() {
         <div className="hero-inner">
           <div>
             <div className="eyebrow">Available for freelance</div>
-            <h1>Hi, I&apos;m<span className="grad">NETWORKS & CIRCUITS</span></h1>
+            <h1>Hello world ! , I&apos;m<span className="grad">JESSE  -  KIMANI</span></h1>
             <div className="typed-line">{typed}<span className="cursor">|</span></div>
             <p className="hero-desc">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. </p>
             <div className="hero-btns">
               <a href="#projects" className="btn-g">⬡ View Projects</a>
-              <a href="#contact"  className="btn-o">✉ Contact Us</a>
+              <a href="#contact"  className="btn-o">✉ Contact Me</a>
             </div>
           </div>
           <div className="hero-canvas-wrap">
@@ -758,12 +758,12 @@ export default function Home() {
 
       <section id="about" className="section section-alt">
         <div className="s-inner">
-          <div className="s-eyebrow reveal">This Is</div>
-          <h2 className="s-title reveal">Network &amp;<br /><em>Cybersecurity</em> Pro</h2>
+          <div className="s-eyebrow reveal">ABOUT ME </div>
+          <h2 className="s-title reveal">Networking  &amp;<br /><em>Cybersecurity</em> </h2>
           <div className="about-grid">
             <div className="reveal">
-              <p className="about-p">We Are Experienced Network Engineer and Penetration Tester specializing in secure infrastructure design, vulnerability assessment, and threat mitigation. CompTIA PenTest+ certified with hands-on expertise across the full attack and defense lifecycle.</p>
-              <p className="about-p">We help organizations build resilient systems ensuring data confidentiality, integrity, and availability through comprehensive security and optimized network design.</p>
+              <p className="about-p">I'm an Experienced Network Engineer and Penetration Tester specializing in secure infrastructure design, vulnerability assessment, and threat mitigation. CompTIA PenTest+ certified with hands-on expertise across the full attack and defense lifecycle.</p>
+              <p className="about-p">I help organizations build resilient systems ensuring data confidentiality, integrity, and availability through comprehensive security and optimized network design.</p>
               <div className="skills-lbl">Technical Arsenal</div>
               <div className="chips">{SKILLS.map(s=><span key={s} className="chip">{s}</span>)}</div>
             </div>
@@ -783,7 +783,7 @@ export default function Home() {
 
       <section id="services" className="section">
         <div className="s-inner">
-          <div className="s-eyebrow reveal">What We Do</div>
+          <div className="s-eyebrow reveal">What I Do</div>
           <h2 className="s-title reveal">Professional<br /><em>Services</em></h2>
           <div className="srv-grid">
             {SERVICES.map((s,i)=>(
@@ -800,7 +800,7 @@ export default function Home() {
 
       <section id="projects" className="section section-alt">
         <div className="s-inner">
-          <div className="s-eyebrow reveal">Our Work</div>
+          <div className="s-eyebrow reveal">MY Work</div>
           <h2 className="s-title reveal">Featured<br /><em>Projects</em></h2>
           
           {projectsLoading ? (
@@ -974,7 +974,6 @@ export default function Home() {
               <strong>Direct crypto?</strong><br />
               <em>BTC: </em>{CRYPTO.btc}<br />
               <em>ETH/USDT: </em>{CRYPTO.eth}<br />
-              <span style={{opacity:.45,fontSize:'.64rem'}}>* Update your real wallet addresses in .env.local before going live</span>
             </div>
           </div>
         </div>
