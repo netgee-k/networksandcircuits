@@ -740,8 +740,7 @@ export default function Home() {
         <div className="hero-inner">
           <div>
             <div className="eyebrow">Available for freelance</div>
-            <h1>Hello world ! , I&apos;m<span className="grad">JESSE  -  KIMANI</span></h1>
-            <div className="typed-line">{typed}<span className="cursor">|</span></div>
+            <h1 style={{fontSize:"clamp(2rem,5vw,4rem)",lineHeight:1.1}}>Hello World !....This is <span className="grad" style={{display:"block"}}>Networks &amp; Circuits</span></h1>            <div className="typed-line">{typed}<span className="cursor">|</span></div>
             <p className="hero-desc">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. </p>
             <div className="hero-btns">
               <a href="#projects" className="btn-g">⬡ View Projects</a>
