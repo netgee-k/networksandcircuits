@@ -32,7 +32,7 @@ const CONFIG = {
     publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || 'pk_test_your_key_here',
     emailFallback: process.env.NEXT_PUBLIC_PAYSTACK_EMAIL || 'networksandcircuits@gmail.com'
   },
-  binance: { payLink: process.env.NEXT_PUBLIC_BINANCE_PAY_LINK || 'https://pay.binance.com/en' },
+  binance: { payId: process.env.NEXT_PUBLIC_BINANCE_PAY_ID || '443486911' },
 };
 const CONTACT = {
   email:    process.env.NEXT_PUBLIC_CONTACT_EMAIL   || 'networksandcircuits@gmail.com',
@@ -41,10 +41,6 @@ const CONTACT = {
   location: process.env.NEXT_PUBLIC_LOCATION        || 'Nairobi, Kenya 🇰🇪',
   twitter:  '#',
   linkedin: '#',
-};
-const CRYPTO = {
-  btc: process.env.NEXT_PUBLIC_BTC_ADDRESS || 'bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9',
-  eth: process.env.NEXT_PUBLIC_ETH_ADDRESS || '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
 };
 
 const AUTOSHIFT = {
@@ -279,10 +275,9 @@ export default function Home() {
     setTimeout(() => setToast(''), 5000);
   };
 
-  const handleBinancePay = () => {
-    window.open(`${CONFIG.binance.payLink}?amount=${parseFloat(custB) || selB}&currency=USDT&memo=CoffeeJesse`, '_blank');
-    setModal(null);
-    showToast('Redirecting to Binance Pay...');
+  const handleCopyBinanceId = () => {
+    navigator.clipboard?.writeText(CONFIG.binance.payId);
+    showToast('Binance Pay ID copied 📋');
   };
 
   const handlePaystackPay = () => {
@@ -1142,11 +1137,6 @@ export default function Home() {
                 <button className="btn-g" style={{background:'#00C3F7',color:'#001a22',width:'100%',justifyContent:'center'}}>Pay with Card / M-Pesa</button>
               </div>
             </div>
-            <div className="crypto-box reveal">
-              <strong>Direct crypto?</strong><br />
-              <em>BTC: </em>{CRYPTO.btc}<br />
-              <em>ETH/USDT: </em>{CRYPTO.eth}<br />
-            </div>
           </div>
         </div>
       </section>
@@ -1265,12 +1255,22 @@ export default function Home() {
       <div className={`modal-ov${modal==='binance'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
           <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)} aria-label="Close">✕</button></div>
-          <p className="msub">Via <strong style={{color:'#F0B90B'}}>Binance Pay</strong> — pick an amount:</p>
+          <p className="msub">Via <strong style={{color:'#F0B90B'}}>Binance Pay</strong> — pick an amount, then send it to my Binance ID:</p>
           <div className="amts">
             {B_AMT.map(a=><button key={a} className={`ab${selB===a&&!custB?' on':''}`} onClick={()=>{setSelB(a);setCustB('');}}>${a}</button>)}
           </div>
           <input className="mi" type="number" placeholder="Custom amount (USD)" min="1" value={custB} onChange={e=>setCustB(e.target.value)} />
-          <button className="btn-g" style={{width:'100%',justifyContent:'center',background:'#F0B90B',padding:'14px'}} onClick={handleBinancePay}>Proceed with Binance Pay</button>
+          <div style={{background:'rgba(240,185,11,.08)',border:'1px solid rgba(240,185,11,.3)',borderRadius:10,padding:'16px 18px',marginBottom:14,textAlign:'center'}}>
+            <div className="mono" style={{fontSize:'.62rem',letterSpacing:2,color:'var(--muted)',textTransform:'uppercase',marginBottom:6}}>Binance Pay ID</div>
+            <div className="mono" style={{fontSize:'1.5rem',fontWeight:800,color:'#F0B90B',letterSpacing:2}}>{CONFIG.binance.payId}</div>
+            <div style={{fontSize:'.8rem',color:'var(--muted)',marginTop:8}}>Send ${parseFloat(custB) || selB} (USDT or any coin you like)</div>
+          </div>
+          <button className="btn-g" style={{width:'100%',justifyContent:'center',background:'#F0B90B',padding:'14px',marginBottom:14}} onClick={handleCopyBinanceId}>📋 Copy Binance ID</button>
+          <ol style={{fontSize:'.8rem',color:'var(--muted)',lineHeight:1.8,paddingLeft:18}}>
+            <li>Open the Binance app and tap <strong style={{color:'var(--text)'}}>Pay</strong></li>
+            <li>Choose <strong style={{color:'var(--text)'}}>Send</strong> and enter the ID above</li>
+            <li>Enter the amount and confirm. Thank you! ☕</li>
+          </ol>
         </div>
       </div>
 
