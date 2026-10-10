@@ -46,7 +46,78 @@ const CRYPTO = {
   btc: process.env.NEXT_PUBLIC_BTC_ADDRESS || 'bc1qxy2kgdygjrsqtzq2n0yrf249wfj5ygr4hmx2n9',
   eth: process.env.NEXT_PUBLIC_ETH_ADDRESS || '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
 };
-const NAV      = ['About','Services','Projects','Certifications','Coffee','Contact'];
+
+const AUTOSHIFT = {
+  name: 'AutoShift',
+  url: process.env.NEXT_PUBLIC_AUTOSHIFT_URL || 'https://autoshift.networksandcircuits.online',
+  tagline: 'Stop refreshing. Start working.',
+  desc: 'AutoShift is a subscription platform that monitors available work shifts and automates the shift-claiming workflow on supported platforms, so you spend less time checking manually and more time actually working.',
+  features: [
+    { icon: '◉',  title: 'Shift monitoring',    text: 'Watches for newly available shifts around the clock so you never miss an opening.' },
+    { icon: '⚡',  title: 'Workflow automation', text: 'Automates the repetitive claiming steps based on the rules you set.' },
+    { icon: '◈',  title: 'Custom preferences',  text: 'Pick the shifts that matter to you and let AutoShift ignore the rest.' },
+    { icon: '⬡',  title: 'Simple subscription', text: 'Register on the website, choose a plan, and get access to your dashboard.' },
+  ],
+  steps: [
+    { t: 'Register',  d: 'Create your account on the AutoShift website.' },
+    { t: 'Configure', d: 'Connect a supported platform and set your shift preferences.' },
+    { t: 'Relax',     d: 'AutoShift monitors and acts on shifts that match your rules.' },
+  ],
+};
+
+const PGP_KEY = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+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
+P+J/hTNn
+=NJlL
+-----END PGP PUBLIC KEY BLOCK-----`;
+
+const NAV      = ['About','Services','AutoShift','Projects','Certifications','Coffee','Contact'];
 const ROLES    = ['Network Engineer','Cybersecurity Specialist','Penetration Tester','DevOps Engineer'];
 const SKILLS   = ['Penetration Testing','Network Security','Cisco / CCNA','AWS','Azure','Docker','Kubernetes','Python','JavaScript','TypeScript','Bash','Metasploit','Wireshark','Burp Suite','Nmap','SIEM','OSINT','PCI DSS','Digital Forensics'];
 const SERVICES = [
@@ -86,20 +157,20 @@ export default function Home() {
   // Projects fetch
   useEffect(() => {
     const abortController = new AbortController();
-    
+
     async function loadProjects() {
       try {
         setProjectsLoading(true);
-        const response = await fetch('/api/projects', { 
-          signal: abortController.signal 
+        const response = await fetch('/api/projects', {
+          signal: abortController.signal
         });
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
-        
+
         const data = await response.json();
-        
+
         if (Array.isArray(data)) {
           setProjects(data);
           const initialSlides: Record<number, number> = {};
@@ -117,7 +188,7 @@ export default function Home() {
         setProjectsLoading(false);
       }
     }
-    
+
     loadProjects();
     return () => abortController.abort();
   }, []);
@@ -125,21 +196,21 @@ export default function Home() {
   // Start slideshow
   const startSlideshow = (projectId: number, mediaItems: MediaItem[]) => {
     if (mediaItems.length <= 1) return;
-    
+
     if (slideIntervals[projectId]) {
       clearInterval(slideIntervals[projectId]);
     }
-    
+
     const interval = setInterval(() => {
       setCurrentSlide(prev => ({
         ...prev,
         [projectId]: ((prev[projectId] || 0) + 1) % mediaItems.length
       }));
     }, 3000);
-    
+
     setSlideIntervals(prev => ({ ...prev, [projectId]: interval }));
   };
-  
+
   const stopSlideshow = (projectId: number) => {
     if (slideIntervals[projectId]) {
       clearInterval(slideIntervals[projectId]);
@@ -150,7 +221,7 @@ export default function Home() {
       });
     }
   };
-  
+
   const goToSlide = (projectId: number, index: number) => {
     setCurrentSlide(prev => ({ ...prev, [projectId]: index }));
   };
@@ -170,11 +241,11 @@ export default function Home() {
 
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { 
-        if (e.isIntersecting) e.target.classList.add('visible'); 
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('visible');
       });
     }, { threshold: 0.08, rootMargin: '40px' });
-    
+
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     return () => obs.disconnect();
   }, [projects]);
@@ -185,17 +256,17 @@ export default function Home() {
     const tick = () => {
       const w = ROLES[ri];
       setTyped(del ? w.slice(0, ci--) : w.slice(0, ci++));
-      if (!del && ci > w.length) { 
-        del = true;  
-        t = setTimeout(tick, 2000); 
-        return; 
+      if (!del && ci > w.length) {
+        del = true;
+        t = setTimeout(tick, 2000);
+        return;
       }
-      if (del && ci < 0) { 
-        del = false; 
-        ri = (ri + 1) % ROLES.length; 
-        ci = 0; 
-        t = setTimeout(tick, 400); 
-        return; 
+      if (del && ci < 0) {
+        del = false;
+        ri = (ri + 1) % ROLES.length;
+        ci = 0;
+        t = setTimeout(tick, 400);
+        return;
       }
       t = setTimeout(tick, del ? 50 : 100);
     };
@@ -217,26 +288,26 @@ export default function Home() {
   const handlePaystackPay = () => {
     const amount = (parseFloat(custP) || selP) * 100;
     const email = psEmail || CONFIG.paystack.emailFallback;
-    if (!email.includes('@')) { 
-      alert('Please enter a valid email.'); 
-      return; 
+    if (!email.includes('@')) {
+      alert('Please enter a valid email.');
+      return;
     }
     const PS = (window as any).PaystackPop;
-    if (!PS) { 
-      alert('Payment loading, try again.'); 
-      return; 
+    if (!PS) {
+      alert('Payment loading, try again.');
+      return;
     }
-    PS.setup({ 
-      key: CONFIG.paystack.publicKey, 
-      email, 
-      amount, 
-      currency: 'KES', 
+    PS.setup({
+      key: CONFIG.paystack.publicKey,
+      email,
+      amount,
+      currency: 'KES',
       ref: 'coffee_' + Date.now(),
-      callback: (r: any) => { 
-        setModal(null); 
-        showToast('Thank you! ☕ Ref: ' + r.reference); 
+      callback: (r: any) => {
+        setModal(null);
+        showToast('Thank you! ☕ Ref: ' + r.reference);
       },
-      onClose: () => {} 
+      onClose: () => {}
     }).openIframe();
   };
 
@@ -256,36 +327,36 @@ export default function Home() {
 
   const getEmbedUrl = (url: string) => {
     if (!url) return null;
-    
+
     const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/);
     if (youtubeMatch) {
       return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
     }
-    
+
     const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
     if (vimeoMatch) {
       return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
     }
-    
+
     return null;
   };
 
   const getAllMedia = (project: Project): MediaItem[] => {
     const media: MediaItem[] = [];
-    
+
     if (project.cover) {
       media.push({ type: 'image', url: project.cover });
     }
-    
+
     if (project.video && project.video.trim()) {
       const embedUrl = getEmbedUrl(project.video);
-      media.push({ 
-        type: 'video', 
+      media.push({
+        type: 'video',
         url: project.video,
         embedUrl: embedUrl || undefined
       });
     }
-    
+
     if (project.gallery && project.gallery.length > 0) {
       project.gallery.forEach(img => {
         if (img && img.trim() && img !== project.cover) {
@@ -293,7 +364,7 @@ export default function Home() {
         }
       });
     }
-    
+
     return media;
   };
 
@@ -322,6 +393,7 @@ export default function Home() {
         ::selection { background:var(--cyan); color:var(--bg); }
         ::-webkit-scrollbar { width:5px; }
         ::-webkit-scrollbar-thumb { background:var(--grad); border-radius:3px; }
+        .mono { font-family:'IBM Plex Mono',monospace; }
 
         body::before {
           content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -348,7 +420,7 @@ export default function Home() {
         .nav-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
         .nav-logo  { font-size:1.5rem; font-weight:800; color:var(--text); text-decoration:none; letter-spacing:-1px; }
         .nav-logo em { color:var(--cyan); font-style:normal; }
-        .nav-links { display:flex; gap:36px; list-style:none; }
+        .nav-links { display:flex; gap:30px; list-style:none; }
         .nav-links a {
           font-family:'IBM Plex Mono',monospace; font-size:.72rem; font-weight:500;
           letter-spacing:2px; text-transform:uppercase; color:var(--muted);
@@ -357,13 +429,14 @@ export default function Home() {
         .nav-links a::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--grad); transition:width .3s; }
         .nav-links a:hover { color:var(--cyan); }
         .nav-links a:hover::after { width:100%; }
+        .nav-links a.nav-hl { color:var(--cyan); }
         .menu-btn { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; }
         .menu-btn span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:all .3s; }
 
         .mob-menu {
           position:fixed; inset:0; z-index:199;
           background:rgba(4,4,13,.97); backdrop-filter:blur(20px);
-          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+          display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
           opacity:0; visibility:hidden; transition:all .35s;
         }
         .mob-menu.open { opacity:1; visibility:visible; }
@@ -436,6 +509,43 @@ export default function Home() {
         .reveal { opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease; }
         .reveal.visible { opacity:1; transform:none; }
 
+        /* ---------- AutoShift featured product ---------- */
+        .as-hero {
+          display:grid; grid-template-columns:1.1fr 1fr; gap:clamp(30px,5vw,60px); align-items:center;
+          background:var(--card); border:1px solid var(--bh); border-radius:18px;
+          padding:clamp(26px,4vw,48px); backdrop-filter:blur(10px);
+          position:relative; overflow:hidden; box-shadow:0 0 60px rgba(0,245,212,.07);
+        }
+        .as-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--grad); }
+        .as-badge {
+          display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:2px;
+          text-transform:uppercase; color:var(--cyan); border:1px solid rgba(0,245,212,.25);
+          background:rgba(0,245,212,.06); padding:5px 12px; border-radius:20px; margin-bottom:18px;
+        }
+        .as-tagline { font-size:clamp(1.5rem,2.8vw,2.3rem); font-weight:800; letter-spacing:-1px; line-height:1.2; margin-bottom:16px; }
+        .as-desc { font-size:.95rem; color:var(--muted); line-height:1.9; margin-bottom:28px; }
+        .as-url { font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); margin-top:20px; word-break:break-all; }
+        .as-note { font-size:.75rem; color:var(--muted); line-height:1.7; margin-top:14px; max-width:480px; }
+        .as-features { display:grid; gap:12px; }
+        .as-feat {
+          display:flex; gap:16px; align-items:flex-start; padding:18px; border-radius:12px;
+          background:rgba(255,255,255,.02); border:1px solid var(--border); transition:all .3s;
+        }
+        .as-feat:hover { border-color:var(--bh); transform:translateX(6px); background:rgba(0,245,212,.03); }
+        .as-feat-icon { font-size:1.3rem; color:var(--cyan); width:36px; flex-shrink:0; text-align:center; }
+        .as-feat-title { font-weight:700; font-size:.95rem; margin-bottom:4px; }
+        .as-feat-text { font-size:.82rem; color:var(--muted); line-height:1.65; }
+        .as-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:18px; }
+        .as-step { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:20px 22px; }
+        .as-step-n { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--cyan); letter-spacing:2px; margin-bottom:8px; }
+        .as-step-t { font-weight:800; font-size:.98rem; margin-bottom:6px; }
+        .as-step-d { font-size:.82rem; color:var(--muted); line-height:1.65; }
+
+        .as-wrap { margin-top:clamp(36px,5vw,64px); scroll-margin-top:90px; }
+        .as-wrap-head { display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:22px; }
+        .as-wrap-star { font-family:'IBM Plex Mono',monospace; font-size:.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--cyan); }
+        .as-wrap-title { font-size:clamp(1.4rem,2.4vw,2rem); font-weight:800; letter-spacing:-1px; }
+        .as-wrap-title em { color:var(--cyan); font-style:normal; }
         .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:clamp(40px,6vw,80px); align-items:start; }
         .about-p { font-size:.95rem; color:var(--muted); line-height:1.95; margin-bottom:18px; }
         .skills-lbl { font-family:'IBM Plex Mono',monospace; font-size:.62rem; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin:22px 0 12px; }
@@ -459,24 +569,24 @@ export default function Home() {
         .srv-desc { font-size:.84rem; color:var(--muted); line-height:1.75; }
 
         .proj-grid { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; }
-        .proj-card { 
-          background:var(--card); 
-          border:1px solid var(--border); 
-          border-radius:14px; 
-          overflow:hidden; 
-          transition:all .35s var(--ease); 
-          display:flex; 
-          flex-direction:column; 
+        .proj-card {
+          background:var(--card);
+          border:1px solid var(--border);
+          border-radius:14px;
+          overflow:hidden;
+          transition:all .35s var(--ease);
+          display:flex;
+          flex-direction:column;
           backdrop-filter:blur(8px);
         }
-        .proj-card:hover { 
-          border-color:var(--bh); 
-          transform:translateY(-8px) scale(1.01); 
-          box-shadow:0 22px 50px rgba(0,0,0,.45); 
+        .proj-card:hover {
+          border-color:var(--bh);
+          transform:translateY(-8px) scale(1.01);
+          box-shadow:0 22px 50px rgba(0,0,0,.45);
         }
         .proj-card.large { grid-column:span 7; }
         .proj-card.small { grid-column:span 5; }
-        
+
         .slideshow-container {
           position: relative;
           overflow: hidden;
@@ -484,7 +594,7 @@ export default function Home() {
         }
         .proj-card.large .slideshow-container { height: 240px; }
         .proj-card.small .slideshow-container { height: 180px; }
-        
+
         .slideshow-slide {
           width: 100%;
           height: 100%;
@@ -502,7 +612,7 @@ export default function Home() {
         .proj-card:hover .slideshow-slide video {
           transform: scale(1.05);
         }
-        
+
         .slide-nav {
           position: absolute;
           top: 50%;
@@ -522,9 +632,7 @@ export default function Home() {
           z-index: 10;
           opacity: 0;
         }
-        .proj-card:hover .slide-nav {
-          opacity: 1;
-        }
+        .proj-card:hover .slide-nav { opacity: 1; }
         .slide-nav:hover {
           background: var(--cyan);
           color: var(--bg);
@@ -532,7 +640,7 @@ export default function Home() {
         }
         .slide-prev { left: 10px; }
         .slide-next { right: 10px; }
-        
+
         .slide-dots {
           position: absolute;
           bottom: 10px;
@@ -547,6 +655,7 @@ export default function Home() {
           width: 8px;
           height: 8px;
           border-radius: 50%;
+          border: none;
           background: rgba(255,255,255,0.5);
           cursor: pointer;
           transition: all 0.2s;
@@ -560,7 +669,7 @@ export default function Home() {
           background: var(--cyan);
           transform: scale(1.2);
         }
-        
+
         .media-badge {
           position: absolute;
           top: 10px;
@@ -577,7 +686,7 @@ export default function Home() {
           align-items: center;
           gap: 4px;
         }
-        
+
         .proj-body { padding:22px; flex:1; display:flex; flex-direction:column; }
         .feat-tag { font-family:'IBM Plex Mono',monospace; font-size:.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; display:block; }
         .proj-year { font-family:'IBM Plex Mono',monospace; font-size:.62rem; color:var(--muted); letter-spacing:2px; margin-bottom:6px; }
@@ -623,7 +732,7 @@ export default function Home() {
         .pay-icon { font-size:1.7rem; }
         .pay-name { font-size:1.05rem; font-weight:800; }
         .pay-desc { font-size:.84rem; color:var(--muted); line-height:1.6; margin-bottom:20px; }
-        .crypto-box { font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; }
+        .crypto-box { font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:var(--muted); background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:10px; padding:18px 22px; text-align:left; line-height:2.1; word-break:break-all; }
         .crypto-box strong { color:var(--text); }
         .crypto-box em { color:var(--cyan); font-style:normal; }
 
@@ -655,9 +764,12 @@ export default function Home() {
         .footer-nav { display:flex; gap:22px; flex-wrap:wrap; }
         .footer-nav a { font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
         .footer-nav a:hover { color:var(--cyan); }
+        .footer-legal { width:100%; display:flex; justify-content:center; gap:22px; flex-wrap:wrap; padding-top:18px; border-top:1px solid var(--border); }
+        .footer-legal a { font-size:.74rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+        .footer-legal a:hover { color:var(--cyan); }
         .wa-btn { display:inline-flex; align-items:center; gap:8px; background:#25D366; color:#fff; padding:9px 20px; border-radius:30px; font-size:.83rem; font-weight:700; text-decoration:none; transition:all .25s; }
         .wa-btn:hover { background:#1ebe5d; transform:translateY(-2px); box-shadow:0 10px 22px rgba(37,211,102,.28); }
-        .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:12px; }
+        .footer-copy { font-family:'IBM Plex Mono',monospace; font-size:.64rem; color:#3a3a5e; width:100%; text-align:center; margin-top:4px; }
 
         .modal-ov { display:none; position:fixed; inset:0; z-index:1000; background:rgba(4,4,13,.88); backdrop-filter:blur(20px); align-items:center; justify-content:center; padding:20px; }
         .modal-ov.open { display:flex; }
@@ -692,10 +804,11 @@ export default function Home() {
         .pgp-key-text::-webkit-scrollbar { width:3px; }
         .pgp-key-text::-webkit-scrollbar-thumb { background:rgba(0,245,212,.3); }
         @media (max-width:900px) { .pgp-grid { grid-template-columns:1fr; } }
-        
+
         @media (max-width:1024px) {
           .proj-card.large, .proj-card.small { grid-column:span 6; }
           .srv-grid { grid-template-columns:1fr 1fr; }
+          .nav-links { gap:20px; }
         }
         @media (max-width:900px) {
           .hero-inner { grid-template-columns:1fr; }
@@ -705,6 +818,8 @@ export default function Home() {
           .pay-grid { grid-template-columns:1fr; }
           .nav-links { display:none; }
           .menu-btn { display:flex; }
+          .as-hero { grid-template-columns:1fr; }
+          .as-steps { grid-template-columns:1fr; }
         }
         @media (max-width:640px) {
           .proj-card.large, .proj-card.small { grid-column:span 12; }
@@ -713,13 +828,24 @@ export default function Home() {
           .form-row { grid-template-columns:1fr; }
           .footer-inner { flex-direction:column; align-items:flex-start; }
         }
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { animation:none !important; transition:none !important; }
+          html { scroll-behavior:auto; }
+          .reveal { opacity:1; transform:none; }
+        }
       `}</style>
 
       <nav className={`navbar${scrolled?' scrolled':''}`}>
         <div className="nav-inner">
           <a href="#" className="nav-logo">NETWORKS & CIRCUITS <em>.</em></a>
           <ul className="nav-links">
-            {NAV.map(n=><li key={n}><a href={`#${n.toLowerCase()}`}>{n==='Coffee'?'☕ Coffee':n}</a></li>)}
+            {NAV.map(n=>(
+              <li key={n}>
+                <a href={`#${n.toLowerCase()}`} className={n==='AutoShift'?'nav-hl':''}>
+                  {n==='Coffee'?'☕ Coffee':n==='AutoShift'?'⚡ AutoShift':n}
+                </a>
+              </li>
+            ))}
           </ul>
           <button className="menu-btn" onClick={()=>setMenu(true)} aria-label="Open menu">
             <span/><span/><span/>
@@ -728,8 +854,8 @@ export default function Home() {
       </nav>
 
       <div className={`mob-menu${menu?' open':''}`}>
-        <button className="mob-close" onClick={()=>setMenu(false)}>✕</button>
-        {NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`} onClick={()=>setMenu(false)}>{n==='Coffee'?'☕ Coffee':n}</a>)}
+        <button className="mob-close" onClick={()=>setMenu(false)} aria-label="Close menu">✕</button>
+        {NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`} onClick={()=>setMenu(false)}>{n==='Coffee'?'☕ Coffee':n==='AutoShift'?'⚡ AutoShift':n}</a>)}
       </div>
 
       <Suspense fallback={null}>
@@ -740,10 +866,12 @@ export default function Home() {
         <div className="hero-inner">
           <div>
             <div className="eyebrow">Available for freelance</div>
-            <h1 style={{fontSize:"clamp(2rem,5vw,4rem)",lineHeight:1.1}}>Hello World !....This is <span className="grad" style={{display:"block"}}>Networks &amp; Circuits</span></h1>            <div className="typed-line">{typed}<span className="cursor">|</span></div>
+            <h1 style={{fontSize:"clamp(2rem,5vw,4rem)",lineHeight:1.1}}>Hello World !....This is <span className="grad" style={{display:"block"}}>Networks &amp; Circuits</span></h1>
+            <div className="typed-line">{typed}<span className="cursor">|</span></div>
             <p className="hero-desc">Building secure, scalable, and resilient infrastructure with a focus on cybersecurity and distributed systems. </p>
             <div className="hero-btns">
-              <a href="#projects" className="btn-g">⬡ View Projects</a>
+              <a href="#autoshift" className="btn-g">⚡ Try AutoShift</a>
+              <a href="#projects" className="btn-o">⬡ View Projects</a>
               <a href="#contact"  className="btn-o">✉ Contact Me</a>
             </div>
           </div>
@@ -794,6 +922,48 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          <div id="autoshift" className="as-wrap">
+            <div className="as-wrap-head reveal">
+              <span className="as-wrap-star">★ Featured Service</span>
+              <h3 className="as-wrap-title">Meet <em>AutoShift</em></h3>
+            </div>
+            <div className="as-hero reveal">
+            <div className="as-copy">
+              <span className="as-badge">SaaS · Subscription</span>
+              <h3 className="as-tagline">{AUTOSHIFT.tagline}</h3>
+              <p className="as-desc">{AUTOSHIFT.desc}</p>
+              <div className="hero-btns">
+                <a href={AUTOSHIFT.url} target="_blank" rel="noreferrer" className="btn-g">Get started ↗</a>
+                <a href={AUTOSHIFT.url} target="_blank" rel="noreferrer" className="btn-o">Learn more</a>
+              </div>
+              <div className="as-url">{AUTOSHIFT.url.replace('https://','')}</div>
+              <p className="as-note">AutoShift works with supported platforms only. You are responsible for using it in line with the terms of any platform you connect.</p>
+            </div>
+
+            <div className="as-features">
+              {AUTOSHIFT.features.map((f,i)=>(
+                <div key={f.title} className="as-feat reveal" style={{transitionDelay:`${i*.08}s`}}>
+                  <span className="as-feat-icon">{f.icon}</span>
+                  <div>
+                    <div className="as-feat-title">{f.title}</div>
+                    <div className="as-feat-text">{f.text}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="as-steps">
+            {AUTOSHIFT.steps.map((s,i)=>(
+              <div key={s.t} className="as-step reveal" style={{transitionDelay:`${i*.08}s`}}>
+                <div className="as-step-n">STEP {i+1}</div>
+                <div className="as-step-t">{s.t}</div>
+                <div className="as-step-d">{s.d}</div>
+              </div>
+            ))}
+          </div>
+          </div>
         </div>
       </section>
 
@@ -801,7 +971,7 @@ export default function Home() {
         <div className="s-inner">
           <div className="s-eyebrow reveal">MY Work</div>
           <h2 className="s-title reveal">Featured<br /><em>Projects</em></h2>
-          
+
           {projectsLoading ? (
             <div className="proj-loading reveal">
               <span style={{display: 'inline-block', animation: 'pulse 1.5s ease-in-out infinite'}}>⟳</span> Loading projects...
@@ -817,11 +987,11 @@ export default function Home() {
                 const currentIndex = currentSlide[project.id] || 0;
                 const currentMedia = mediaItems[currentIndex];
                 const hasMultipleMedia = mediaItems.length > 1;
-                
+
                 return (
-                  <div 
-                    key={project.id || project.title} 
-                    className={`proj-card ${project.size} reveal`} 
+                  <div
+                    key={project.id || project.title}
+                    className={`proj-card ${project.size} reveal`}
                     style={{transitionDelay: `${i * 0.07}s`}}
                     onMouseEnter={() => hasMultipleMedia && startSlideshow(project.id, mediaItems)}
                     onMouseLeave={() => hasMultipleMedia && stopSlideshow(project.id)}
@@ -839,18 +1009,18 @@ export default function Home() {
                                 allowFullScreen
                               />
                             ) : (
-                              <video 
-                                loop 
-                                muted 
+                              <video
+                                loop
+                                muted
                                 playsInline
                               >
                                 <source src={currentMedia.url} type="video/mp4" />
                               </video>
                             )
                           ) : (
-                            <img 
-                              src={currentMedia.url} 
-                              alt={project.title} 
+                            <img
+                              src={currentMedia.url}
+                              alt={project.title}
                               loading="lazy"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = 'https://placehold.co/600x400/0a0a18/00f5d4?text=Image+Not+Found';
@@ -859,17 +1029,18 @@ export default function Home() {
                           )}
                         </div>
                       )}
-                      
+
                       {hasMultipleMedia && (
                         <div className="media-badge">
                           📷 {currentIndex + 1}/{mediaItems.length}
                         </div>
                       )}
-                      
+
                       {hasMultipleMedia && (
                         <>
-                          <button 
+                          <button
                             className="slide-nav slide-prev"
+                            aria-label="Previous slide"
                             onClick={(e) => {
                               e.stopPropagation();
                               const newIndex = (currentIndex - 1 + mediaItems.length) % mediaItems.length;
@@ -879,8 +1050,9 @@ export default function Home() {
                           >
                             ‹
                           </button>
-                          <button 
+                          <button
                             className="slide-nav slide-next"
+                            aria-label="Next slide"
                             onClick={(e) => {
                               e.stopPropagation();
                               const newIndex = (currentIndex + 1) % mediaItems.length;
@@ -892,12 +1064,13 @@ export default function Home() {
                           </button>
                         </>
                       )}
-                      
+
                       {hasMultipleMedia && (
                         <div className="slide-dots">
                           {mediaItems.map((_, idx) => (
                             <button
                               key={idx}
+                              aria-label={`Go to slide ${idx + 1}`}
                               className={`dot ${idx === currentIndex ? 'active' : ''}`}
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -909,7 +1082,7 @@ export default function Home() {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="proj-body">
                       {project.size === 'large' && <span className="feat-tag">★ FEATURED PROJECT</span>}
                       <div className="proj-year">{project.year}</div>
@@ -1058,7 +1231,7 @@ export default function Home() {
                   🔑 Fetch from Keyserver
                 </a>
                 <button className="btn-o" style={{padding:'12px 22px',fontSize:'.88rem'}}
-                  onClick={()=>{navigator.clipboard?.writeText(`-----BEGIN PGP PUBLIC KEY BLOCK-----\nmQINBGmtoPYBEACjPNsC79blyL/hwntpz0k+hv4w/DF9k041T5TZPpjlBa4HOnA3\n...\n=NJlL\n-----END PGP PUBLIC KEY BLOCK-----`);showToast('PGP key copied to clipboard 🔑');}}>
+                  onClick={()=>{navigator.clipboard?.writeText(PGP_KEY);showToast('PGP key copied to clipboard 🔑');}}>
                   Copy Key
                 </button>
               </div>
@@ -1066,61 +1239,9 @@ export default function Home() {
             <div className="pgp-block">
               <div className="pgp-block-header">
                 <span className="mono" style={{fontSize:'.65rem',color:'var(--muted)',letterSpacing:'2px'}}>PUBLIC KEY BLOCK</span>
-                <button className="pgp-copy-btn" onClick={()=>{navigator.clipboard?.writeText(document.querySelector('.pgp-key-text')?.textContent||'');showToast('PGP key copied! 🔑');}}>⎘ copy</button>
+                <button className="pgp-copy-btn" onClick={()=>{navigator.clipboard?.writeText(PGP_KEY);showToast('PGP key copied! 🔑');}}>⎘ copy</button>
               </div>
-              <pre className="pgp-key-text">
-{`-----BEGIN PGP PUBLIC KEY BLOCK-----
-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
-P+J/hTNn
-=NJlL
------END PGP PUBLIC KEY BLOCK-----`}
-              </pre>
+              <pre className="pgp-key-text">{PGP_KEY}</pre>
             </div>
           </div>
         </div>
@@ -1131,13 +1252,19 @@ P+J/hTNn
           <a href="#" className="footer-logo">NETWORKS & CIRCUITS<em>.</em></a>
           <nav className="footer-nav">{NAV.map(n=><a key={n} href={`#${n.toLowerCase()}`}>{n}</a>)}</nav>
           <a href={`https://wa.me/${CONTACT.whatsapp}`} target="_blank" rel="noreferrer" className="wa-btn">💬 WhatsApp</a>
-          <p className="footer-copy">© 2025 NETWORKS &CIRCUITS — All rights reserved.</p>
+          <div className="footer-legal">
+            <a href="/terms">Terms of Service</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/refund">Refund Policy</a>
+            <a href={`mailto:${CONTACT.email}`}>Support</a>
+          </div>
+          <p className="footer-copy">© {new Date().getFullYear()} NETWORKS &amp; CIRCUITS — All rights reserved.</p>
         </div>
       </footer>
 
       <div className={`modal-ov${modal==='binance'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
-          <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)}>✕</button></div>
+          <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)} aria-label="Close">✕</button></div>
           <p className="msub">Via <strong style={{color:'#F0B90B'}}>Binance Pay</strong> — pick an amount:</p>
           <div className="amts">
             {B_AMT.map(a=><button key={a} className={`ab${selB===a&&!custB?' on':''}`} onClick={()=>{setSelB(a);setCustB('');}}>${a}</button>)}
@@ -1149,7 +1276,7 @@ P+J/hTNn
 
       <div className={`modal-ov${modal==='paystack'?' open':''}`} onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
         <div className="modal-box">
-          <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)}>✕</button></div>
+          <div className="mhead"><span className="mtit">☕ Buy Me a Coffee</span><button className="mx" onClick={()=>setModal(null)} aria-label="Close">✕</button></div>
           <p className="msub">Via <strong style={{color:'#00C3F7'}}>Paystack</strong> — card, M-Pesa or bank:</p>
           <div className="amts">
             {P_AMT.map(a=><button key={a} className={`ab${selP===a&&!custP?' on':''}`} onClick={()=>{setSelP(a);setCustP('');}}>{a>=1000?`${a/1000}k`:a}</button>)}
